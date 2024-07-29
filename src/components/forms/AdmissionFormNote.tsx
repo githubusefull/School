@@ -2,18 +2,20 @@
 'use client';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface FormDataNote {
   id: string;
-  niveau_1_note: string;
-  niveau_2_note: string;
-  niveau_3_note: string;
-  niveau_4_note: string;
-  niveau_5_note: string;
-  niveau_6_note: string;
-  note_de_Francaise: string;
-  note_de_CV: string;
- finalTotal: string;
+  niveau_1_note: number;
+  niveau_2_note: number;
+  niveau_3_note: number;
+  niveau_4_note: number;
+  niveau_5_note: number;
+  niveau_6_note: number;
+  note_de_Francaise: number;
+  note_de_CV: number;
+  finalTotal: number;
 }
 
 interface FormData {
@@ -34,31 +36,31 @@ interface FormData {
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
-  niveau_1_note: string;
+  niveau_1_note: number;
   matiere_2: string;
   niveau_2: string;
-  niveau_2_note: string;
+  niveau_2_note: number;
   matiere_3: string;
   niveau_3: string;
-  niveau_3_note: string;
+  niveau_3_note: number;
   matiere_4: string;
   niveau_4: string;
-  niveau_4_note: string;
+  niveau_4_note: number;
   matiere_5: string;
   niveau_5: string;
-  niveau_5_note: string;
+  niveau_5_note: number;
   matiere_6: string;
   niveau_6: string;
-  niveau_6_note: string;
-  note_de_Francaise: string;
-  note_de_CV: string;
+  niveau_6_note: number;
+  note_de_Francaise: number;
+  note_de_CV: number;
   motivation: string;
   //totale: string;
   civilite: string;
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  finalTotal: string;
+  finalTotal: number;
 }
 
 interface AdmissionFormNoteProps {
@@ -67,7 +69,8 @@ interface AdmissionFormNoteProps {
 
 const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const [message, setMessage] = useState<string | null>(null);
-  
+  const router = useRouter();
+
 // finalTotal is a string
 
   
@@ -75,15 +78,15 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
   const [formData, setFormData] = useState<FormDataNote>({
     id: form._id,
-    niveau_1_note: '',
-    niveau_2_note: '',
-    niveau_3_note: '',
-    niveau_4_note: '',
-    niveau_5_note: '',
-    niveau_6_note: '',
-    note_de_Francaise: '',
-    note_de_CV: '',
-    finalTotal:''
+    niveau_1_note: 0,
+    niveau_2_note: 0,
+    niveau_3_note: 0,
+    niveau_4_note: 0,
+    niveau_5_note: 0,
+    niveau_6_note: 0,
+    note_de_Francaise:0,
+    note_de_CV: 0,
+    finalTotal: 0,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -94,23 +97,16 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Calculate total
-    const total =
-      (parseFloat(formData.niveau_1_note) || 0) +
-      (parseFloat(formData.niveau_2_note) || 0) +
-      (parseFloat(formData.niveau_3_note) || 0) +
-      (parseFloat(formData.niveau_4_note) || 0) +
-      (parseFloat(formData.niveau_5_note) || 0) +
-      (parseFloat(formData.niveau_6_note) || 0);
+    const total: number =
+    Number(formData.niveau_1_note) +
+    Number(formData.niveau_2_note) +
+    Number(formData.niveau_3_note) +
+    Number(formData.niveau_4_note) +
+    Number(formData.niveau_5_note) +
+    Number(formData.niveau_6_note);
+  const average: number = total / 6;
+  const finalTotal: number = Math.ceil(average * 100) / 100;
 
-    const average = total / 6;
-    const finalTotal = average.toFixed(2);
-
-    // Ensure finalTotal is treated as a number for comparison
-    //if (parseFloat(finalTotal) < 10) {
-      //setMessage('Form submission not allowed. The final total is less than 10.');
-      //return;
-    //}
 
     try {
       const response = await fetch('/api/update', {
@@ -142,38 +138,32 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       console.log('Updated Document:', data);
       setFormData({
         id: '',
-        niveau_1_note: '',
-        niveau_2_note: '',
-        niveau_3_note: '',
-        niveau_4_note: '',
-        niveau_5_note: '',
-        niveau_6_note: '',
-        note_de_Francaise: '',
-        note_de_CV: '',
-        finalTotal:''
+        niveau_1_note: 0,
+        niveau_2_note: 0,
+        niveau_3_note: 0,
+        niveau_4_note: 0,
+        niveau_5_note: 0,
+        niveau_6_note: 0,
+        note_de_Francaise: 0,
+        note_de_CV: 0,
+        finalTotal: 0
       });
+    
+      
+      router.push('/admissions')
       setMessage(data.message);
+      toast.success('Edite Successfully');
     } catch (error) {
       console.error('Error:', error);
     }
   };
   
-        
-    const total =
-    (parseFloat(formData.niveau_1_note) || 0) +
-    (parseFloat(formData.niveau_2_note) || 0) +
-    (parseFloat(formData.niveau_3_note) || 0) +
-    (parseFloat(formData.niveau_4_note) || 0) +
-    (parseFloat(formData.niveau_5_note) || 0) +
-    (parseFloat(formData.niveau_6_note) || 0);
-
-    const average = (total / 6);
-    let fixedDecimalString = average.toFixed(2);
-    let finalTotal = parseFloat(fixedDecimalString).toString();
-    console.log(finalTotal);
 
 
+ 
 
+
+ 
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
@@ -842,14 +832,15 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
-          <label className="inline-flex items-center ml-4">
+          
+          <label className="inline-flex  items-center ml-4">
             <input
-              type="number"
-              name="total"
-              id="Total"
+              type="text"
+              name="sumOfDigits"
+              id="sumOfDigits"
               value={formData.finalTotal}
               onChange={handleChange}
-              placeholder={`Totale: ${finalTotal}`}
+              //placeholder={`Totale: ${formData.sumOfDigits}`}
 
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />

@@ -78,7 +78,9 @@ const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
   niveau_6: { type: String, },
   niveau_6_note: { type: Number},
   note_de_Francaise: { type: Number},
-  finalTotal: { type: Number},
+  finalTotal: {
+    type: Number,
+  },
   note_de_CV: { type: Number },
   motivation: { type: String},
   civilite: { type: String},
@@ -87,6 +89,8 @@ const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
   date_de_naissance: { type: String },
   //cv_Photo: { type: String, required: false }, // Optional field
 });
+
+
 
 const AdmissionForm: Model<IAdmissionForm> = mongoose.models.AdmissionForm || mongoose.model<IAdmissionForm>('AdmissionForm', AdmissionFormSchema);
 
@@ -114,15 +118,15 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 // Example usage
 const documentId = '60c72b2f4f1a2c001c8c4e2d'; // Replace with the actual ID
 const newValues: Partial<IAdmissionForm> = {
-  niveau_1_note: 1,
-  niveau_2_note: 2,
-  niveau_3_note: 3,
-  niveau_4_note: 4,
-  niveau_5_note: 5,
-  niveau_6_note: 6,
-  finalTotal: 7,
-  note_de_Francaise:8,
-  note_de_CV:9
+  niveau_1_note: 0,
+  niveau_2_note: 0,
+  niveau_3_note: 0,
+  niveau_4_note: 0,
+  niveau_5_note: 0,
+  niveau_6_note: 0,
+  finalTotal: 0,
+  note_de_Francaise:0,
+  note_de_CV:0
 };
 
 updateAdmissionFormById(documentId, newValues).then(updatedDocument => {

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
-import { redirect } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 
 interface FormData {
   name: string;
@@ -51,7 +51,7 @@ interface FormData {
 }
 
 const AdmissionForm: React.FC = () => {
-
+ const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     prenome: '',
@@ -110,7 +110,7 @@ const AdmissionForm: React.FC = () => {
       const average = (total / 6);
       let fixedDecimalString = average.toFixed(2);
       let finalTotal = parseFloat(fixedDecimalString).toString();
-      console.log(finalTotal);
+      //console.log(finalTotal);
   
 
      
@@ -194,6 +194,7 @@ const AdmissionForm: React.FC = () => {
       });
       setMessage(data.message);
       toast.success(data.message);
+      router.push('/admissions')
 
     } catch (error) {
       setMessage('An error occurred. Please try again.');

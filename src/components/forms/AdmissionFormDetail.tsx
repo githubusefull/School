@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
+import { useState } from 'react';
 import './inputDate.css';
 import Link from 'next/link';
 
@@ -23,44 +24,42 @@ import Link from 'next/link';
     telephone_portable: string;
     matiere_1: string;
     niveau_1: string;
-    niveau_1_note: string;
+    niveau_1_note: number;
     matiere_2: string;
     niveau_2: string;
-    niveau_2_note: string;
+    niveau_2_note: number;
     matiere_3: string;
     niveau_3: string;
-    niveau_3_note: string;
+    niveau_3_note: number;
     matiere_4: string;
     niveau_4: string;
-    niveau_4_note: string;
+    niveau_4_note: number;
     matiere_5: string;
     niveau_5: string;
-    niveau_5_note: string;
+    niveau_5_note: number;
     matiere_6: string;
     niveau_6: string;
-    niveau_6_note: string;
-    note_de_Francaise: string;
-    note_de_CV: string;
+    niveau_6_note: number;
+    note_de_Francaise: number;
+    note_de_CV: number;
     motivation: string;
-    totale: string;
     civilite: string;
     telephone_fixe: string;
     annee_obtention_du_Bac: string;
     date_de_naissance: string;
-    finalTotal: string;
+    finalTotal: number;
   }
   
   interface AdmissionFormNoteProps {
     form: FormData;
   }
 
-
    
 const AdmissionFormDetail: React.FC<AdmissionFormNoteProps> = ({form } ) => {
 
-    let Total = '10';
+    let Total = 10;
 
-    console.log(form.finalTotal)
+    //console.log(form.finalTotal)
 
     return (
         <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1">
@@ -706,7 +705,7 @@ const AdmissionFormDetail: React.FC<AdmissionFormNoteProps> = ({form } ) => {
                             value={form.finalTotal}
                             name="finalTotal"
                             id="finalTotal"
-                            placeholder={`${form.finalTotal}`}
+                            //placeholder={`${form.finalTotal}`}
                             className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </label>

@@ -4,6 +4,8 @@ import AdmissionForm, { IAdmissionForm } from "../models/AdmissionsForm";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import acceptingTemplte from '../templates/acceptingTemplate';
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
 //import refusingTemplate from './refusingTemplate';
 
 connectDB();
@@ -57,7 +59,6 @@ export default async function handler(
         //ycv_Photo,
       
       } = req.body;
-
     const user = await AdmissionForm.findOne({ email });
     if (user) {
       return res.status(400).json({ message: "User already exists" });
