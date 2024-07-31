@@ -1,6 +1,8 @@
 
 
-module.exports = function interviewTemplate({ name, position, interviewDate, interviewTime, location }) {
+module.exports = function interviewTemplate({ name, email, date_interview }) {
+
+  
     return `
     <html>
     <head>
@@ -60,14 +62,14 @@ module.exports = function interviewTemplate({ name, position, interviewDate, int
           </div>
         <div class="content">
           <h4>Hello ${name},</h4>
-                <h4>We are pleased to invite you for an interview for the position of ${position}. Below are the details:</h4>
+                <h4>We are pleased to invite you for an interview for the position. Below are the details:</h4>
 
          <ul>
-        <li><strong>Date:</strong> ${interviewDate}</li>
-        <li><strong>Time:</strong> ${interviewTime}</li>
-        <li><strong>Location:</strong> ${location}</li>
+        <li><strong>Date:</strong>${date_interview}</li> 
+        <li><strong>Emai:</strong>${email}</li>
+        <li><strong>Location:</strong> Myschool .... address </li>
       </ul>
-      <p>We look forward to discussing how you can contribute to our team.</p>
+      <h4>We look forward to discussing how you can contribute to our team.</h4>
       <h4>Best regards,</h4>
       <h4>MySchool Team</h4>
         </div>

@@ -41,6 +41,7 @@ export interface IAdmissionForm extends Document {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
+  date_interview: Date;
   //cv_Photo?: string; // Optional field
 }
 
@@ -87,6 +88,7 @@ const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
   telephone_fixe: { type: String },
   annee_obtention_du_Bac: { type: String},
   date_de_naissance: { type: String },
+  date_interview:{type: Date},
   //cv_Photo: { type: String, required: false }, // Optional field
 });
 
@@ -116,7 +118,7 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 };
 
 // Example usage
-const documentId = '60c72b2f4f1a2c001c8c4e2d'; // Replace with the actual ID
+const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
 const newValues: Partial<IAdmissionForm> = {
   niveau_1_note: 0,
   niveau_2_note: 0,
@@ -126,8 +128,10 @@ const newValues: Partial<IAdmissionForm> = {
   niveau_6_note: 0,
   finalTotal: 0,
   note_de_Francaise:0,
-  note_de_CV:0
+  note_de_CV:0,
+  date_interview:new Date(0)
 };
+
 
 updateAdmissionFormById(documentId, newValues).then(updatedDocument => {
   console.log('Successfully updated document:', updatedDocument);

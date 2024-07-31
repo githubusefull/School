@@ -4,8 +4,7 @@ import AdmissionForm, { IAdmissionForm } from "../models/AdmissionsForm";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import acceptingTemplte from '../templates/acceptingTemplate';
-import { useRouter } from "next/router";
-import { redirect } from "next/navigation";
+
 //import refusingTemplate from './refusingTemplate';
 
 connectDB();
@@ -51,12 +50,11 @@ export default async function handler(
         note_de_Francaise,
         note_de_CV,
         motivation,
-        //totale,
         civilite,
         telephone_fixe,
         annee_obtention_du_Bac,
         date_de_naissance,
-        //ycv_Photo,
+        
       
       } = req.body;
     const user = await AdmissionForm.findOne({ email });
@@ -102,12 +100,10 @@ export default async function handler(
         note_de_Francaise,
         note_de_CV,
         motivation,
-        //totale,
         civilite,
         telephone_fixe,
         annee_obtention_du_Bac,
         date_de_naissance,
-        //cv_Photo, 
        
       });
 
@@ -121,6 +117,8 @@ export default async function handler(
           pass: "idod mjiw tokl axej",
         },
       });
+
+      //console.log('Sending email to:', email);
 
       // Send email
       await transporter.sendMail({

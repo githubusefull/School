@@ -5,18 +5,10 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-interface FormDataNote {
+interface FormDataDate {
   id: string;
-  niveau_1_note: number;
-  niveau_2_note: number;
-  niveau_3_note: number;
-  niveau_4_note: number;
-  niveau_5_note: number;
-  niveau_6_note: number;
-  note_de_Francaise: number;
-  note_de_CV: number;
-  finalTotal: number;
-  
+  date_interview: number;
+
 }
 
 interface FormData {
@@ -62,14 +54,13 @@ interface FormData {
   date_de_naissance: string;
   finalTotal: number;
   date_interview: number;
-
 }
 
 interface AdmissionFormNoteProps {
   form: FormData;
 }
 
-const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
+const AdmissionFormDate: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
 
@@ -78,19 +69,11 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   
 
 
-  const [formData, setFormData] = useState<FormDataNote>({
-    id: form._id,
-    niveau_1_note: 0,
-    niveau_2_note: 0,
-    niveau_3_note: 0,
-    niveau_4_note: 0,
-    niveau_5_note: 0,
-    niveau_6_note: 0,
-    note_de_Francaise:0,
-    note_de_CV: 0,
-    finalTotal: 0,
-  
-  });
+const [formData, setFormData] = useState<FormDataDate>({
+  id: form._id,
+  date_interview:0,
+ 
+});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -100,15 +83,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const total: number =
-    Number(formData.niveau_1_note) +
-    Number(formData.niveau_2_note) +
-    Number(formData.niveau_3_note) +
-    Number(formData.niveau_4_note) +
-    Number(formData.niveau_5_note) +
-    Number(formData.niveau_6_note);
-  const average: number = total / 6;
-  const finalTotal: number = Math.ceil(average * 100) / 100;
+   
 
 
     try {
@@ -118,18 +93,10 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-        
+          id: formData.id,
           updateData: {
-            niveau_1_note: formData.niveau_1_note,
-            niveau_2_note: formData.niveau_2_note,
-            niveau_3_note: formData.niveau_3_note,
-            niveau_4_note: formData.niveau_4_note,
-            niveau_5_note: formData.niveau_5_note,
-            niveau_6_note: formData.niveau_6_note,
-            finalTotal,
-            note_de_Francaise: formData.note_de_Francaise,
-            note_de_CV: formData.note_de_CV,
-        
+            date_interview: formData.date_interview,
+         
           },
         }),
       });
@@ -142,22 +109,14 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       console.log('Updated Document:', data);
       setFormData({
         id: '',
-        niveau_1_note: 0,
-        niveau_2_note: 0,
-        niveau_3_note: 0,
-        niveau_4_note: 0,
-        niveau_5_note: 0,
-        niveau_6_note: 0,
-        note_de_Francaise: 0,
-        note_de_CV: 0,
-        finalTotal: 0,
-     
+        date_interview: 0,
+        
       });
     
       
       router.push('/admissions')
       setMessage(data.message);
-      toast.success('Edite Successfully');
+      toast.success('Sent Successfully');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -375,7 +334,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           onChange={handleChange}
         />
       </div>
-{/*     
+    {/*    
       <div className="mb-4">
         <label className="block text-gray-400 font-[600]  text-sm mb-2" htmlFor="cv_Photo">
           CV (avec photo obligatoire)
@@ -385,11 +344,11 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           id="cv_Photo"
           //name="cv_Photo"
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        //onChange={handleChange} 
+        onChange={handleChange} 
 
         />
-      </div>
-      */}
+      </div>*/}
+     
       <div className="mb-4">
         <input
           type="date"
@@ -560,6 +519,8 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             <option value="Collège">Collège</option>
             <option value="Lycée">Lycée</option>
           </select>
+
+          {/* 
           <label className="inline-flex items-center ml-4">
             <input
               type="number"
@@ -570,7 +531,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
-          </label>
+          </label> */}
 
 
         </div>
@@ -615,6 +576,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
+          {/*   
           <label className="inline-flex items-center ml-4">
             <input
               type="number"
@@ -625,7 +587,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
-          </label>
+          </label>*/}
         </div>
       </div>
 
@@ -663,7 +625,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-        
+        {/*        
           <label className="inline-flex items-center ml-4">
             <input
               type="number"
@@ -675,7 +637,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
-
+ */}
 
         </div>
       </div>
@@ -710,6 +672,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
+          {/*  
           <label className="inline-flex items-center ml-4">
             <input
               type="number"
@@ -720,7 +683,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
-          </label>
+          </label> */}
         </div>
       </div>
 
@@ -755,7 +718,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-        
+        {/*   
           <label className="inline-flex items-center ml-4">
             <input
               type="number"
@@ -767,7 +730,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
-
+ */}
         </div>
       </div>
       <div className="mb-4">
@@ -798,6 +761,8 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             <option value="Physique">Physique</option>
             <option value="Maths">Maths</option>
           </select>
+
+          {/*     
           <label className="inline-flex items-center ml-4">
             <input
               type="number"
@@ -808,7 +773,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
-          </label>
+          </label> */}
         </div>
       </div>
 
@@ -840,11 +805,12 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           
           <label className="inline-flex  items-center ml-4">
             <input
-             type="number"
-             value={form.finalTotal}
-             name="finalTotal"
-             id="finalTotal"
-              //placeholder={`Totale: ${form.finalTotal}`}
+              type="text"
+              name="sumOfDigits"
+              id="sumOfDigits"
+              value={form.finalTotal}
+              onChange={handleChange}
+              //placeholder={`Totale: ${formData.sumOfDigits}`}
 
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -875,7 +841,17 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
         </div>
   
-
+        <div className="mb-4">
+        <input
+          type="date"
+          id="date_interview"
+          name="date_interview"
+          placeholder="Date de interview"
+          className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={formData.date_interview}
+          onChange={handleChange}
+        />
+      </div>
 
 
 
@@ -885,16 +861,11 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           type="submit"
           className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Accepted
+          Send
         </button>
 
      
-          <button
-            type="submit"
-            className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Refused
-          </button>
+        
       
 
       </div>
@@ -902,4 +873,4 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   );
 };
 
-export default AdmissionFormNote;
+export default AdmissionFormDate;

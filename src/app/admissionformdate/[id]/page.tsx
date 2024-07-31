@@ -1,8 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-//import { useRouter } from 'next/router';
-import AdmissionFormDetail from '@/components/forms/AdmissionFormDetail';
-//import './inputDate.css';
+import AdmissionFormDate from '@/components/forms/AdmissionFormDate';
 
 // Define the FormData interface
 interface FormData {
@@ -47,6 +45,7 @@ interface FormData {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
   finalTotal: number;
+  date_interview: number;
 }
 
 // Fetch form data by ID
@@ -114,11 +113,10 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
       <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">
-        <AdmissionFormDetail form={form} />
+        <AdmissionFormDate form={form} />
       </div>
     </div>
   );
 };
 
 export default FormID;
-

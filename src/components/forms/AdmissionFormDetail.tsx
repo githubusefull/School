@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState } from 'react';
 import './inputDate.css';
 import Link from 'next/link';
 
@@ -54,16 +53,21 @@ import Link from 'next/link';
     form: FormData;
   }
 
+ 
+
    
-const AdmissionFormDetail: React.FC<AdmissionFormNoteProps> = ({form } ) => {
+const AdmissionFormDetail: React.FC<AdmissionFormNoteProps> = ({form}) => {
+
+    
+    
+   
+  
 
     let Total = 10;
 
-    //console.log(form.finalTotal)
-
     return (
         <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1">
-            <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: s ESPACE PROFESSEUR</p>
+            <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
            
 
             <p className='text-gray-300 font-sans text-[15px]'>Professeurs : Vous avez un excellent relationnel, un solide bagage et une réelle passion pour l’enseignement ?
@@ -731,12 +735,12 @@ const AdmissionFormDetail: React.FC<AdmissionFormNoteProps> = ({form } ) => {
 
                     <Link href={`/admissionformnote/${form._id}`}>
 
-                        <button
-                            //type="submit"
-                            className="bg-green-500 ml-2 hover:bg-blue-700 text-gray-300 font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Edite
-                        </button>
+<button
+                        type="submit"
+                        className="bg-green-500 px-7  hover:bg-blue-700  text-gray-300 font-bold py-2 rounded focus:outline-none focus:shadow-outline"
+                    >
+                        Edite
+                    </button>
                     </Link>
                 ) : (
 

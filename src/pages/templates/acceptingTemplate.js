@@ -71,6 +71,8 @@ module.exports = function acceptingTemplate({ name, email}) {
           <ul>
             <li><strong>Name:</strong> ${name}</li>
             <li><strong>Email:</strong> ${email}</li>
+                  
+
           </ul>
           <h4>Best regards,</h4>
           <h4>MySchool</h4>

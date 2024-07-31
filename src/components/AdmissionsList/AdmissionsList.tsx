@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 //import axios from 'axios';
 //import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
-//import axios from 'axios';
+import { format } from 'date-fns';  // or import moment from 'moment';
+
 
 
 
@@ -50,6 +51,8 @@ interface IAdmissionForm {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
+  date_interview: number;
+
 }
 
 
@@ -58,8 +61,12 @@ const AdmissionsList: React.FC = () => {
 
   const [admissions, setAdmissions] = useState<IAdmissionForm[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionForm[]>([]);
 
 
+
+  
 
   let ToTal = 10;
 
@@ -79,12 +86,26 @@ const AdmissionsList: React.FC = () => {
     fetchForms();
   }, []);
 
+  useEffect(() => {
+    if (searchTerm === '') {
+      setFilteredAdmissions(admissions);
+    } else {
+      setFilteredAdmissions(
+        admissions.filter((admission) =>
+          admission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          admission.telephone_portable.includes(searchTerm) 
+
+        )
+      );
+    }
+  }, [searchTerm, admissions]);
+  
 
 
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center'>Loading...</div>;
   }
 
 
@@ -94,7 +115,27 @@ const AdmissionsList: React.FC = () => {
 
       <div className="">
 
+        <div className="">
+          <div>
+       
+
+
+       <input
+        type="text"
+        placeholder="Search by name and mobile"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-3 p-[7px] text-sm  min-w-full bg-gray-950 text-gray-300 outline-none rounded"
+      />
+          
+     </div>
+            
+          
+
+       
+        </div>
         <div className='overflow-scroll'>
+          
           <table className="min-w-full border-collapse font-light">
             <thead>
               <tr>
@@ -233,16 +274,25 @@ const AdmissionsList: React.FC = () => {
                   <span className='inline ml-1'>6</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Note<span className='inline ml-1'>de</span>  CV
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Note<span className='inline m-1'>de</span>Francaise
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Total
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Motivation
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Interview/Refus
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Accp/Refus
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Interview/Refus
+                  Notification de Relance 
                 </th>
               </tr>
             </thead>
@@ -250,7 +300,9 @@ const AdmissionsList: React.FC = () => {
 
             <tbody>
 
-              {admissions.map((form) => (
+              
+        
+                {filteredAdmissions.map((form) => (
                 <tr key={form._id} className="hover:bg-gray-900">
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.civilite}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.name}</td>
@@ -288,12 +340,29 @@ const AdmissionsList: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_6}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_6}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_6_note}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.note_de_CV}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.note_de_Francaise}</td>
+
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">
                     {form.finalTotal}
                   </td>
 
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motivation}</td>
 
+                  <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
+                  {!form.date_interview ? (  
+
+                    <Link href={`/admissionformdate/${form._id}`}>
+                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
+                  </Link>
+                    ):(
+                      <p className='text-gray-300 font-[600]'>{format(new Date(form.date_interview), 'yyyy-MM-dd')}
+                      
+                      </p>
+                    )}
+                  
+
+                  </td>
                   <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
 
                     {form.finalTotal === ToTal && (
@@ -314,18 +383,17 @@ const AdmissionsList: React.FC = () => {
                     )}
 
                   </td>
-                  <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
-                    <Link href={`/admissiondetail/${form._id}`}>
-                      <button className='bg-green-400 hover:text-black mr-1 p-1 px-2 rounded-sm text-gray-700 font-[600]'>Yes</button>
-                    </Link>
+                  <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+    <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
 
-                    <button className='bg-red-400 hover:text-black p-1 ml-1 px-2 rounded-sm text-gray-700 font-[600]'>No</button>
-                  </td>
-
+</td>
                 </tr>
-              ))}
+              ))
+           
+            
+           } 
 
-            </tbody >
+            </tbody>
           </table>
         </div>
       </div>
