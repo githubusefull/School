@@ -15,7 +15,7 @@ interface FormDataNote {
   niveau_6_note: number;
   note_de_Francaise: number;
   note_de_CV: number;
-  finalTotal: number;
+  //finalTotal: number;
   
 }
 
@@ -73,9 +73,6 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
 
-// finalTotal is a string
-
-  
 
 
   const [formData, setFormData] = useState<FormDataNote>({
@@ -88,7 +85,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     niveau_6_note: 0,
     note_de_Francaise:0,
     note_de_CV: 0,
-    finalTotal: 0,
+    //finalTotal: 0,
   
   });
 
@@ -126,7 +123,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             niveau_4_note: formData.niveau_4_note,
             niveau_5_note: formData.niveau_5_note,
             niveau_6_note: formData.niveau_6_note,
-            finalTotal,
+            //finalTotal,
             note_de_Francaise: formData.note_de_Francaise,
             note_de_CV: formData.note_de_CV,
         
@@ -150,7 +147,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         niveau_6_note: 0,
         note_de_Francaise: 0,
         note_de_CV: 0,
-        finalTotal: 0,
+        //finalTotal: 0,
      
       });
     
@@ -165,6 +162,15 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   
 
 
+  const total: number =
+    Number(formData.niveau_1_note) +
+    Number(formData.niveau_2_note) +
+    Number(formData.niveau_3_note) +
+    Number(formData.niveau_4_note) +
+    Number(formData.niveau_5_note) +
+    Number(formData.niveau_6_note);
+  const average: number = total / 6;
+  const finalTotal: number = Math.ceil(average * 100) / 100;
  
 
 
@@ -844,7 +850,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
              value={form.finalTotal}
              name="finalTotal"
              id="finalTotal"
-              //placeholder={`Totale: ${form.finalTotal}`}
+            placeholder={`Totale: ${finalTotal}`}
 
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -881,20 +887,20 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
       <div className="mb-4">
-<button
+        <button
           type="submit"
           className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Accepted
         </button>
 
-     
-          <button
-            type="submit"
-            className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Refused
-          </button>
+
+        <button
+          type="submit"
+          className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Refused
+        </button>
       
 
       </div>

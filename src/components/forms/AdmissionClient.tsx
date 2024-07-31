@@ -5,7 +5,7 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import {  useRouter } from 'next/navigation';
 
-interface FormData {
+interface FormDataClient {
   name: string;
   prenome: string;
   email: string;
@@ -22,37 +22,27 @@ interface FormData {
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
-  niveau_1_note: string;
   matiere_2: string;
   niveau_2: string;
-  niveau_2_note: string;
   matiere_3: string;
   niveau_3: string;
-  niveau_3_note: string;
   matiere_4: string;
   niveau_4: string;
-  niveau_4_note: string;
   matiere_5: string;
   niveau_5: string;
-  niveau_5_note: string;
   matiere_6: string;
   niveau_6: string;
-  niveau_6_note: string;
-  note_de_Francaise: string;
-  note_de_CV: string;
   motivation: string;
-  //totale: string;
   civilite: string;
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  //cv_Photo: File | null;
 
 }
 
 const AdmissionClient: React.FC = () => {
  const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormDataClient>({
     name: '',
     prenome: '',
     email: '',
@@ -69,24 +59,16 @@ const AdmissionClient: React.FC = () => {
     telephone_portable: '',
     matiere_1: '',
     niveau_1: '',
-    niveau_1_note: '',
     matiere_2: '',
     niveau_2: '',
-    niveau_2_note: '',
     matiere_3: '',
     niveau_3: '',
-    niveau_3_note: '',
     matiere_4: '',
     niveau_4: '',
-    niveau_4_note: '',
     matiere_5: '',
     niveau_5: '',
-    niveau_5_note: '',
     matiere_6: '',
     niveau_6: '',
-    niveau_6_note: '',
-    note_de_Francaise: '',
-    note_de_CV: '',
     motivation: '',
     civilite: '',
     //totale:'',
@@ -99,18 +81,7 @@ const AdmissionClient: React.FC = () => {
 
 
 
-    const total =
-      (parseFloat(formData.niveau_1_note) || 0) +
-      (parseFloat(formData.niveau_2_note) || 0) +
-      (parseFloat(formData.niveau_3_note) || 0) +
-      (parseFloat(formData.niveau_4_note) || 0) +
-      (parseFloat(formData.niveau_5_note) || 0) +
-      (parseFloat(formData.niveau_6_note) || 0);
-
-      const average = (total / 6);
-      let fixedDecimalString = average.toFixed(2);
-      let finalTotal = parseFloat(fixedDecimalString).toString();
-      //console.log(finalTotal);
+ 
   
 
      
@@ -136,10 +107,10 @@ const AdmissionClient: React.FC = () => {
 
     const updatedFormData = {
       ...formData,
-      totale: finalTotal,
+      totale: '',
     };
     try {
-      const response = await fetch('/api/submitForm', {
+      const response = await fetch('/api/submitFormClient', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,24 +136,16 @@ const AdmissionClient: React.FC = () => {
         telephone_portable: '',
         matiere_1: '',
         niveau_1: '',
-        niveau_1_note: '',
         matiere_2: '',
         niveau_2: '',
-        niveau_2_note: '',
         matiere_3: '',
         niveau_3: '',
-        niveau_3_note: '',
         matiere_4: '',
         niveau_4: '',
-        niveau_4_note: '',
         matiere_5: '',
         niveau_5: '',
-        niveau_5_note: '',
         matiere_6: '',
         niveau_6: '',
-        niveau_6_note: '',
-        note_de_Francaise: '',
-        note_de_CV: '',
         motivation: '',
         civilite: '',
         //totale:'',

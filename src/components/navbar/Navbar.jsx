@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 const Navbar = () => {
@@ -14,9 +14,38 @@ const Navbar = () => {
 };
   //const token = localStorage.getItem('token'); // Retrieve the token
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const [isDropdownOpenPro, setIsDropdownOpenPro] = useState(false);
+  const dropdownRef = useRef(null);
 
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpenPro(false)
 
+  };
+
+  const toggleDropdownPro = () => {
+    setIsDropdownOpenPro(!isDropdownOpenPro);
+    setIsDropdownOpen(false)
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpenPro(false);
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener for clicks outside of the dropdown
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="bg-black text-gray-300 shadow-md">
@@ -78,19 +107,46 @@ const Navbar = () => {
                 <Link href="/">
                   <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Home</p>
                 </Link>
-                <Link href="/about">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">About Us</p>
-                </Link>
-                <Link href="/admissions">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Admissions</p>
-                </Link>
-                <Link href="/apply">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
-                </Link>
-                <Link href="/contact">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Contact Us</p>
-                </Link>
-                  
+              
+                
+              
+                
+                <div className="relative">
+                  <button
+                    onClick={toggleDropdown}
+                    className="text-gray-300  font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100"
+                  >
+                    Admission Client
+                  </button>
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 bg-black mt-5 w-38 px-8 rounded-[5px] outline  outline-1  shadow-lg py-1">
+                      <Link href="/client">
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
+                      </Link>
+                      <Link href="/admissions">
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Afficher</p>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+                <div className="relative">
+                  <button
+                    onClick={toggleDropdownPro}
+                    className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100"
+                  >
+                    Admission Professeur
+                  </button>
+                  {isDropdownOpenPro && (
+                    <div ref={dropdownRef} className="absolute right-0 mt-5 w-38 px-8 rounded-[5px] outline  outline-1 bg-black shadow-lg py-1">
+                      <Link href="/apply">
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
+                      </Link>
+                      <Link href="/professeuradmissions">
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Afficher</p>
+                      </Link>
+                    </div>
+                  )}
+                </div>
                   {/*  
                {token ? (
 

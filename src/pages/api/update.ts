@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ message: 'Document not found' });
       }
 
-      const formattedDate = format(new Date(date_interview), 'yyyy-MM-dd');
+      const formattedDate = format(new Date(date_interview), 'dd-MM-yyyy');
 
       console.log('Sending email to:', email);
 

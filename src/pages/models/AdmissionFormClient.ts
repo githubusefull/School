@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-export interface IAdmissionForm extends Document {
+export interface IAdmissionFormClient extends Document {
   name: string;
   prenome: string;
   email: string;
@@ -46,7 +46,7 @@ export interface IAdmissionForm extends Document {
   //cv_Photo?: string; // Optional field
 }
 
-const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
+const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   name: { type: String, required: true },
   prenome: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -97,14 +97,15 @@ const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
 
 
 
-const AdmissionForm: Model<IAdmissionForm> = mongoose.models.AdmissionForm || mongoose.model<IAdmissionForm>('AdmissionForm', AdmissionFormSchema);
+const AdmissionFormClient: Model<IAdmissionFormClient> = mongoose.models.AdmissionFormClient || mongoose.model<IAdmissionFormClient>('AdmissionFormClient', AdmissionFormSchema);
 
-export default AdmissionForm;
+export default AdmissionFormClient;
 
 // Usage
-const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionForm>) => {
+      
+const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionFormClient>) => {
   try {
-    const updatedDocument = await AdmissionForm.findByIdAndUpdate(
+    const updatedDocument = await AdmissionFormClient.findByIdAndUpdate(
       id,
       updateData,
       {
@@ -122,7 +123,7 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 
 // Example usage
 const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
-const newValues: Partial<IAdmissionForm> = {
+const newValues: Partial<IAdmissionFormClient> = {
   niveau_1_note: 0,
   niveau_2_note: 0,
   niveau_3_note: 0,

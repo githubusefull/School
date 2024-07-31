@@ -52,6 +52,7 @@ interface IAdmissionForm {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
   date_interview: number;
+  isConfirmed: boolean;
 
 }
 
@@ -356,7 +357,7 @@ const AdmissionsList: React.FC = () => {
                   <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
                   </Link>
                     ):(
-                      <p className='text-gray-300 font-[600]'>{format(new Date(form.date_interview), 'yyyy-MM-dd')}
+                      <p className='text-gray-300 font-[600]'>{format(new Date(form.date_interview), 'dd-MM-yyyy')}
                       
                       </p>
                     )}
@@ -383,11 +384,17 @@ const AdmissionsList: React.FC = () => {
                     )}
 
                   </td>
-                  <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-    <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
+                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+                      {form.isConfirmed === false ? 
+                 <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>déjà<span className='ml-1'>relancé</span></button>
 
-</td>
-                </tr>
+                      :
+                        <Link href={`/admissionformdate/${form._id}`}>
+
+                          <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
+                        </Link>}
+                    </td>
+                  </tr>
               ))
            
             

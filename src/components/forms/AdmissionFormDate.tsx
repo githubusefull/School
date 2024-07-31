@@ -4,10 +4,13 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { format } from 'date-fns';  // or import moment from 'moment';
 
 interface FormDataDate {
   id: string;
   date_interview: number;
+  isConfirmed: boolean; // Add your boolean field here
+
 
 }
 
@@ -54,6 +57,8 @@ interface FormData {
   date_de_naissance: string;
   finalTotal: number;
   date_interview: number;
+  isConfirmed: boolean; // Add boolean field
+
 }
 
 interface AdmissionFormNoteProps {
@@ -72,6 +77,8 @@ const AdmissionFormDate: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
   date_interview:0,
+  isConfirmed: false, // Initial state for the boolean field
+
  
 });
 
@@ -96,6 +103,8 @@ const [formData, setFormData] = useState<FormDataDate>({
           id: formData.id,
           updateData: {
             date_interview: formData.date_interview,
+            isConfirmed: formData.isConfirmed, // Include boolean value in updateData
+
          
           },
         }),
@@ -110,6 +119,8 @@ const [formData, setFormData] = useState<FormDataDate>({
       setFormData({
         id: '',
         date_interview: 0,
+        isConfirmed: false, // Include boolean value in updateData
+
         
       });
     
@@ -520,18 +531,7 @@ const [formData, setFormData] = useState<FormDataDate>({
             <option value="Lycée">Lycée</option>
           </select>
 
-          {/* 
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              name="niveau_1_note"
-              id="Niveau_1_note"
-              value={form.niveau_1_note}
-              onChange={handleChange}
-              placeholder='1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label> */}
+        
 
 
         </div>
@@ -576,18 +576,7 @@ const [formData, setFormData] = useState<FormDataDate>({
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-          {/*   
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              name="niveau_2_note"
-              id="Niveau_2_note"
-              value={form.niveau_2_note}
-              onChange={handleChange}
-              placeholder='1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>*/}
+         
         </div>
       </div>
 
@@ -625,19 +614,7 @@ const [formData, setFormData] = useState<FormDataDate>({
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-        {/*        
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              name="niveau_3_note"
-              id="Niveau_3_note"
-              value={form.niveau_3_note}
-              onChange={handleChange}
-              placeholder='1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
- */}
+  
 
         </div>
       </div>
@@ -672,18 +649,7 @@ const [formData, setFormData] = useState<FormDataDate>({
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-          {/*  
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              name="niveau_4_note"
-              id="Niveau_4_note"
-              value={form.niveau_4_note}
-              onChange={handleChange}
-              placeholder='1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label> */}
+         
         </div>
       </div>
 
@@ -718,19 +684,7 @@ const [formData, setFormData] = useState<FormDataDate>({
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-        {/*   
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              name="niveau_5_note"
-              id="Niveau_5_note"
-              value={form.niveau_5_note}
-              onChange={handleChange}
-              placeholder='1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
- */}
+    
         </div>
       </div>
       <div className="mb-4">
@@ -747,6 +701,7 @@ const [formData, setFormData] = useState<FormDataDate>({
           <option value="Maths">Maths</option>
         </select>
       </div>
+      
       <div className="mb-4">
         <div className="flex items-center justify-between">
           <select
@@ -762,61 +717,9 @@ const [formData, setFormData] = useState<FormDataDate>({
             <option value="Maths">Maths</option>
           </select>
 
-          {/*     
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              name="niveau_6_note"
-              id="Niveau_6_note"
-              value={form.niveau_6_note}
-              onChange={handleChange}
-              placeholder='1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label> */}
-        </div>
+       </div>
       </div>
 
-      <div className="mb-4">
-        <div className="flex items-center justify-between">
-         
-          <label className="inline-flex items-center">
-            <input
-              type="number"
-              name="note_de_Francaise"
-              id="note_de_Francaise"
-              value={form.note_de_Francaise}
-              onChange={handleChange}
-              placeholder='Note de Francaise 1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              id='Note de CV 1/10'
-              name='note_de_CV'
-              value={form.note_de_CV}
-              onChange={handleChange}
-              placeholder='Note de CV 1/10'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          
-          <label className="inline-flex  items-center ml-4">
-            <input
-              type="text"
-              name="sumOfDigits"
-              id="sumOfDigits"
-              value={form.finalTotal}
-              onChange={handleChange}
-              //placeholder={`Totale: ${formData.sumOfDigits}`}
-
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-        </div>
-      </div>
       
        
         
@@ -840,29 +743,57 @@ const [formData, setFormData] = useState<FormDataDate>({
           />
 
         </div>
-  
+    {form.date_interview ?  
+
         <div className="mb-4">
         <input
-          type="date"
+          type="text"
           id="date_interview"
           name="date_interview"
-          placeholder="Date de interview"
-          className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.date_interview}
-          onChange={handleChange}
+          placeholder={`${format(new Date(form.date_interview), 'dd-MM-yyyy')}`}
+          className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-gray-700"
+          //value={formData.date_interview}
+          //onChange={handleChange}
         />
       </div>
 
-
+    : 
+    <div className="mb-4">
+    <input
+      type="date"
+      id="date_interview"
+      name="date_interview"
+      placeholder='date_interview'
+      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      value={formData.date_interview}
+      onChange={handleChange}
+    />
+  </div>}
 
 
       <div className="mb-4">
-<button
+      {form.date_interview ? 
+      
+      <button
+          type="submit"
+          className="bg-green-600  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+                  {formData.isConfirmed ? 'UnResend' : 'Resend'}
+
+        </button>
+      
+      :
+      
+      <button
           type="submit"
           className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Send
         </button>
+      
+      }
+
+
 
      
         
