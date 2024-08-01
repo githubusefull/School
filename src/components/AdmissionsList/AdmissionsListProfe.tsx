@@ -138,7 +138,7 @@ const AdmissionsListProfe: React.FC = () => {
         <div className='p-8 flex justify-between'>
         <div className='text-gray-300 p-4 bg-black'>
           <div className='rounded-[4px] p-4 font-[500] w-[300px]'>
-          <p><span className='flex justify-center'>Personnel</span></p>
+          <p><span className='flex justify-start mb-3 text-[20px]'>Personnel</span></p>
           <p>Nom: <span>Aziz</span></p>
           <p>Prenom: <span>Khalidi</span></p>
           <p><span>Number of affectation: </span> <span>56</span></p>

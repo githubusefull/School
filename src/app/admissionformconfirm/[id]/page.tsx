@@ -60,7 +60,7 @@ async function getFormById(id: string): Promise<FormData | null> {
   }
 }
 
-interface FormIDProps {
+type FormIDProps =  {
   form: FormData | null;
   params: { id: string };
 }
