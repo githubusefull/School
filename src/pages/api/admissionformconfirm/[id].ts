@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import AdmissionForm from '../../models/AdmissionFormProf'; // Adjust the import path as necessary
+import AdmissionFormClient from '../../models/AdmissionFormClient'; // Adjust the import path as necessary
 
 // Connect to MongoDB
 const connectToDatabase = async () => {
@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     // Fetch the admission form by ID
-    const admission = await AdmissionForm.findById(id);
+    const admission = await AdmissionFormClient.findById(id);
     if (!admission) {
       return res.status(404).json({ message: 'Admission not found' });
     }

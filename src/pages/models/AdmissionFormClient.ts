@@ -63,19 +63,19 @@ const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   telephone_portable: { type: String, },
   matiere_1: { type: String, },
   niveau_1: { type: String, },
-  niveau_1_note: { type: Number, },
+  niveau_1_note: { type: Number},
   matiere_2: { type: String, },
   niveau_2: { type: String, },
-  niveau_2_note: { type: Number, },
+  niveau_2_note: { type: Number},
   matiere_3: { type: String, },
   niveau_3: { type: String, },
-  niveau_3_note: { type: Number, },
+  niveau_3_note: { type: Number},
   matiere_4: { type: String, },
   niveau_4: { type: String, },
-  niveau_4_note: { type: Number, },
+  niveau_4_note: { type: Number},
   matiere_5: { type: String, },
   niveau_5: { type: String, },
-  niveau_5_note: { type: Number, },
+  niveau_5_note: { type: Number},
   matiere_6: { type: String, },
   niveau_6: { type: String, },
   niveau_6_note: { type: Number},
@@ -133,8 +133,8 @@ const newValues: Partial<IAdmissionFormClient> = {
   finalTotal: 0,
   note_de_Francaise:0,
   note_de_CV:0,
-  date_interview:new Date(0),
-  isConfirmed: true, // Add boolean value
+  //date_interview:new Date(0),
+  //isConfirmed: true, // Add boolean value
 
 };
 

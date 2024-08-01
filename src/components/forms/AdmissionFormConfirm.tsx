@@ -1,11 +1,26 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
-import {  useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+interface FormDataNote {
+  id: string;
+  niveau_1_note: number;
+  niveau_2_note: number;
+  niveau_3_note: number;
+  niveau_4_note: number;
+  niveau_5_note: number;
+  niveau_6_note: number;
+  note_de_Francaise: number;
+  note_de_CV: number;
+  //finalTotal: number;
+  
+}
 
 interface FormData {
+  _id: string;
   name: string;
   prenome: string;
   email: string;
@@ -22,194 +37,150 @@ interface FormData {
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
-  niveau_1_note: string;
+  niveau_1_note: number;
   matiere_2: string;
   niveau_2: string;
-  niveau_2_note: string;
+  niveau_2_note: number;
   matiere_3: string;
   niveau_3: string;
-  niveau_3_note: string;
+  niveau_3_note: number;
   matiere_4: string;
   niveau_4: string;
-  niveau_4_note: string;
+  niveau_4_note: number;
   matiere_5: string;
   niveau_5: string;
-  niveau_5_note: string;
+  niveau_5_note: number;
   matiere_6: string;
   niveau_6: string;
-  niveau_6_note: string;
-  note_de_Francaise: string;
-  note_de_CV: string;
+  niveau_6_note: number;
+  note_de_Francaise: number;
+  note_de_CV: number;
   motivation: string;
-  //totale: string;
   civilite: string;
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  //cv_Photo: File | null;
+  finalTotal: number;
+  date_interview: number;
 
 }
 
-const AdmissionForm: React.FC = () => {
- const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    prenome: '',
-    email: '',
-    password: '',
-    ville: '',
-    quartiers_Rabat: '',
-    quartiers_Casablanca: '',
-    situation_professionelle: '',
-    niveau_atteint_dans_les_etudes: '',
-    experiences_dans_l_enseignement: '',
-    cursus_economique_Commercial: '',
-    specialte: '',
-    motorise: '',
-    telephone_portable: '',
-    matiere_1: '',
-    niveau_1: '',
-    niveau_1_note: '',
-    matiere_2: '',
-    niveau_2: '',
-    niveau_2_note: '',
-    matiere_3: '',
-    niveau_3: '',
-    niveau_3_note: '',
-    matiere_4: '',
-    niveau_4: '',
-    niveau_4_note: '',
-    matiere_5: '',
-    niveau_5: '',
-    niveau_5_note: '',
-    matiere_6: '',
-    niveau_6: '',
-    niveau_6_note: '',
-    note_de_Francaise: '',
-    note_de_CV: '',
-    motivation: '',
-    civilite: '',
-    //totale:'',
-    telephone_fixe: '',
-    annee_obtention_du_Bac: '',
-    date_de_naissance: '',
-    //cv_Photo: null,
+interface AdmissionFormNoteProps {
+  form: FormData;
+}
 
-  });
+const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
+  const [message, setMessage] = useState<string | null>(null);
+  const router = useRouter();
 
 
 
-    const total =
-      (parseFloat(formData.niveau_1_note) || 0) +
-      (parseFloat(formData.niveau_2_note) || 0) +
-      (parseFloat(formData.niveau_3_note) || 0) +
-      (parseFloat(formData.niveau_4_note) || 0) +
-      (parseFloat(formData.niveau_5_note) || 0) +
-      (parseFloat(formData.niveau_6_note) || 0);
-
-      const average = (total / 6);
-      let fixedDecimalString = average.toFixed(2);
-      let finalTotal = parseFloat(fixedDecimalString).toString();
-      //console.log(finalTotal);
+  const [formData, setFormData] = useState<FormDataNote>({
+    id: form._id,
+    niveau_1_note: form.niveau_1_note,
+    niveau_2_note: form.niveau_2_note,
+    niveau_3_note: form.niveau_2_note,
+    niveau_4_note: form.niveau_2_note,
+    niveau_5_note: form.niveau_2_note,
+    niveau_6_note: form.niveau_2_note,
+    note_de_Francaise:0,
+    note_de_CV: 0,
+    //finalTotal: 0,
   
-
-     
-     
-
-
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-
-    
+    setFormData({ ...formData, [name]: value });
   };
-
-  const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const updatedFormData = {
-      ...formData,
-      totale: finalTotal,
-    };
+    const total: number =
+    Number(formData.niveau_1_note) +
+    Number(formData.niveau_2_note) +
+    Number(formData.niveau_3_note) +
+    Number(formData.niveau_4_note) +
+    Number(formData.niveau_5_note) +
+    Number(formData.niveau_6_note);
+  const average: number = total / 6;
+  const finalTotal: number = Math.ceil(average * 100) / 100;
+
+
     try {
-      const response = await fetch('/api/submitForm', {
-        method: 'POST',
+      const response = await fetch('/api/ypdate', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedFormData),
+        body: JSON.stringify({
+        id: formData.id,
+          updateData: {
+            niveau_1_note: formData.niveau_1_note,
+            niveau_2_note: formData.niveau_2_note,
+            niveau_3_note: formData.niveau_3_note,
+            niveau_4_note: formData.niveau_4_note,
+            niveau_5_note: formData.niveau_5_note,
+            niveau_6_note: formData.niveau_6_note,
+            note_de_Francaise: formData.note_de_Francaise,
+            note_de_CV: formData.note_de_CV,
+            finalTotal,
+          
+        
+          },
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
       const data = await response.json();
-
+      console.log('Updated Document:', data);
       setFormData({
-        name: '',
-        prenome: '',
-        email: '',
-        password: '',
-        ville: '',
-        quartiers_Rabat: '',
-        quartiers_Casablanca: '',
-        situation_professionelle: '',
-        niveau_atteint_dans_les_etudes: '',
-        experiences_dans_l_enseignement: '',
-        cursus_economique_Commercial: '',
-        specialte: '',
-        motorise: '',
-        telephone_portable: '',
-        matiere_1: '',
-        niveau_1: '',
-        niveau_1_note: '',
-        matiere_2: '',
-        niveau_2: '',
-        niveau_2_note: '',
-        matiere_3: '',
-        niveau_3: '',
-        niveau_3_note: '',
-        matiere_4: '',
-        niveau_4: '',
-        niveau_4_note: '',
-        matiere_5: '',
-        niveau_5: '',
-        niveau_5_note: '',
-        matiere_6: '',
-        niveau_6: '',
-        niveau_6_note: '',
-        note_de_Francaise: '',
-        note_de_CV: '',
-        motivation: '',
-        civilite: '',
-        //totale:'',
-        telephone_fixe: '',
-        annee_obtention_du_Bac: '',
-        date_de_naissance: '',
-        //cv_Photo: null,
-
+        id: '',
+        niveau_1_note: 0,
+        niveau_2_note: 0,
+        niveau_3_note: 0,
+        niveau_4_note: 0,
+        niveau_5_note: 0,
+        niveau_6_note: 0,
+        note_de_Francaise: 0,
+        note_de_CV: 0,
+        //finalTotal: 0,
+     
       });
+    
+      
+      router.push('/clientadmissions')
       setMessage(data.message);
-      toast.success(data.message);
-      router.push('/admissions')
-
+      toast.success('Edited Successfully');
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
+      console.error('Error:', error);
+      toast.error('Failed to update document');
+
     }
   };
-
-
-
   
 
+
+  const total: number =
+    Number(formData.niveau_1_note) +
+    Number(formData.niveau_2_note) +
+    Number(formData.niveau_3_note) +
+    Number(formData.niveau_4_note) +
+    Number(formData.niveau_5_note) +
+    Number(formData.niveau_6_note);
+  const average: number = total / 6;
+  const finalTotal: number = Math.ceil(average * 100) / 100;
+
+ 
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
       {message && (<p className='text-yellow-600'>{message}</p>)}
-
+   
       <p className='text-gray-300 font-sans text-[15px]'>Professeurs : Vous avez un excellent relationnel, un solide bagage et une réelle passion pour l’enseignement ?
 
         Vous souhaitez intégrer notre équipe enseignante ? Déposez votre candidature</p>
@@ -223,10 +194,10 @@ const AdmissionForm: React.FC = () => {
             <input
               type="radio"
               name="civilite"
-              value="Mr"
+              value='Mr'
               className="form-radio  bg-gray-300"
               onChange={handleChange}
-              checked={formData.civilite === 'Mr'}
+              checked={form.civilite === 'Mr'}
             />
             <span className="ml-2 text-gray-300">Mr</span>
           </label>
@@ -237,7 +208,7 @@ const AdmissionForm: React.FC = () => {
               value="Mme"
               className="form-radio bg-gray-300"
               onChange={handleChange}
-              checked={formData.civilite === 'Mme'}
+              checked={form.civilite === 'Mme'}
             />
             <span className="ml-2 text-gray-300">Mme</span>
           </label>
@@ -248,7 +219,7 @@ const AdmissionForm: React.FC = () => {
               value="Mlle"
               className="form-radio bg-gray-300"
               onChange={handleChange}
-              checked={formData.civilite === 'Mlle'}
+              checked={form.civilite === 'Mlle'}
             />
             <span className="ml-2 text-gray-300">Mlle</span>
           </label>
@@ -262,8 +233,8 @@ const AdmissionForm: React.FC = () => {
           id="name"
           name="name"
           placeholder="Nom"
-          className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-500  leading-tight  focus:outline-none focus:shadow-outline"
-          value={formData.name}
+          className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700  leading-tight  focus:outline-none focus:shadow-outline"
+          value={form.name}
           onChange={handleChange}
         />
       </div>
@@ -273,8 +244,8 @@ const AdmissionForm: React.FC = () => {
           id="Prenome"
           name="prenome"
           placeholder="Prènome"
-          className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.prenome}
+          className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.prenome}
           onChange={handleChange}
         />
       </div>
@@ -286,8 +257,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="ville"
           name="ville"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.ville}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.ville}
           onChange={handleChange}
         >
           <option value="" className="">Ville</option>
@@ -317,8 +288,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="quartiers_Rabat"
           name="quartiers_Rabat"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.quartiers_Rabat}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.quartiers_Rabat}
           onChange={handleChange}
         >
           <option value="" className="">Quartiers Rabat</option>
@@ -345,8 +316,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Quartiers_Casablanca"
           name="quartiers_Casablanca"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.quartiers_Casablanca}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.quartiers_Casablanca}
           onChange={handleChange}
         >
           <option value="" className="">Quartiers Casablanca</option>
@@ -383,8 +354,8 @@ const AdmissionForm: React.FC = () => {
           id="Telephone_portable"
           name="telephone_portable"
           placeholder="Téléphone portable"
-          className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-500  leading-tight  focus:outline-none focus:shadow-outline"
-          value={formData.telephone_portable}
+          className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700  leading-tight  focus:outline-none focus:shadow-outline"
+          value={form.telephone_portable}
           onChange={handleChange}
         />
       </div>
@@ -394,8 +365,8 @@ const AdmissionForm: React.FC = () => {
           id="Telephone_fixe"
           name="telephone_fixe"
           placeholder="Téléphone fixe"
-          className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-400  leading-tight  focus:outline-none focus:shadow-outline"
-          value={formData.telephone_fixe}
+          className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700  leading-tight  focus:outline-none focus:shadow-outline"
+          value={form.telephone_fixe}
           onChange={handleChange}
         />
       </div>
@@ -407,7 +378,7 @@ const AdmissionForm: React.FC = () => {
           name="email"
           placeholder="Email"
           className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.email}
+          value={form.email}
           onChange={handleChange}
         />
       </div>
@@ -433,7 +404,7 @@ const AdmissionForm: React.FC = () => {
           name="date_de_naissance"
           placeholder="Date de naissance"
           className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.date_de_naissance}
+          value={form.date_de_naissance}
           onChange={handleChange}
         />
       </div>
@@ -445,7 +416,7 @@ const AdmissionForm: React.FC = () => {
           name="annee_obtention_du_Bac"
           placeholder="Année d'obtention du Bac ex: 2003"
           className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.annee_obtention_du_Bac}
+          value={form.annee_obtention_du_Bac}
           onChange={handleChange}
         />
       </div>
@@ -455,8 +426,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Situation_professionelle"
           name="situation_professionelle"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.situation_professionelle}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.situation_professionelle}
           onChange={handleChange}
         >
           <option value="" className="">Situation professionelle</option>
@@ -474,8 +445,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Niveau_atteint_dans_les_etudes"
           name="niveau_atteint_dans_les_etudes"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.niveau_atteint_dans_les_etudes}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.niveau_atteint_dans_les_etudes}
           onChange={handleChange}
         >
           <option value="" className="">Niveau atteint dans les ètudes</option>
@@ -492,8 +463,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="ville"
           name="experiences_dans_l_enseignement"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.experiences_dans_l_enseignement}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.experiences_dans_l_enseignement}
           onChange={handleChange}
         >
           <option value="" className="">Experiences dans l'enseignement</option>
@@ -508,8 +479,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Cursus_economique_Commercial"
           name="cursus_economique_Commercial"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.cursus_economique_Commercial}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.cursus_economique_Commercial}
           onChange={handleChange}
         >
           <option value="" className="">---Cursus èconomique / Commercial---</option>
@@ -527,7 +498,7 @@ const AdmissionForm: React.FC = () => {
           name="specialte"
           placeholder="Votre Spécialté"
           className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.specialte}
+          value={form.specialte}
           onChange={handleChange}
         />
       </div>
@@ -541,10 +512,10 @@ const AdmissionForm: React.FC = () => {
             <input
               type="radio"
               name="motorise"
-              value="Oui"
+              //value={form.motorise}
               className="form-radio  bg-gray-300"
               onChange={handleChange}
-              checked={formData.motorise === 'Oui'}
+              checked={form.motorise === 'Oui'}
             />
             <span className="ml-2 text-gray-300">Oui</span>
           </label>
@@ -552,10 +523,11 @@ const AdmissionForm: React.FC = () => {
             <input
               type="radio"
               name="motorise"
-              value="Non"
+              //value={form.motorise}
               className="form-radio bg-gray-300"
               onChange={handleChange}
-              checked={formData.motorise === 'Non'}
+              checked={form.motorise === 'Non'}
+
             />
             <span className="ml-2 text-gray-300">Non</span>
           </label>
@@ -569,8 +541,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Matiere_1"
           name="matiere_1"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.matiere_1}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.matiere_1}
           onChange={handleChange}
         >
           <option value="" className="">Matière 1</option>
@@ -582,11 +554,12 @@ const AdmissionForm: React.FC = () => {
 
       <div className="mb-4">
         <div className="flex items-center justify-between">
+          
           <select
             id="Niveau_1"
             name="niveau_1"
-            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-            value={formData.niveau_1}
+            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={form.niveau_1}
             onChange={handleChange}
           >
             <option value="" className="">Niveau 1</option>
@@ -594,7 +567,7 @@ const AdmissionForm: React.FC = () => {
             <option value="Collège">Collège</option>
             <option value="Lycée">Lycée</option>
           </select>
-       
+        
 
 
         </div>
@@ -609,9 +582,11 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Matiere_2"
           name="matiere_2"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           onChange={handleChange}
-          value={formData.matiere_2}
+          value={form.matiere_3}
+
+
         >
           <option value="" className="">Matière 2</option>
           <option value="physique">Physique</option>
@@ -628,9 +603,9 @@ const AdmissionForm: React.FC = () => {
           <select
             id="Niveau_2"
             name="niveau_2"
-            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleChange}
-            value={formData.niveau_2}
+            value={form.niveau_2}
 
           >
             <option value="" className="">Niveau 2</option>
@@ -647,34 +622,21 @@ const AdmissionForm: React.FC = () => {
 
 
 
-      <div className="mb-4">
-
-        <select
-          id="Matiere_3"
-          name="matiere_3"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-          onChange={handleChange}
-          value={formData.matiere_3}
-
-        >
-          <option value="physique">Physique</option>
-          <option value="maths">Maths</option>
-
-        </select>
-      </div>
+      
 
       <div className="mb-4">
         <div className="flex items-center justify-between">
           <select
             id="Niveau_3"
             name="niveau_3"
-            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleChange}
-            value={formData.niveau_3}          >
+            value={form.niveau_3}          >
             <option value="" className="">Niveau 3</option>
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
+        
         
 
 
@@ -685,9 +647,9 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Matiere_4"
           name="matiere_4"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           onChange={handleChange}
-          value={formData.matiere_4}
+          value={form.matiere_4}
 
         >
           <option value="" className="">Matière 4</option>
@@ -703,15 +665,15 @@ const AdmissionForm: React.FC = () => {
           <select
             id="Niveau_4"
             name="niveau_4"
-            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleChange}
-            value={formData.niveau_4}
+            value={form.niveau_4}
           >
             <option value="" className="">Niveau 4</option>
             <option value="physique">Physique</option>
             <option value="maths">Maths</option>
           </select>
-
+       
         </div>
       </div>
 
@@ -722,9 +684,9 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Matiere_5"
           name="matiere_5"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           onChange={handleChange}
-          value={formData.matiere_5}>
+          value={form.matiere_5}>
 
           <option value="" className="">Matière 5</option>
           <option value="physique">Physique</option>
@@ -737,9 +699,9 @@ const AdmissionForm: React.FC = () => {
           <select
             id="Niveau_5"
             name="niveau_5"
-            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleChange}
-            value={formData.niveau_5}
+            value={form.niveau_5}
 
           >
             <option value="" className="">Niveau 5</option>
@@ -747,7 +709,7 @@ const AdmissionForm: React.FC = () => {
             <option value="maths">Maths</option>
           </select>
         
-
+        
 
         </div>
       </div>
@@ -756,8 +718,8 @@ const AdmissionForm: React.FC = () => {
         <select
           id="Matiere_6"
           name="matiere_6"
-          value={formData.matiere_6}
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+          value={form.matiere_6}
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           onChange={handleChange}
         >
           <option value="" className="">Matière 6</option>
@@ -770,21 +732,97 @@ const AdmissionForm: React.FC = () => {
           <select
             id="Niveau_6"
             name="niveau_6"
-            value={formData.niveau_6}
+            value={form.niveau_6}
 
-            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow rounded-[4px] font-[600]   w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleChange}
           >
             <option value="" className="">Niveau 6</option>
             <option value="Physique">Physique</option>
             <option value="Maths">Maths</option>
           </select>
-        
+         
         </div>
       </div>
 
-      
       <div className="mb-4">
+        <div className="flex items-center justify-between">
+         
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="note_de_Francaise"
+              id="note_de_Francaise"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Nomber ticket'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          <label className="inline-flex items-center ml-4">
+            <input
+              type="number"
+              id='Note de CV 1/10'
+              name='note_de_CV'
+              value={form.note_de_CV}
+              onChange={handleChange}
+              placeholder='Prix ticket'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          
+          <label className="inline-flex  items-center ml-4">
+            <input
+             type="number"
+             //value={form.finalTotal}
+             name="finalTotal"
+             id="finalTotal"
+             placeholder={`Prix Totale: `}
+
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          
+          </div>
+          </div>
+          <div className="mb-4">
+        <div className="flex items-center justify-between">
+         
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="note_de_Francaise"
+              id="note_de_Francaise"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Nomber ticket'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="note_de_Francaise"
+              id="note_de_Francaise"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Nomber ticket'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          </div>
+        
+      </div>
+      
+       
+        
+    
+    
+
+
+     
+
+    
 
         <div className="mb-4">
 
@@ -792,24 +830,38 @@ const AdmissionForm: React.FC = () => {
             id="motivation"
             onChange={handleChange}
             name="motivation"
-            value={formData.motivation}
+            value={form.motivation}
             placeholder="Votre motivation"
-            className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
 
         </div>
-      </div>
+  
+
+
+
+
+
       <div className="mb-4">
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Enregister
+          Accepted
         </button>
+
+
+        <button
+          type="submit"
+          className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Refused
+        </button>
+      
 
       </div>
     </form>
   );
 };
 
-export default AdmissionForm;
+export default AdmissionFormCofirm;

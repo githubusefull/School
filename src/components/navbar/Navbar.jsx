@@ -108,7 +108,6 @@ const Navbar = () => {
                   <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Home</p>
                 </Link>
               
-                
               
                 
                 <div className="relative">
@@ -120,10 +119,10 @@ const Navbar = () => {
                   </button>
                   {isDropdownOpen && (
                     <div className="absolute right-0 bg-black mt-5 w-38 px-8 rounded-[5px] outline  outline-1  shadow-lg py-1">
-                      <Link href="/client">
+                      <Link href="/clientadmissionform">
                         <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
                       </Link>
-                      <Link href="/admissions">
+                      <Link href="/clientadmissions">
                         <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Afficher</p>
                       </Link>
                     </div>
@@ -138,7 +137,7 @@ const Navbar = () => {
                   </button>
                   {isDropdownOpenPro && (
                     <div ref={dropdownRef} className="absolute right-0 mt-5 w-38 px-8 rounded-[5px] outline  outline-1 bg-black shadow-lg py-1">
-                      <Link href="/apply">
+                      <Link href="/profadmissionform">
                         <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
                       </Link>
                       <Link href="/professeuradmissions">
@@ -146,7 +145,16 @@ const Navbar = () => {
                       </Link>
                     </div>
                   )}
+
+                
                 </div>
+                <Link href="/affectation">
+                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Affectation</p>
+                </Link>
+                <Link href="/payement">
+                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Payement</p>
+                </Link>
+                
                   {/*  
                {token ? (
 

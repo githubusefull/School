@@ -74,7 +74,7 @@ const AdmissionsListProfe: React.FC = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormClient');
+        const response = await fetch('/api/submitFormProf');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -135,8 +135,23 @@ const AdmissionsListProfe: React.FC = () => {
 
        
         </div>
+        <div className='p-8 flex justify-between'>
+        <div className='text-gray-300 p-4 bg-black'>
+          <div className='rounded-[4px] p-4 font-[500] w-[300px]'>
+          <p><span className='flex justify-center'>Personnel</span></p>
+          <p>Nom: <span>Aziz</span></p>
+          <p>Prenom: <span>Khalidi</span></p>
+          <p><span>Number of affectation: </span> <span>56</span></p>
+          <p><span>Number of Prof validation: </span> <span>56</span></p>
+          <p><span>Number of Client validation: </span> <span>56</span></p>
+
+          </div>
+        </div>
+      
+
+
         <div className='overflow-scroll'>
-          
+       
           <table className="min-w-full border-collapse font-light">
             <thead>
               <tr>
@@ -385,11 +400,11 @@ const AdmissionsListProfe: React.FC = () => {
 
                   </td>
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                      {form.isConfirmed === false ? 
+                      {form.isConfirmed === true ? 
                  <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>déjà<span className='ml-1'>relancé</span></button>
 
                       :
-                        <Link href={`/admissionformdate/${form._id}`}>
+                        <Link href={`/admissionformrelance/${form._id}`}>
 
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
                         </Link>}
@@ -402,7 +417,13 @@ const AdmissionsListProfe: React.FC = () => {
 
             </tbody>
           </table>
+          </div>
+       
+
         </div>
+      
+
+
       </div>
     </div>
 

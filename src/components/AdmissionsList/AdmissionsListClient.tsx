@@ -74,7 +74,7 @@ const AdmissionsList: React.FC = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitForm');
+        const response = await fetch('/api/submitFormClient');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -290,7 +290,7 @@ const AdmissionsList: React.FC = () => {
                   Interview/Refus
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Accp/Refus
+                  Confir/NoConfir
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Notification de Relance 
@@ -378,7 +378,7 @@ const AdmissionsList: React.FC = () => {
                       </Link>
                     )}
                     {!(form.finalTotal === ToTal || form.finalTotal < ToTal) && (
-                      <Link href={`/admissionformnote/${form._id}`}>
+                      <Link href={`/admissionformconfirm/${form._id}`}>
                         <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
                       </Link>
                     )}

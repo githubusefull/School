@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-export interface IAdmissionForm extends Document {
+export interface IAdmissionFormProf extends Document {
   name: string;
   prenome: string;
   email: string;
@@ -46,7 +46,7 @@ export interface IAdmissionForm extends Document {
   //cv_Photo?: string; // Optional field
 }
 
-const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
+const AdmissionFormProfSchema: Schema<IAdmissionFormProf> = new Schema({
   name: { type: String, required: true },
   prenome: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -80,9 +80,7 @@ const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
   niveau_6: { type: String, },
   niveau_6_note: { type: Number},
   note_de_Francaise: { type: Number},
-  finalTotal: {
-    type: Number,
-  },
+  finalTotal: { type: Number},
   note_de_CV: { type: Number },
   motivation: { type: String},
   civilite: { type: String},
@@ -97,14 +95,14 @@ const AdmissionFormSchema: Schema<IAdmissionForm> = new Schema({
 
 
 
-const AdmissionForm: Model<IAdmissionForm> = mongoose.models.AdmissionForm || mongoose.model<IAdmissionForm>('AdmissionForm', AdmissionFormSchema);
+const AdmissionFormProf: Model<IAdmissionFormProf> = mongoose.models.AdmissionFormProf || mongoose.model<IAdmissionFormProf>('AdmissionFormProf', AdmissionFormProfSchema);
 
-export default AdmissionForm;
+export default AdmissionFormProf;
 
 // Usage
-const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionForm>) => {
+const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionFormProf>) => {
   try {
-    const updatedDocument = await AdmissionForm.findByIdAndUpdate(
+    const updatedDocument = await AdmissionFormProf.findByIdAndUpdate(
       id,
       updateData,
       {
@@ -122,18 +120,20 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 
 // Example usage
 const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
-const newValues: Partial<IAdmissionForm> = {
+const newValues: Partial<IAdmissionFormProf> = {
   niveau_1_note: 0,
   niveau_2_note: 0,
   niveau_3_note: 0,
   niveau_4_note: 0,
   niveau_5_note: 0,
   niveau_6_note: 0,
-  finalTotal: 0,
   note_de_Francaise:0,
   note_de_CV:0,
-  date_interview:new Date(0),
-  isConfirmed: true, // Add boolean value
+  finalTotal: 0,
+
+ 
+  //date_interview:new Date(0),
+  //isConfirmed: true, // Add boolean value
 
 };
 

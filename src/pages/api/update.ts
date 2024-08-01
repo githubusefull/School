@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import AdmissionForm from '../models/AdmissionsForm'; // Adjust the import path as needed
+import AdmissionForm from '../models/AdmissionFormProf'; // Adjust the import path as needed
 import nodemailer from "nodemailer";
 import interviewTemplate from '../templates/InterviewTemplate';
 import { format } from 'date-fns';  // or import moment from 'moment';
+//import AdmissionFormClient from '../models/AdmissionFormClient';
 
 // Connect to MongoDB
 const connectDb = async () => {
@@ -28,6 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { id, updateData } = req.body;
 
+      
+      console.log('Received ID:', id);
+      console.log('Received updateData:', updateData);
       // Validate input data here if needed
 
 

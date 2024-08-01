@@ -1,4 +1,4 @@
-import AdmissionsList from '@/components/AdmissionsList/AdmissionsList';
+import AdmissionsList from '@/components/AdmissionsList/AdmissionsListClient';
 //import AdmissionFormDetail from '@/components/forms/AdmissionFormDetail'
 import React from 'react'
 

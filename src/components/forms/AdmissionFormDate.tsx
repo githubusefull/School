@@ -9,10 +9,11 @@ import { format } from 'date-fns';  // or import moment from 'moment';
 interface FormDataDate {
   id: string;
   date_interview: number;
-  isConfirmed: boolean; // Add your boolean field here
 
 
 }
+
+
 
 interface FormData {
   _id: string;
@@ -76,11 +77,12 @@ const AdmissionFormDate: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
-  date_interview:0,
-  isConfirmed: false, // Initial state for the boolean field
+  date_interview:form.date_interview,
+
 
  
 });
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -94,7 +96,7 @@ const [formData, setFormData] = useState<FormDataDate>({
 
 
     try {
-      const response = await fetch('/api/update', {
+      const response = await fetch('/api/ypdate', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +105,6 @@ const [formData, setFormData] = useState<FormDataDate>({
           id: formData.id,
           updateData: {
             date_interview: formData.date_interview,
-            isConfirmed: formData.isConfirmed, // Include boolean value in updateData
 
          
           },
@@ -119,13 +120,13 @@ const [formData, setFormData] = useState<FormDataDate>({
       setFormData({
         id: '',
         date_interview: 0,
-        isConfirmed: false, // Include boolean value in updateData
 
         
       });
+      
     
       
-      router.push('/admissions')
+      router.push('/professeuradmissions')
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
@@ -778,7 +779,7 @@ const [formData, setFormData] = useState<FormDataDate>({
           type="submit"
           className="bg-green-600  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-                  {formData.isConfirmed ? 'UnResend' : 'Resend'}
+                  {form.isConfirmed ? 'UnResend' : 'Resend'}
 
         </button>
       

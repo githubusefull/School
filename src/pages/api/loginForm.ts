@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
-import AdmissionForm, { IAdmissionForm } from "../models/AdmissionsForm";
+import AdmissionForm, { IAdmissionForm } from "../models/AdmissionFormProf";
 import { createToken } from './creatToken'; // Helper function to create JWT
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
