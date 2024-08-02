@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 //import axios from 'axios';
 //import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
-//import { format } from 'date-fns';  // or import moment from 'moment';
+import { format } from 'date-fns';  // or import moment from 'moment';
 
 
 
@@ -373,7 +373,7 @@ const AdmissionsListProfe: React.FC = () => {
                   </Link>
                     ):(
                       <p className='text-gray-300 font-[600]'>
-                        {/*{format(new Date(form.date_interview), 'dd-MM-yyyy')}*/}
+                       {format(new Date(form.date_interview), 'dd-MM-yyyy')}
                       
                       </p>
                     )}
