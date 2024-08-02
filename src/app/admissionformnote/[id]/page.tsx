@@ -46,8 +46,52 @@ interface FormData {
   finalTotal: number;
   //cv_Photo: File | null;
 }
+const defaultFormData: FormData = {
+  _id: '',
+  name: '',
+  prenome: '',
+  email: '',
+  password: '',
+  ville: '',
+  quartiers_Rabat: '',
+  quartiers_Casablanca: '',
+  situation_professionelle: '',
+  niveau_atteint_dans_les_etudes: '',
+  experiences_dans_l_enseignement: '',
+  cursus_economique_Commercial: '',
+  specialte: '',
+  motorise: '',
+  telephone_portable: '',
+  matiere_1: '',
+  niveau_1: '',
+  niveau_1_note: 0,
+  matiere_2: '',
+  niveau_2: '',
+  niveau_2_note: 0,
+  matiere_3: '',
+  niveau_3: '',
+  niveau_3_note: 0,
+  matiere_4: '',
+  niveau_4: '',
+  niveau_4_note: 0,
+  matiere_5: '',
+  niveau_5: '',
+  niveau_5_note: 0,
+  matiere_6: '',
+  niveau_6: '',
+  niveau_6_note: 0,
+  note_de_Francaise: 0,
+  note_de_CV: 0,
+  motivation: '',
+  civilite: '',
+  telephone_fixe: '',
+  annee_obtention_du_Bac: '',
+  date_de_naissance: '',
+  date_interview: 0,
+  finalTotal: 0,
+};
 
-async function getFormById(id: string): Promise<FormData | null> {
+async function getFormById(id: string): Promise<FormData> {
   try {
     const response = await fetch(`http://localhost:3000/api/admissionformnote/${id}`, { method: 'GET' });
     if (!response.ok) {
@@ -56,12 +100,12 @@ async function getFormById(id: string): Promise<FormData | null> {
     return await response.json();
   } catch (error) {
     console.error('Failed to fetch form data:', error);
-    return null;
+    return defaultFormData;
   }
 }
 
 interface FormIDProps {
-  form: FormData | null;
+  //form: FormData | null;
   params: { id: string };
 }
 
