@@ -113,8 +113,8 @@ export default async function handler(
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "mohamedabdelwahidi@gmail.com",
-          pass: "idod mjiw tokl axej",
+          user: process.env.EMAIL_USER as string,
+          pass: process.env.EMAIL_PASS as string,
         },
       });
 
@@ -122,7 +122,7 @@ export default async function handler(
 
       // Send email
       await transporter.sendMail({
-        from: "mohamedabdelwahidi@gmail.com",
+        from: process.env.EMAIL_USER as string,
         to: email, // sending to the user's email
         subject: "Admission Form Submission Confirmation",
         html: acceptingTemplte({ name, email  }),

@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
     port: 587, // Typically 587 for SMTP, 465 for SMTPS
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'your-email@example.com', // Your email address
-        pass: 'your-email-password', // Your email password or app-specific password
+        user: process.env.EMAIL_USER as string, // Your email address
+        pass: process.env.EMAIL_PASS as string, // Your email password or app-specific password
     },
 });
 
@@ -14,7 +14,7 @@ export const sendLoginAcceptanceEmail = async (to: string, username: string, ver
     try {
         // Send email
         await transporter.sendMail({
-            from: 'your-email@example.com', // Sender address
+            from:  process.env.EMAIL_USER as string, // Sender address
             to, // List of recipients
             subject: 'Login Acceptance', // Subject line
             html: `
