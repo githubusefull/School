@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import AdmissionForm from '../../models/AdmissionFormProf'; // Adjust the import path as necessary
+import AdmissionForm from '../../../models/AdmissionFormProf'; // Adjust the import path as necessary
 
 // Connect to MongoDB
 const connectToDatabase = async () => {
