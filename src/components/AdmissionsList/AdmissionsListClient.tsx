@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 
 
-interface IAdmissionForm {
+interface IAdmissionFormClient {
   _id: string;
   name: string;
   prenome: string;
@@ -51,7 +51,7 @@ interface IAdmissionForm {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  date_interview: number;
+  date_interview: Date;
   isConfirmed: boolean;
 
 }
@@ -60,10 +60,10 @@ interface IAdmissionForm {
 
 const AdmissionsList: React.FC = () => {
 
-  const [admissions, setAdmissions] = useState<IAdmissionForm[]>([]);
+  const [admissions, setAdmissions] = useState<IAdmissionFormClient[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionForm[]>([]);
+  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormClient[]>([]);
 
 
 

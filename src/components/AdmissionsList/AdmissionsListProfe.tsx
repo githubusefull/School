@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 
 
-interface IAdmissionForm {
+interface IAdmissionFormProf {
   _id: string;
   name: string;
   prenome: string;
@@ -60,10 +60,10 @@ interface IAdmissionForm {
 
 const AdmissionsListProfe: React.FC = () => {
 
-  const [admissions, setAdmissions] = useState<IAdmissionForm[]>([]);
+  const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionForm[]>([]);
+  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormProf[]>([]);
 
 
 
