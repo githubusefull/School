@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
  // Send email
  await transporter.sendMail({
-  from: process.env.EMAIL_USER,
+  from: process.env.EMAIL_USER as string,
   to: email, // sending to the user's email
   subject: "Admission Form Submission Confirmation",
   html: interviewTemplate({ name, email, date_interview: formattedDate }), // Define the acceptingTemplate function or import it
