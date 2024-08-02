@@ -65,8 +65,8 @@ module.exports = function interviewTemplate({ name, email, date_interview }) {
                 <h4>We are pleased to invite you for an interview for the position. Below are the details:</h4>
 
          <ul>
-        <li><strong>Date: ${date_interview}</strong></li> 
-        <li><strong>Emai: ${email}</strong></li>
+        <li><strong>Date: </strong> ${date_interview}</li> 
+        <li><strong>Emai: </strong> ${email}</li>
         <li><strong>Location:</strong> Myschool .... address </li>
       </ul>
       <h4>We look forward to discussing how you can contribute to our team.</h4>

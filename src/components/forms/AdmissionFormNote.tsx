@@ -109,7 +109,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
     try {
-      const response = await fetch('/api/ypdate', {
+      const response = await fetch('/api/prof_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -165,6 +165,37 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   
 
 
+
+  const handleUpdateUnaccepted = async () => {
+    try {
+      const response = await fetch('/api/unaccepted_update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: formData.id,
+         
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Updated Document:', data);
+      
+      router.push('/professeuradmissions');
+      setMessage(data.message);
+      toast.success('Refuse Sent Successfully');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to update document');
+    }
+  };
+
+
   const total: number =
     Number(formData.niveau_1_note) +
     Number(formData.niveau_2_note) +
@@ -177,6 +208,9 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
  
   return (
+    <div>
+
+  
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
       {message && (<p className='text-yellow-600'>{message}</p>)}
@@ -897,15 +931,20 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
         <button
-          type="submit"
+         onClick={handleUpdateUnaccepted}
+
+          type="button"
           className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
+
           Refused
         </button>
       
 
       </div>
-    </form>
+    </form> 
+   
+    </div>
   );
 };
 

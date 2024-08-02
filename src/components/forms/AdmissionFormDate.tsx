@@ -96,7 +96,7 @@ const [formData, setFormData] = useState<FormDataDate>({
 
 
     try {
-      const response = await fetch('/api/ypdate', {
+      const response = await fetch('/api/prof_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

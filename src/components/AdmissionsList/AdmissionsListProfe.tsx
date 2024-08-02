@@ -382,7 +382,7 @@ const AdmissionsListProfe: React.FC = () => {
                   </td>
                   <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
 
-                    {form.finalTotal === ToTal && (
+                    {form.finalTotal > ToTal && (
                       <Link href={`/admissionformdetail/${form._id}`}>
                         <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Accepted</button>
                       </Link>
@@ -393,7 +393,7 @@ const AdmissionsListProfe: React.FC = () => {
                         <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Refused</button>
                       </Link>
                     )}
-                    {!(form.finalTotal === ToTal || form.finalTotal < ToTal) && (
+                    {!(form.finalTotal === ToTal || form.finalTotal < ToTal ||  form.finalTotal > ToTal) && (
                       <Link href={`/admissionformnote/${form._id}`}>
                         <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
                       </Link>

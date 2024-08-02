@@ -109,7 +109,7 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
     try {
-      const response = await fetch('/api/ypdate', {
+      const response = await fetch('/api/prof_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -743,70 +743,85 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           </select>
          
         </div>
+
+        <div className="inline-flex text-gray-300  mt-4 items-center space-x-4">
+        <label className="block font-[600] text-gray-400 ">
+          Type of payement
+        </label>
+        <label className="inline-flex   items-center">
+            <input
+              type="radio"
+              name="civilite"
+              value='Mr'
+              className="form-radio  bg-gray-300"
+              onChange={handleChange}
+              checked={form.civilite === 'Mr'}
+            />
+            <span className="ml-2 text-gray-300">Cheque</span>
+          </label>
+          <label className="inline-flex rounded-[4px] items-center ml-6">
+            <input
+              type="radio"
+              name="civilite"
+              value="Mme"
+              className="form-radio bg-gray-300"
+              onChange={handleChange}
+              checked={form.civilite === 'Mme'}
+            />
+            <span className="ml-2 text-gray-300">Espase</span>
+          </label>
+          <label className="inline-flex rounded-[4px] items-center ml-6">
+            <input
+              type="radio"
+              name="civilite"
+              value="Mlle"
+              className="form-radio bg-gray-300"
+              onChange={handleChange}
+              checked={form.civilite === 'Mlle'}
+            />
+            <span className="ml-2 text-gray-300">Auther</span>
+          </label>
+    </div>
+
+
+    <div className="mt-4">
+
+          <textarea
+            id="motivation"
+            onChange={handleChange}
+            name="motivation"
+            value={form.motivation}
+            placeholder="Details"
+            className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+
+        </div>
+        
       </div>
 
-      <div className="mb-4">
-        <div className="flex items-center justify-between">
-         
-          <label className="inline-flex items-center">
-            <input
-              type="number"
-              name="note_de_Francaise"
-              id="note_de_Francaise"
-              value={form.note_de_Francaise}
-              onChange={handleChange}
-              placeholder='Nomber ticket'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="number"
-              id='Note de CV 1/10'
-              name='note_de_CV'
-              value={form.note_de_CV}
-              onChange={handleChange}
-              placeholder='Prix ticket'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          
-          <label className="inline-flex  items-center ml-4">
-            <input
-             type="number"
-             //value={form.finalTotal}
-             name="finalTotal"
-             id="finalTotal"
-             placeholder={`Prix Totale: `}
-
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          
-          </div>
-          </div>
+      
           <div className="mb-4">
         <div className="flex items-center justify-between">
          
           <label className="inline-flex items-center">
             <input
               type="number"
-              name="note_de_Francaise"
-              id="note_de_Francaise"
+              name="prix_total"
+              id="prix_total"
               value={form.note_de_Francaise}
               onChange={handleChange}
-              placeholder='Nomber ticket'
+              placeholder="Prix Total"
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="inline-flex items-center">
             <input
               type="number"
-              name="note_de_Francaise"
+              name="prix_ticket"
               id="note_de_Francaise"
               value={form.note_de_Francaise}
               onChange={handleChange}
-              placeholder='Nomber ticket'
+              placeholder='Prix Ticket'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
@@ -814,8 +829,62 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         
       </div>
       
-       
+      <div className="mb-4">
+        <div className="flex items-center justify-between">
+         
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="number_ticket"
+              id="note_de_Francaise"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Number Ticket'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="prof_percentage"
+              id="prof_percentage"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Prof Percentage'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          </div>
         
+      </div>
+      <div className="mb-4">
+        <div className="flex items-center justify-between">
+         
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="prix_for_profs"
+              id="prix_for_profs"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Prix for all Profs'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="number"
+              name="note_de_Francaise"
+              id="note_de_Francaise"
+              value={form.note_de_Francaise}
+              onChange={handleChange}
+              placeholder='Nomber ticket'
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </label>
+          </div>
+        
+      </div>
     
     
 
@@ -847,7 +916,7 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           type="submit"
           className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Accepted
+          Confirm
         </button>
 
 
@@ -855,7 +924,7 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           type="submit"
           className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Refused
+          No Confirm
         </button>
       
 

@@ -353,8 +353,8 @@ const AdmissionsList: React.FC = () => {
                   <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
                   {!form.date_interview ? (  
 
-                    <Link href={`/admissionformdate/${form._id}`}>
-                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
+                    <Link href={`/admissionformconfirm/${form._id}`}>
+                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                   </Link>
                     ):(
                       <p className='text-gray-300 font-[600]'>
@@ -375,14 +375,16 @@ const AdmissionsList: React.FC = () => {
                       </Link>
                     )}
 
-                    {form.finalTotal < ToTal && (
+                    {form.finalTotal === ToTal && (
                       <Link href={`/admissionformdetail/${form._id}`}>
                         <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Refused</button>
                       </Link>
+
+
                     )}
                     {!(form.finalTotal === ToTal || form.finalTotal < ToTal) && (
                       <Link href={`/admissionformconfirm/${form._id}`}>
-                        <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
+                        <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                       </Link>
                     )}
 

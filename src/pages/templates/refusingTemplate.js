@@ -1,4 +1,4 @@
-module.exports = function refusingTemplate({ name, email, program, gender, hobbies }) {
+module.exports = function refusingTemplate({ name, email }) {
   return `
   <!DOCTYPE html>
     <!DOCTYPE html>
@@ -71,11 +71,9 @@ module.exports = function refusingTemplate({ name, email, program, gender, hobbi
       <h4>Hello ${name},</h4>
       <h4>We regret to inform you that your application for admission has been refused. Here are the details of your submission:</h4>
       <ul>
-        <li><strong>Name:</strong> ${name}</li>
-        <li><strong>Email:</strong> ${email}</li>
-        <li><strong>Program:</strong> ${program}</li>
-        <li><strong>Gender:</strong> ${gender}</li>
-        <li><strong>Hobbies:</strong> ${hobbies}</li>
+       
+         <li><strong>Name:</strong> ${name}</li>
+            <li><strong>Email:</strong> ${email}</li>
       </ul>
       <h4>We appreciate your interest in our program and encourage you to apply again in the future.</h4>
       <h4>Best regards,</h4>

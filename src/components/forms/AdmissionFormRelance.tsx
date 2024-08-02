@@ -84,7 +84,7 @@ const [formData, setFormData] = useState<FormDataDate>({
 
 const handleUpdateConfirmed = async () => {
     try {
-      const response = await fetch('/api/ypdate', {
+      const response = await fetch('/api/prof_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
