@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
-import AdmissionForm, { IAdmissionForm } from "../models/AdmissionFormProf";
+import AdmissionFormProf from "../models/AdmissionFormProf";
 import { createToken } from './creatToken'; // Helper function to create JWT
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
             // Find user by email
-            const user = await AdmissionForm.findOne({ email });
+            const user = await AdmissionFormProf.findOne({ email });
 
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });

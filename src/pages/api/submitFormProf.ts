@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from '../../lib/db'
-import AdmissionForm, { IAdmissionForm } from "../models/AdmissionFormProf";
+import AdmissionForm, { IAdmissionFormProf } from "../models/AdmissionFormProf";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import acceptingTemplte from '../templates/acceptingTemplate';
@@ -64,7 +64,7 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-      const newForm: IAdmissionForm = new AdmissionForm({
+      const newForm: IAdmissionFormProf = new AdmissionForm({
         name,
         prenome,
         email,
