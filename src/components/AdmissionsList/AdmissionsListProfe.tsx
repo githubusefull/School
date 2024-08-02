@@ -51,7 +51,7 @@ interface IAdmissionForm {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  date_interview: number;
+  date_interview: Date;
   isConfirmed: boolean;
 
 }
