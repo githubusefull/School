@@ -16,8 +16,8 @@ const connectDb = async () => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "mohamedabdelwahidi@gmail.com",
-    pass: "idod mjiw tokl axej",
+    user: process.env.EMAIL_USER as string, // Ensure EMAIL_USER is set in your environment variables
+    pass: process.env.EMAIL_PASS as string, // Ensure EMAIL_PASS is set in your environment variables
   },
 });
 
@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
  // Send email
  await transporter.sendMail({
-  from: "mohamedabdelwahidi@gmail.com",
+  from: process.env.EMAIL_USER,
   to: email, // sending to the user's email
   subject: "Admission Form Submission Confirmation",
   html: interviewTemplate({ name, email, date_interview: formattedDate }), // Define the acceptingTemplate function or import it
