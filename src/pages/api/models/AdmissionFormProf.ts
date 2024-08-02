@@ -46,7 +46,7 @@ export interface IAdmissionFormProf extends Document {
   //cv_Photo?: string; // Optional field
 }
 
-const AdmissionFormProfSchema: Schema<IAdmissionFormProf> = new Schema({
+const AdmissionFormSchema: Schema<IAdmissionFormProf> = new Schema({
   name: { type: String, required: true },
   prenome: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -95,7 +95,7 @@ const AdmissionFormProfSchema: Schema<IAdmissionFormProf> = new Schema({
 
 
 
-const AdmissionFormProf: Model<IAdmissionFormProf> = mongoose.models.AdmissionFormProf || mongoose.model<IAdmissionFormProf>('AdmissionFormProf', AdmissionFormProfSchema);
+const AdmissionFormProf: Model<IAdmissionFormProf> = mongoose.models.AdmissionFormProf || mongoose.model<IAdmissionFormProf>('AdmissionFormProf', AdmissionFormSchema);
 
 export default AdmissionFormProf;
 

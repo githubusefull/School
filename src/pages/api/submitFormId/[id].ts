@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectDB from '../../lib/db';
-import AdmissionForm, { IAdmissionFormProf } from "../../models/AdmissionFormProf";
+import connectDB from '../lib/db';
+import AdmissionForm, { IAdmissionFormProf } from "../models/AdmissionFormProf";
 import bcrypt from "bcrypt";
 
 

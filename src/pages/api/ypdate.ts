@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import AdmissionFormProf, { IAdmissionFormProf } from '../models/AdmissionFormProf'; // Adjust the import path as needed
+import AdmissionFormProf, { IAdmissionFormProf } from './models/AdmissionFormProf'; // Adjust the import path as needed
 import nodemailer from 'nodemailer';
 import interviewTemplate from '../templates/InterviewTemplate';
 import { format } from 'date-fns';
