@@ -41,7 +41,7 @@ export interface IAdmissionFormProf extends Document {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  date_interview: number;
+  date_interview: Date;
   isConfirmed: boolean;
   //cv_Photo?: string; // Optional field
 }
@@ -87,7 +87,7 @@ const AdmissionFormProfSchema: Schema<IAdmissionFormProf> = new Schema({
   telephone_fixe: { type: String },
   annee_obtention_du_Bac: { type: String},
   date_de_naissance: { type: String },
-  date_interview:{type: Number},
+  date_interview:{type: Date},
   isConfirmed:{type: Boolean}
 
   //cv_Photo: { type: String, required: false }, // Optional field
@@ -130,10 +130,8 @@ const newValues: Partial<IAdmissionFormProf> = {
   note_de_Francaise:0,
   note_de_CV:0,
   finalTotal: 0,
-
- 
-  //date_interview:new Date(0),
-  //isConfirmed: true, // Add boolean value
+  date_interview:new Date(0),
+  isConfirmed: false, // Add boolean value
 
 };
 
