@@ -851,7 +851,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
              //value={form.finalTotal}
              name="finalTotal"
              id="finalTotal"
-             placeholder={`Totale: 12`}
+             placeholder={`Totale: ${finalTotal}`}
 
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 placeholder:text-gray-600 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
