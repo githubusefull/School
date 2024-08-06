@@ -52,11 +52,13 @@ export interface IAdmissionFormClient extends Document {
   profPercentage: number,
   ticketNumber: number,
   counter: number, // Initialize counter
+  userId?: string; // Add userId here
 
   //cv_Photo?: string; // Optional field
 }
 
 const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
+  userId: {type: String },
   name: { type: String, required: true },
   prenome: { type: String, required: true },
   email: { type: String, required: true, unique: true },

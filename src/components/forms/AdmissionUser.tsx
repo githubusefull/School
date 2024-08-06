@@ -1,36 +1,29 @@
-/* eslint-disable react/no-unescaped-entities */
 'use client';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
-import {  useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 interface FormData {
   name: string;
   prenome: string;
   email: string;
+  password: string;
   post: string;
-
 }
 
 const AdmissionUser: React.FC = () => {
- const router = useRouter();
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     prenome: '',
     email: '',
+    password: '',
     post: '',
-
   });
 
-
-
-  
-
-     
-     
-
-
+  const [message, setMessage] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -38,45 +31,29 @@ const AdmissionUser: React.FC = () => {
       ...prev,
       [name]: value,
     }));
-
-
-    
   };
 
-  const [message, setMessage] = useState<string | null>(null);
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/submitFormUser', {
-        method: 'POST',
+      const response = await axios.post('/api/submitFormUser', formData, {
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        }
       });
-      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
+      if (response.status === 201) {
+        // Store the token in localStorage if received
+        localStorage.setItem('token', response.data.token);
 
-      setFormData({
-        name: '',
-        prenome: '',
-        email: '',
-        post: '',
-      });
-      setMessage(data.message);
-      toast.success(data.message);
-      router.push('/useradmissions');
-    } catch (error) {
-      let errorMessage = 'An error occurred. Please try again.';
-      if (error instanceof Error) {
-        errorMessage = error.message;
+        toast.success('Form submitted successfully!');
+        router.push('/useradmissions'); // Redirect to a success page or similar
+      } else {
+        toast.error('Form submission failed!');
       }
-      setMessage(errorMessage);
+    } catch (error: any) {
+      toast.error(`Error: ${error.response?.data?.message || error.message}`);
     }
   };
   return (
@@ -123,7 +100,17 @@ const AdmissionUser: React.FC = () => {
         />
       </div>
 
-
+      <div className="mb-4">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
       <div className="mb-4">
 
         <select

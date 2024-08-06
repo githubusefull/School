@@ -4,6 +4,7 @@ import AdmissionFormClient, { IAdmissionFormClient } from "./models/AdmissionFor
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import acceptingTemplte from '../templates/acceptingTemplate';
+import { verify } from "jsonwebtoken";
 
 //import refusingTemplate from './refusingTemplate';
 
@@ -14,7 +15,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+  
+    try {
+      // Verify the token and extract the user ID
+      const decoded = verify(token, process.env.JWT_SECRET as string) as { id: string };
+      const userId = decoded.id;
+
+       const {
         name,
         prenome,
         email,
@@ -61,10 +72,14 @@ export default async function handler(
     if (user) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
 
-    try {
+
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+  
+
       const newForm: IAdmissionFormClient = new AdmissionFormClient({
+        userId, // Add the user ID to the new form
         name,
         prenome,
         email,
@@ -128,11 +143,12 @@ export default async function handler(
         html: acceptingTemplte({ name, email  }),
       
       });
-
+    
       res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
       res.status(500).json({ message: "User registering failed" });
     }
+  
   } else if (req.method === "GET") {
     try {
       const forms = await AdmissionFormClient.find();
@@ -145,4 +161,5 @@ export default async function handler(
     res.setHeader("Allow", ["POST", "GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
 }

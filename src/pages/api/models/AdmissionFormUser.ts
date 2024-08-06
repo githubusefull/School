@@ -1,28 +1,29 @@
-// models/User.ts
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
-interface Item {
+export interface IAdmissionFormUser extends Document {
   name: string;
   prenome: string;
   email: string;
+  password: string;
   post: string;
+
+  //cv_Photo?: string; // Optional field
 }
 
-export interface IAdmissionFormUser extends Document {
-  items: Item[];
-}
-
-const itemSchema: Schema<Item> = new mongoose.Schema({
+const AdmissionFormSchema: Schema<IAdmissionFormUser> = new Schema({
   name: { type: String, required: true },
   prenome: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   post: { type: String, required: true },
+
+ // Initialize counter
+
+  //cv_Photo: { type: String, required: false }, // Optional field
 });
 
-const userSchema: Schema<IAdmissionFormUser> = new mongoose.Schema({
-  items: [itemSchema], // Array of itemSchema
-});
 
-const AdmissionFormUser = mongoose.models.AdmissionFormUser || mongoose.model<IAdmissionFormUser>('AdmissionFormUser', userSchema);
+
+const AdmissionFormUser: Model<IAdmissionFormUser> = mongoose.models.AdmissionFormUser || mongoose.model<IAdmissionFormUser>('AdmissionFormUser', AdmissionFormSchema);
 
 export default AdmissionFormUser;

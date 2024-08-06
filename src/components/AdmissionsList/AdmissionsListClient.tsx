@@ -2,7 +2,7 @@
 'use client';
 import React, { useEffect, useState } from 'react'
 //import axios from 'axios';
-//import withAuth from '@/hoc/withAuth';
+import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
 import { format } from 'date-fns';  // or import moment from 'moment';
 
@@ -429,6 +429,6 @@ const AdmissionsList: React.FC = () => {
   )
 }
 
-export default AdmissionsList;
+export default withAuth(AdmissionsList);
 
 

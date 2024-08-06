@@ -19,8 +19,8 @@ const Formlogin = () => {
           const {token} = response.data;
           localStorage.setItem('token', token);
           alert('Login Success');
-         
-          router.push('/admissions');
+          
+          router.push('/clientadmissions');
 
          } catch (error) {
                 console.error(error);
@@ -29,7 +29,6 @@ const Formlogin = () => {
 
         }
       };
-
     return (
         <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
            <p className='text-2xl font-[500] mb-4'>Login</p>

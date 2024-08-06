@@ -1,11 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from './lib/db'
-import AdmissionForm, { IAdmissionFormProf } from "./models/AdmissionFormProf";
+import AdmissionFormProf, { IAdmissionFormProf } from "./models/AdmissionFormProf";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
-import acceptingTemplte from '../templates/acceptingTemplate';
-
-//import refusingTemplate from './refusingTemplate';
+import acceptingTemplate from '../templates/acceptingTemplate';
+import { verify } from "jsonwebtoken";
 
 connectDB();
 
@@ -14,7 +13,19 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const {
+    // Extract the JWT token from the request headers (assuming you use Authorization header)
+    //const token = req.headers.authorization?.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    
+    try {
+      // Verify the token and extract the user ID
+      const decoded = verify(token, process.env.JWT_SECRET as string) as { id: string };
+      const userId = decoded.id;
+
+      const {
         name,
         prenome,
         email,
@@ -54,21 +65,24 @@ export default async function handler(
         telephone_fixe,
         annee_obtention_du_Bac,
         date_de_naissance,
-        
-      
       } = req.body;
-    const user = await AdmissionForm.findOne({ email });
-    if (user) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
 
-    try {
-      const newForm: IAdmissionFormProf = new AdmissionForm({
+      const user = await AdmissionFormProf.findOne({ email });
+      if (user) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+    
+
+
+      
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newForm: IAdmissionFormProf = new AdmissionFormProf({
+        userId, // Add the user ID to the new form
         name,
         prenome,
         email,
-        password:hashedPassword,
+        password: hashedPassword,
         ville,
         quartiers_Rabat,
         quartiers_Casablanca,
@@ -104,7 +118,6 @@ export default async function handler(
         telephone_fixe,
         annee_obtention_du_Bac,
         date_de_naissance,
-       
       });
 
       await newForm.save();
@@ -118,15 +131,12 @@ export default async function handler(
         },
       });
 
-      //console.log('Sending email to:', email);
-
       // Send email
       await transporter.sendMail({
         from: process.env.EMAIL_USER as string,
         to: email, // sending to the user's email
         subject: "Admission Form Submission Confirmation",
-        html: acceptingTemplte({ name, email  }),
-      
+        html: acceptingTemplate({ name, email }),
       });
 
       res.status(201).json({ message: "User registered successfully" });
@@ -135,7 +145,7 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      const forms = await AdmissionForm.find();
+      const forms = await AdmissionFormProf.find();
       res.setHeader('Cache-Control', 'no-store'); // Disable caching
       res.status(200).json(forms);
     } catch (error) {

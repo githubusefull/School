@@ -1,9 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
-import {  useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+//import jwtDecode from 'jwt-decode';
+const jwtDecode = require('jwt-decode');
 
 interface FormData {
   name: string;
@@ -41,17 +43,16 @@ interface FormData {
   note_de_Francaise: string;
   note_de_CV: string;
   motivation: string;
-  //totale: string;
   civilite: string;
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  //cv_Photo: File | null;
-
+  totale?: string; // Optional, as it’s computed and added later
+  userId?: string; // Optional, as it’s added later
 }
 
 const AdmissionFormProf: React.FC = () => {
- const router = useRouter();
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     prenome: '',
@@ -89,34 +90,41 @@ const AdmissionFormProf: React.FC = () => {
     note_de_CV: '',
     motivation: '',
     civilite: '',
-    //totale:'',
     telephone_fixe: '',
     annee_obtention_du_Bac: '',
     date_de_naissance: '',
-    //cv_Photo: null,
-
   });
 
+  const [userId, setUserId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const id = getUserIdFromToken(token);
+      setUserId(id);
+    }
+  }, []);
 
-    const total =
-      (parseFloat(formData.niveau_1_note) || 0) +
-      (parseFloat(formData.niveau_2_note) || 0) +
-      (parseFloat(formData.niveau_3_note) || 0) +
-      (parseFloat(formData.niveau_4_note) || 0) +
-      (parseFloat(formData.niveau_5_note) || 0) +
-      (parseFloat(formData.niveau_6_note) || 0);
+  const getUserIdFromToken = (token: string): string | null => {
+    try {
+      const decoded: any =jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
 
-      const average = (total / 6);
-      let fixedDecimalString = average.toFixed(2);
-      let finalTotal = parseFloat(fixedDecimalString).toString();
-      //console.log(finalTotal);
-  
+  const total =
+    (parseFloat(formData.niveau_1_note) || 0) +
+    (parseFloat(formData.niveau_2_note) || 0) +
+    (parseFloat(formData.niveau_3_note) || 0) +
+    (parseFloat(formData.niveau_4_note) || 0) +
+    (parseFloat(formData.niveau_5_note) || 0) +
+    (parseFloat(formData.niveau_6_note) || 0);
 
-     
-     
-
-
+  const average = (total / 6);
+  const finalTotal = average.toFixed(2);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -124,25 +132,26 @@ const AdmissionFormProf: React.FC = () => {
       ...prev,
       [name]: value,
     }));
-
-
-    
   };
 
   const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const updatedFormData = {
+    const token = localStorage.getItem('token');
+    
+    const updatedFormData: FormData = {
       ...formData,
       totale: finalTotal,
+      userId: userId || '', // Include userId here
     };
+
     try {
       const response = await fetch('/api/submitFormProf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(updatedFormData),
       });
@@ -185,22 +194,17 @@ const AdmissionFormProf: React.FC = () => {
         note_de_CV: '',
         motivation: '',
         civilite: '',
-        //totale:'',
         telephone_fixe: '',
         annee_obtention_du_Bac: '',
         date_de_naissance: '',
-        //cv_Photo: null,
-
       });
       setMessage(data.message);
       toast.success(data.message);
-      router.push('/professeuradmissions')
-
+      router.push('/professeuradmissions');
     } catch (error) {
       setMessage('An error occurred. Please try again.');
     }
   };
-
 
 
   

@@ -1,71 +1,81 @@
-// pages/api/submitFormUser.ts
-import  { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from './lib/db'
 import AdmissionFormUser, { IAdmissionFormUser } from "./models/AdmissionFormUser";
+import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
-import acceptingTemplate from '../templates/acceptingTemplate';
+import acceptingTemplte from '../templates/acceptingTemplate';
+import { generateToken } from "./lib/jwt";
 
-
+//import refusingTemplate from './refusingTemplate';
 
 connectDB();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { name, prenome, email, post } = req.body;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "POST") {
+    const {
+        name,
+        prenome,
+        email,
+        password,
+        post
+      
+      } = req.body;
+    const user = await AdmissionFormUser.findOne({ email });
+    if (user) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-      const user = await AdmissionFormUser.findOne({ email });
+      const newForm: IAdmissionFormUser = new AdmissionFormUser({
+        name,
+        prenome,
+        email,
+        password:hashedPassword,
+        post,
+        
+      });
 
-      if (user) {
-        user.items.push({name, prenome, email, post });
-        await user.save();
-      } else {
-        const newUser: IAdmissionFormUser = new AdmissionFormUser({
-          email,
-          items: [{ name, prenome, email, post }],
-        });
-        await newUser.save();
-      }
+      await newForm.save();
+      const token = generateToken(newForm._id.toString());
 
       // Set up Nodemailer
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        service: "gmail",
         auth: {
           user: process.env.EMAIL_USER as string,
           pass: process.env.EMAIL_PASS as string,
         },
       });
 
+      //console.log('Sending email to:', email);
+
       // Send email
       await transporter.sendMail({
         from: process.env.EMAIL_USER as string,
-        to: email,
-        subject: 'Admission User',
-        html: acceptingTemplate({ name, email }),
+        to: email, // sending to the user's email
+        subject: "Admission Form Submission Confirmation",
+        html: acceptingTemplte({ name, email  }),
+      
       });
 
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json({ message: "User registered successfully", token });
     } catch (error) {
-      let errorMessage = 'User registering failed';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      res.status(500).json({ message: errorMessage });
+      res.status(500).json({ message: "User registering failed" });
     }
-  } else if (req.method === 'GET') {
+  } else if (req.method === "GET") {
     try {
-      const users = await AdmissionFormUser.find();
+      const forms = await AdmissionFormUser.find();
       res.setHeader('Cache-Control', 'no-store'); // Disable caching
-      res.status(200).json(users);
+      res.status(200).json(forms);
     } catch (error) {
-      let errorMessage = 'Failed to fetch users';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      res.status(500).json({ message: errorMessage });
+      res.status(500).json({ message: "Failed to fetch forms" });
     }
   } else {
-    res.setHeader('Allow', ['POST', 'GET']);
+    res.setHeader("Allow", ["POST", "GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

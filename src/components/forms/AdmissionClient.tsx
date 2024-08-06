@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import {  useRouter } from 'next/navigation';
+const jwtDecode = require('jwt-decode');
 
-interface FormDataClient {
+export interface FormDataClient {
   name: string;
   prenome: string;
   email: string;
@@ -37,7 +38,8 @@ interface FormDataClient {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  
+  userId?: string; // Optional, as it’s added later
+
 
 }
 
@@ -80,7 +82,25 @@ const AdmissionClient: React.FC = () => {
 
   });
 
+  const [userId, setUserId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const id = getUserIdFromToken(token);
+      setUserId(id);
+    }
+  }, []);
+
+  const getUserIdFromToken = (token: string): string | null => {
+    try {
+      const decoded: any =jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
 
  
   
@@ -105,16 +125,20 @@ const AdmissionClient: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
 
     const updatedFormData = {
       ...formData,
       totale: '',
+      userId: userId || '', // Include userId here
+
     };
     try {
       const response = await fetch('/api/submitFormClient', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(updatedFormData),
       });

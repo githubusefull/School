@@ -20,7 +20,7 @@ const withAuth = (WrappedComponent: any) => {
       } else {
         setLoading(false)
         setAuthenticated(true)
-        router.push('/admissions')
+        router.push('/clientadmissions')
 {/*               
         axios.post('/api/loginForm', { token })
           .then(() => {
@@ -37,7 +37,7 @@ const withAuth = (WrappedComponent: any) => {
     }, []);
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <div className='flex justify-center'>Loading...</div>;
     }
 
     if (!authenticated) {
