@@ -53,7 +53,7 @@ interface IAdmissionFormProf {
   date_de_naissance: string;
   date_interview: Date;
   isConfirmed: boolean;
-
+  counter: number;
 }
 
 
@@ -369,7 +369,7 @@ const AdmissionsListProfe: React.FC = () => {
                   {!form.date_interview ? (  
 
                     <Link href={`/admissionformdate/${form._id}`}>
-                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
+                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                   </Link>
                     ):(
                       <p className='text-gray-300 font-[600]'>
@@ -387,7 +387,11 @@ const AdmissionsListProfe: React.FC = () => {
                         <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Accepted</button>
                       </Link>
                     )}
-
+                      {form.finalTotal === ToTal && (
+                        <Link href={`/admissionformdetail/${form._id}`}>
+                          <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Accepted</button>
+                        </Link>
+                      )}
                     {form.finalTotal < ToTal && (
                       <Link href={`/admissionformdetail/${form._id}`}>
                         <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Refused</button>
@@ -395,20 +399,22 @@ const AdmissionsListProfe: React.FC = () => {
                     )}
                     {!(form.finalTotal === ToTal || form.finalTotal < ToTal ||  form.finalTotal > ToTal) && (
                       <Link href={`/admissionformnote/${form._id}`}>
-                        <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Ou<p className='inline ml-1'>Cours</p></button>
+                        <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                       </Link>
                     )}
 
                   </td>
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                      {form.isConfirmed === true ? 
-                 <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>déjà<span className='ml-1'>relancé</span></button>
+                      <p>
 
-                      :
-                        <Link href={`/admissionformrelance/${form._id}`}>
-
+                          <Link href={`/admissionformrelance/${form._id}`}>
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
-                        </Link>}
+                          <span className='ml-2 font-bold'>{form.counter == 0 ? null : form.counter}</span>
+
+                        </Link>
+                      </p>
+           
+                        
                     </td>
                   </tr>
               ))

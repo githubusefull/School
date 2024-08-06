@@ -1,5 +1,5 @@
 //import AdmissionForm from "@/pages/models/AdmissionsForm";
-import AdmissionFormConfirm from "../../../components/forms/AdmissionFormConfirm";
+import AdmissionFormClientConfirm from "../../../components/forms/AdmissionFormClientRelance";
 
 interface FormData {
   _id: string;
@@ -115,7 +115,7 @@ const defaultFormData: FormData = {
 };
 async function getFormById(id: string): Promise<FormData> {
   try {
-    const response = await fetch(`http://localhost:3000/api/admissionformconfirm/${id}`, { method: 'GET' });
+    const response = await fetch(`http://localhost:3000/api/admissionformclientrelance/${id}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -147,7 +147,7 @@ export default async function FormID({ params }: FormIDProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
     <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">
-      <AdmissionFormConfirm form={form}/>
+      <AdmissionFormClientConfirm form={form}/>
     </div>
   </div>
   );

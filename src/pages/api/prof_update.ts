@@ -45,10 +45,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { id, updateData } = req.body;
 
+      if (!id || !updateData) {
+        return res.status(400).json({ message: 'Invalid request data' });
+      }
+
       console.log('Received ID:', id);
       console.log('Received updateData:', updateData);
-
-      // Validate input data here if needed
 
       const document = await AdmissionFormProf.findById(id);
 
@@ -58,6 +60,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const email = document.email;
       const name = document.name;
+
+      // Check and update the counter
+      if (updateData.counter !== undefined) {
+        if (typeof updateData.counter === 'number' && !isNaN(updateData.counter)) {
+          updateData.counter = (document.counter || 0) + updateData.counter;
+        } else {
+          return res.status(400).json({ message: 'Invalid counter value' });
+        }
+      }
 
       // Update the document with new data
       const updatedDocument = await updateAdmissionFormById(id, updateData);
@@ -98,3 +109,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+

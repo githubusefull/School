@@ -8,8 +8,7 @@ import { format } from 'date-fns';  // or import moment from 'moment';
 
 interface FormDataDate {
   id: string;
-  isConfirmed: boolean; // Add boolean field
-  counter: number; // Add counter field
+  date_interview: number;
 
 
 }
@@ -34,34 +33,23 @@ interface FormData {
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
-  niveau_1_note: number;
   matiere_2: string;
   niveau_2: string;
-  niveau_2_note: number;
   matiere_3: string;
   niveau_3: string;
-  niveau_3_note: number;
   matiere_4: string;
   niveau_4: string;
-  niveau_4_note: number;
   matiere_5: string;
   niveau_5: string;
-  niveau_5_note: number;
   matiere_6: string;
   niveau_6: string;
-  niveau_6_note: number;
-  note_de_Francaise: number;
-  note_de_CV: number;
   motivation: string;
   civilite: string;
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  finalTotal: number;
   date_interview: number;
-  isConfirmed: boolean;
-  counter: number; // Add counter field
-  // Add boolean field
+  isConfirmed: boolean; // Add boolean field
 
 }
 
@@ -69,7 +57,7 @@ interface AdmissionFormNoteProps {
   form: FormData;
 }
 
-const AdmissionFormRelance: React.FC<AdmissionFormNoteProps> = ({ form }) => {
+const AdmissionFormDateClient: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
 
@@ -80,16 +68,26 @@ const AdmissionFormRelance: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
-  isConfirmed: form.isConfirmed, // Add boolean fiel
-  counter: form.counter,
+  date_interview: form.date_interview,
 
+
+ 
 });
 
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-const handleUpdateConfirmed = async (increment: number) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+   
+
+
     try {
-      const response = await fetch('/api/prof_update', {
+      const response = await fetch('/api/client_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -97,9 +95,9 @@ const handleUpdateConfirmed = async (increment: number) => {
         body: JSON.stringify({
           id: formData.id,
           updateData: {
-            isConfirmed: true,
-            counter: increment, // Increment and include counter
+            date_interview: formData.date_interview,
 
+         
           },
         }),
       });
@@ -110,34 +108,22 @@ const handleUpdateConfirmed = async (increment: number) => {
 
       const data = await response.json();
       console.log('Updated Document:', data);
-      setFormData((prevState) => ({
-        ...prevState,
-        isConfirmed: true,
-        counter: prevState.counter + increment, // Update counter in state
+      setFormData({
+        id: '',
+        date_interview: 0,
 
-      }));
-
-      router.push('/professeuradmissions');
+        
+      });
+      
+    
+      
+      router.push('/clientadmissions')
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Failed to update document');
     }
   };
-
-// update 
-{/*   */}
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
-
-
-  }
   
 
 
@@ -771,7 +757,7 @@ const handleUpdateConfirmed = async (increment: number) => {
       name="date_interview"
       placeholder='date_interview'
       className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      value={form.date_interview}
+      value={formData.date_interview}
       onChange={handleChange}
     />
   </div>}
@@ -781,12 +767,10 @@ const handleUpdateConfirmed = async (increment: number) => {
       {form.date_interview ? 
       
       <button
-          onClick={() => handleUpdateConfirmed(1)}
-          //value={formData.counter + 1}
           type="submit"
           className="bg-green-600  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-                  {formData.isConfirmed ? 'Resend' : 'Resend'}
+                  {form.isConfirmed ? 'UnResend' : 'Resend'}
 
         </button>
       
@@ -812,4 +796,4 @@ const handleUpdateConfirmed = async (increment: number) => {
   );
 };
 
-export default AdmissionFormRelance;
+export default AdmissionFormDateClient;

@@ -37,6 +37,7 @@ interface FormDataClient {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
+  
 
 }
 
@@ -157,7 +158,7 @@ const AdmissionClient: React.FC = () => {
       });
       setMessage(data.message);
       toast.success(data.message);
-      router.push('/admissions')
+      router.push('/clientadmissions')
 
     } catch (error) {
       setMessage('An error occurred. Please try again.');

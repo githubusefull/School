@@ -5,18 +5,17 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-interface FormDataNote {
+
+interface FormDataClient {
   id: string;
-  niveau_1_note: number;
-  niveau_2_note: number;
-  niveau_3_note: number;
-  niveau_4_note: number;
-  niveau_5_note: number;
-  niveau_6_note: number;
-  note_de_Francaise: number;
-  note_de_CV: number;
-  //finalTotal: number;
-  
+  pay: string;
+  price_total: number;
+  price_ticket: number;
+  ticket_number: number;
+  prof_percentage: number;
+  prof_price: number;
+  details: string;
+  isConfirmed: boolean;
 }
 
 interface FormData {
@@ -60,8 +59,18 @@ interface FormData {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  finalTotal: number;
   date_interview: number;
+  pay: string;
+  details: string;
+  price_total: number;
+  price_ticket: number;
+  ticket_number: number;
+  prof_percentage: number;
+  prof_price: number;
+  profPercentage:number,
+  ticketNumber:number,
+  isConfirmed: boolean; // Add boolean field
+  counter: number; // Add counter field
 
 }
 
@@ -75,19 +84,22 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
 
-  const [formData, setFormData] = useState<FormDataNote>({
+  const [formData, setFormData] = useState<FormDataClient>({
     id: form._id,
-    niveau_1_note: form.niveau_1_note,
-    niveau_2_note: form.niveau_2_note,
-    niveau_3_note: form.niveau_2_note,
-    niveau_4_note: form.niveau_2_note,
-    niveau_5_note: form.niveau_2_note,
-    niveau_6_note: form.niveau_2_note,
-    note_de_Francaise:0,
-    note_de_CV: 0,
+    pay: form.pay,
+    details: form.details,
+    price_total: form.price_total,
+    price_ticket: form.price_ticket,
+    ticket_number: form.ticket_number,
+    prof_percentage: form.prof_percentage,
+    prof_price: form.prof_price,
+    isConfirmed: true,
+
     //finalTotal: 0,
   
   });
+
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -97,19 +109,20 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const total: number =
-    Number(formData.niveau_1_note) +
-    Number(formData.niveau_2_note) +
-    Number(formData.niveau_3_note) +
-    Number(formData.niveau_4_note) +
-    Number(formData.niveau_5_note) +
-    Number(formData.niveau_6_note);
-  const average: number = total / 6;
-  const finalTotal: number = Math.ceil(average * 100) / 100;
+    const result = Number(formData.price_total) / Number(formData.price_ticket);
+    const percentageToSubtract = result * Number(formData.prof_percentage) / 100;
+    const profPT = result - percentageToSubtract;
+    const tickNT = Number(formData.price_total) / Number(formData.price_ticket);
+  
+       
+  
+    //const profPercentage: number = Math.ceil(profPT * 100) / 100;
+    const ticketNumber: number = Math.ceil(tickNT * 100) / 100;
+    const profPercentage = Number(formData.price_ticket) * Number(formData.prof_percentage) / 100;
 
-
+    
     try {
-      const response = await fetch('/api/prof_update', {
+      const response = await fetch('/api/client_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -117,15 +130,17 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         body: JSON.stringify({
         id: formData.id,
           updateData: {
-            niveau_1_note: formData.niveau_1_note,
-            niveau_2_note: formData.niveau_2_note,
-            niveau_3_note: formData.niveau_3_note,
-            niveau_4_note: formData.niveau_4_note,
-            niveau_5_note: formData.niveau_5_note,
-            niveau_6_note: formData.niveau_6_note,
-            note_de_Francaise: formData.note_de_Francaise,
-            note_de_CV: formData.note_de_CV,
-            finalTotal,
+            pay: formData.pay,
+            details: formData.details,
+            price_total: formData.price_total,
+            price_ticket: formData.price_ticket,
+            ticket_number: formData.ticket_number,
+            prof_percentage: formData.prof_percentage,
+            prof_price: formData.prof_price,
+            isConfirmed: formData.isConfirmed,
+            profPercentage,
+            ticketNumber,
+           
           
         
           },
@@ -140,16 +155,16 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       console.log('Updated Document:', data);
       setFormData({
         id: '',
-        niveau_1_note: 0,
-        niveau_2_note: 0,
-        niveau_3_note: 0,
-        niveau_4_note: 0,
-        niveau_5_note: 0,
-        niveau_6_note: 0,
-        note_de_Francaise: 0,
-        note_de_CV: 0,
-        //finalTotal: 0,
-     
+        pay: '',
+        details: '',
+        price_total: 0,
+        price_ticket: 0,
+        ticket_number: 0,
+        prof_percentage: 0,
+        prof_price: 0,
+        isConfirmed: true
+
+        
       });
     
       
@@ -164,18 +179,23 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   };
   
 
+  const result = Number(formData.price_total) / Number(formData.price_ticket);
+  const percentageToSubtract = result * Number(formData.prof_percentage) / 100;
+  const profPT = result - percentageToSubtract;
+  const tickNT = Number(formData.price_total) / Number(formData.price_ticket);
 
-  const total: number =
-    Number(formData.niveau_1_note) +
-    Number(formData.niveau_2_note) +
-    Number(formData.niveau_3_note) +
-    Number(formData.niveau_4_note) +
-    Number(formData.niveau_5_note) +
-    Number(formData.niveau_6_note);
-  const average: number = total / 6;
-  const finalTotal: number = Math.ceil(average * 100) / 100;
-
+     
  
+  const profPercentage = Number(formData.price_ticket) * Number(formData.prof_percentage) / 100;
+
+  
+  //const profPercentage : number = Math.ceil(profPT * 100) / 100;
+  const ticketNumber: number = Math.ceil(tickNT * 100) / 100;
+  
+// client update
+
+
+
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
@@ -751,35 +771,35 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         <label className="inline-flex   items-center">
             <input
               type="radio"
-              name="civilite"
-              value='Mr'
+              name="pay"
+              value='cash'
               className="form-radio  bg-gray-300"
               onChange={handleChange}
-              checked={form.civilite === 'Mr'}
+              checked={formData.pay === 'cash'}
             />
-            <span className="ml-2 text-gray-300">Cheque</span>
+            <span className="ml-2 text-gray-300">Cash</span>
           </label>
           <label className="inline-flex rounded-[4px] items-center ml-6">
             <input
               type="radio"
-              name="civilite"
-              value="Mme"
+              name="pay"
+              value="check"
               className="form-radio bg-gray-300"
               onChange={handleChange}
-              checked={form.civilite === 'Mme'}
+              checked={formData.pay === 'check'}
             />
-            <span className="ml-2 text-gray-300">Espase</span>
+            <span className="ml-2 text-gray-300">Check</span>
           </label>
           <label className="inline-flex rounded-[4px] items-center ml-6">
             <input
               type="radio"
-              name="civilite"
-              value="Mlle"
+              name="pay"
+              value="other"
               className="form-radio bg-gray-300"
               onChange={handleChange}
-              checked={form.civilite === 'Mlle'}
+              checked={formData.pay === 'other'}
             />
-            <span className="ml-2 text-gray-300">Auther</span>
+            <span className="ml-2 text-gray-300">Other</span>
           </label>
     </div>
 
@@ -787,11 +807,11 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     <div className="mt-4">
 
           <textarea
-            id="motivation"
+            id="details"
             onChange={handleChange}
-            name="motivation"
-            value={form.motivation}
-            placeholder="Details"
+            name="details"
+            value={formData.details}
+            placeholder="Details of Other"
             className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
 
@@ -806,22 +826,22 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           <label className="inline-flex items-center">
             <input
               type="number"
-              name="prix_total"
-              id="prix_total"
-              value={form.note_de_Francaise}
+              name="price_total"
+              id="price_total"
+              value={formData.price_total}
               onChange={handleChange}
-              placeholder="Prix Total"
+              placeholder="Price Total"
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="inline-flex items-center">
             <input
               type="number"
-              name="prix_ticket"
-              id="note_de_Francaise"
-              value={form.note_de_Francaise}
+              name="price_ticket"
+              id="price_ticket"
+              value={formData.price_ticket}
               onChange={handleChange}
-              placeholder='Prix Ticket'
+              placeholder='Price Ticket'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
@@ -835,12 +855,12 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           <label className="inline-flex items-center">
             <input
               type="number"
-              name="number_ticket"
-              id="note_de_Francaise"
-              value={form.note_de_Francaise}
+              name="ticket_number"
+              id="ticket_number"
+             //value={formData.ticketNumber}
               onChange={handleChange}
-              placeholder='Number Ticket'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder={`Ticket Number: ${ticketNumber ? ticketNumber : '0'}`}
+              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 placeholder:text-gray-600 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="inline-flex items-center">
@@ -848,9 +868,9 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="prof_percentage"
               id="prof_percentage"
-              value={form.note_de_Francaise}
+              value={formData.prof_percentage}
               onChange={handleChange}
-              placeholder='Prof Percentage'
+              placeholder='Professor Percentage'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
@@ -858,31 +878,20 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         
       </div>
       <div className="mb-4">
-        <div className="flex items-center justify-between">
          
-          <label className="inline-flex items-center">
+          <label className=" items-center">
             <input
               type="number"
-              name="prix_for_profs"
-              id="prix_for_profs"
-              value={form.note_de_Francaise}
+              name="prof_price"
+              id="prof_price"
+             //value={formData.profPercentage}
               onChange={handleChange}
-              placeholder='Prix for all Profs'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder={`Professor Price : ${profPercentage ? profPercentage: '0'}`}
+              className="shadow rounded-[4px] placeholder:text-gray-600 font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
-          <label className="inline-flex items-center">
-            <input
-              type="number"
-              name="note_de_Francaise"
-              id="note_de_Francaise"
-              value={form.note_de_Francaise}
-              onChange={handleChange}
-              placeholder='Nomber ticket'
-              className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          </div>
+         
+         
         
       </div>
     
@@ -908,25 +917,46 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   
 
 
-
-
+                 
 
       <div className="mb-4">
-        <button
-          type="submit"
-          className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Confirm
-        </button>
+        {form.isConfirmed === true ? (
+          <button
+            type="submit"
+            className="bg-red-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            No Confirm
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="bg-blue-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+             Confirm
+          </button>
+        )}
+  
 
+ 
 
-        <button
-          type="submit"
-          className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          No Confirm
-        </button>
-      
+        {form.isConfirmed && (
+          <>
+            <button
+              type="submit"
+              className="bg-blue-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Confirm
+            </button>
+
+            <button
+              type="submit"
+              className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              No Confirm
+            </button>
+          </>
+        )
+        }
 
       </div>
     </form>

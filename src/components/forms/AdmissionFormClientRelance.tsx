@@ -69,7 +69,7 @@ interface AdmissionFormNoteProps {
   form: FormData;
 }
 
-const AdmissionFormRelance: React.FC<AdmissionFormNoteProps> = ({ form }) => {
+const AdmissionFormClientRelance: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
 
@@ -89,7 +89,7 @@ const [formData, setFormData] = useState<FormDataDate>({
 
 const handleUpdateConfirmed = async (increment: number) => {
     try {
-      const response = await fetch('/api/prof_update', {
+      const response = await fetch('/api/client_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const handleUpdateConfirmed = async (increment: number) => {
 
       }));
 
-      router.push('/professeuradmissions');
+      router.push('/clientadmissions');
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
@@ -147,12 +147,10 @@ const handleUpdateConfirmed = async (increment: number) => {
  
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
-      <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
+      <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE CLIENT</p>
       {message && (<p className='text-yellow-600'>{message}</p>)}
    
-      <p className='text-gray-300 font-sans text-[15px]'>Professeurs : Vous avez un excellent relationnel, un solide bagage et une réelle passion pour l’enseignement ?
 
-        Vous souhaitez intégrer notre équipe enseignante ? Déposez votre candidature</p>
 
       <div className="mt-4 mb-4">
         <label className="block font-[600] text-gray-400   mb-2">
@@ -812,4 +810,4 @@ const handleUpdateConfirmed = async (increment: number) => {
   );
 };
 
-export default AdmissionFormRelance;
+export default AdmissionFormClientRelance;

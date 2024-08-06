@@ -14,26 +14,30 @@ const Navbar = () => {
 };
   //const token = localStorage.getItem('token'); // Retrieve the token
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const [isDropdownOpenClient, setIsDropdownOpenClient] = useState(false);
   const [isDropdownOpenPro, setIsDropdownOpenPro] = useState(false);
+  const [isDropdownOpenUser, setIsDropdownOpenUser] = useState(false);
+
   const dropdownRef = useRef(null);
 
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-    setIsDropdownOpenPro(false)
+  const toggleDropdownPro = () => {
+    setIsDropdownOpenPro(!isDropdownOpenPro);
 
   };
 
-  const toggleDropdownPro = () => {
-    setIsDropdownOpenPro(!isDropdownOpenPro);
-    setIsDropdownOpen(false)
+  const toggleDropdownClient = () => {
+    setIsDropdownOpenClient(!isDropdownOpenClient);
+  };
+  const toggleDropdownUser = () => {
+    setIsDropdownOpenUser(!isDropdownOpenUser)
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsDropdownOpenPro(false);
+      setIsDropdownOpenUser(false);
+      setIsDropdownOpenClient(false)
     }
   };
 
@@ -112,18 +116,20 @@ const Navbar = () => {
                 
                 <div className="relative">
                   <button
-                    onClick={toggleDropdown}
-                    className="text-gray-300  font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100"
+                    onClick={toggleDropdownClient}
+                    className="text-gray-300  font-[500] mt-1 text-[15px] "
                   >
                     Admission Client
                   </button>
-                  {isDropdownOpen && (
-                    <div className="absolute right-0 bg-black mt-5 w-38 px-8 rounded-[5px] outline  outline-1  shadow-lg py-1">
+                  {isDropdownOpenClient && (
+                    <div 
+                    ref={dropdownRef}
+                    className="absolute right-0 bg-black mt-5 w-38 px-8 rounded-[5px] outline  outline-1  shadow-lg py-1 z-50">
                       <Link href="/clientadmissionform">
-                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] ">Apply</p>
                       </Link>
                       <Link href="/clientadmissions">
-                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Afficher</p>
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] ">Afficher</p>
                       </Link>
                     </div>
                   )}
@@ -131,17 +137,37 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={toggleDropdownPro}
-                    className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100"
+                    className="text-gray-300 font-[500] mt-1 text-[15px]"
                   >
                     Admission Professeur
                   </button>
                   {isDropdownOpenPro && (
-                    <div ref={dropdownRef} className="absolute right-0 mt-5 w-38 px-8 rounded-[5px] outline  outline-1 bg-black shadow-lg py-1">
+                    <div ref={dropdownRef} className="absolute right-0 mt-5 w-38 px-8 rounded-[5px] outline  outline-1 bg-black shadow-lg py-1 z-50">
                       <Link href="/profadmissionform">
-                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Apply</p>
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px]">Apply</p>
                       </Link>
                       <Link href="/professeuradmissions">
-                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Afficher</p>
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px]">Afficher</p>
+                      </Link>
+                    </div>
+                  )}
+
+                
+                </div>
+                <div className="relative">
+                  <button
+                    onClick={toggleDropdownUser}
+                    className="text-gray-300 font-[500] mt-1 text-[15px]"
+                  >
+                    Admission User
+                  </button>
+                  {isDropdownOpenUser && (
+                    <div ref={dropdownRef} className="absolute right-0 mt-5 w-38 px-8 rounded-[5px] outline  outline-1 bg-black shadow-lg py-1 z-50">
+                      <Link href="/useradmissionform">
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px]">Apply</p>
+                      </Link>
+                      <Link href="/useradmissions">
+                        <p className="block  py-2  text-gray-300 font-[500] mt-1 text-[15px]">Afficher</p>
                       </Link>
                     </div>
                   )}

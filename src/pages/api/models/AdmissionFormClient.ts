@@ -43,6 +43,16 @@ export interface IAdmissionFormClient extends Document {
   date_de_naissance: string;
   date_interview: Date;
   isConfirmed: boolean;
+  price_total: number,
+  price_ticket: number,
+  ticket_number: number,
+  prof_percentage: number,
+  prof_price: number,
+  details: string,
+  profPercentage: number,
+  ticketNumber: number,
+  counter: number, // Initialize counter
+
   //cv_Photo?: string; // Optional field
 }
 
@@ -66,31 +76,30 @@ const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   niveau_1_note: { type: Number},
   matiere_2: { type: String, },
   niveau_2: { type: String, },
-  niveau_2_note: { type: Number},
   matiere_3: { type: String, },
   niveau_3: { type: String, },
-  niveau_3_note: { type: Number},
   matiere_4: { type: String, },
   niveau_4: { type: String, },
-  niveau_4_note: { type: Number},
   matiere_5: { type: String, },
   niveau_5: { type: String, },
-  niveau_5_note: { type: Number},
   matiere_6: { type: String, },
   niveau_6: { type: String, },
-  niveau_6_note: { type: Number},
-  note_de_Francaise: { type: Number},
-  finalTotal: {
-    type: Number,
-  },
-  note_de_CV: { type: Number },
   motivation: { type: String},
   civilite: { type: String},
   telephone_fixe: { type: String },
   annee_obtention_du_Bac: { type: String},
   date_de_naissance: { type: String },
   date_interview:{type: Date},
-  isConfirmed:{type: Boolean}
+  isConfirmed:{type: Boolean},
+  price_total: {type: Number},
+  price_ticket: {type: Number},
+  ticket_number:{type: Number},
+  prof_percentage: {type: Number},
+  prof_price: {type: Number},
+  details: {type: String},
+  profPercentage: {type: Number},
+  ticketNumber: {type: Number},
+  counter: { type: Number, default: 0 }, // Initialize counter
 
   //cv_Photo: { type: String, required: false }, // Optional field
 });
@@ -124,18 +133,17 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 // Example usage
 const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
 const newValues: Partial<IAdmissionFormClient> = {
-  niveau_1_note: 0,
-  niveau_2_note: 0,
-  niveau_3_note: 0,
-  niveau_4_note: 0,
-  niveau_5_note: 0,
-  niveau_6_note: 0,
-  finalTotal: 0,
-  note_de_Francaise:0,
-  note_de_CV:0,
+  price_total: 0,
+  price_ticket: 0,
+  ticket_number: 0,
+  prof_percentage: 0,
+  prof_price: 0,
+  details: "",
+  profPercentage: 0,
+  ticketNumber: 0,
+  counter: 0, // Initialize counter
   date_interview:new Date(0),
-  isConfirmed: false, // Add boolean value
-
+  isConfirmed: false, // 
 };
 
 

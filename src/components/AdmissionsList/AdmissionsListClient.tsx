@@ -27,25 +27,16 @@ interface IAdmissionFormClient {
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
-  niveau_1_note: number;
   matiere_2: string;
   niveau_2: string;
-  niveau_2_note: number;
   matiere_3: string;
   niveau_3: string;
-  niveau_3_note: number;
   matiere_4: string;
   niveau_4: string;
-  niveau_4_note: number;
   matiere_5: string;
   niveau_5: string;
-  niveau_5_note: number;
   matiere_6: string;
   niveau_6: string;
-  niveau_6_note: number;
-  finalTotal: number;
-  note_de_Francaise: number;
-  note_de_CV: number;
   motivation: string;
   civilite: string;
   telephone_fixe: string;
@@ -53,7 +44,14 @@ interface IAdmissionFormClient {
   date_de_naissance: string;
   date_interview: Date;
   isConfirmed: boolean;
-
+  pay: string;
+  price_total: number;
+  price_ticket: number;
+  prof_percentage: number;
+  details: string;
+  profPercentage: number,
+  ticketNumber: number,
+  counter: number,
 }
 
 
@@ -135,6 +133,19 @@ const AdmissionsList: React.FC = () => {
 
        
         </div>
+        <div className='p-8 flex justify-between'>
+
+        <div className='text-gray-300 p-4 bg-black'>
+          <div className='rounded-[4px] p-4 font-[500] w-[300px]'>
+          <p><span className='flex justify-start mb-3 text-[20px]'>Personnel</span></p>
+          <p>Nom: <span>Aziz</span></p>
+          <p>Prenom: <span>Khalidi</span></p>
+          <p><span>Number of affectation: </span> <span>56</span></p>
+          <p><span>Number of Prof validation: </span> <span>56</span></p>
+          <p><span>Number of Client validation: </span> <span>56</span></p>
+
+          </div>
+        </div>
         <div className='overflow-scroll'>
           
           <table className="min-w-full border-collapse font-light">
@@ -210,10 +221,7 @@ const AdmissionsList: React.FC = () => {
                   Niveau
                   <span className='inline ml-1'>1</span>
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  Niveau
-                  <span className='inline ml-1'>1</span>
-                </th>
+              
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
                   <span className='inline ml-1'>2</span>
@@ -222,10 +230,7 @@ const AdmissionsList: React.FC = () => {
                   Niveau
                   <span className='inline ml-1'>2</span>
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  Niveau
-                  <span className='inline ml-1'>2</span>
-                </th>
+              
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
                   <span className='inline ml-1'>3</span>
@@ -234,10 +239,7 @@ const AdmissionsList: React.FC = () => {
                   Niveau
                   <span className='inline ml-1'>3</span>
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  Niveau
-                  <span className='inline ml-1'>3</span>
-                </th>
+               
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
                   <span className='inline ml-1'>4</span>
@@ -246,10 +248,7 @@ const AdmissionsList: React.FC = () => {
                   Niveau
                   <span className='inline ml-1'>4</span>
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  Niveau
-                  <span className='inline ml-1'>4</span>
-                </th>
+               
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
                   <span className='inline ml-1'>5</span>
@@ -258,10 +257,7 @@ const AdmissionsList: React.FC = () => {
                   Niveau
                   <span className='inline ml-1'>5</span>
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  Niveau
-                  <span className='inline ml-1'>5</span>
-                </th>
+              
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
                   <span className='inline ml-1'>6</span>
@@ -271,18 +267,33 @@ const AdmissionsList: React.FC = () => {
                   <span className='inline ml-1'>6</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  Niveau
-                  <span className='inline ml-1'>6</span>
+                
+                  <span className='inline ml-1'> Payment</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline ml-1'>de</span>  CV
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Note<span className='inline m-1'>de</span>Francaise
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Total
-                </th>
+                Price  
+                <span className='inline ml-1'>Total</span>
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Price
+                <span className='inline ml-1'>Ticket</span>
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              
+                <span className='inline mr-1'> Number</span>Ticket
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              
+                <span className='inline mr-1'> Percentage</span>Professor
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                
+                <span className='inline mr-1'>Professor</span>Price
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                
+                <span className='inline ml-1'>Details</span>
+              </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Motivation
                 </th>
@@ -293,7 +304,9 @@ const AdmissionsList: React.FC = () => {
                   Confir/NoConfir
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Notification de Relance 
+                    Notification
+                <span className='inline m-1'>de</span>
+                    Relance 
                 </th>
               </tr>
             </thead>
@@ -325,35 +338,35 @@ const AdmissionsList: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motorise}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_1}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1_note}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_2}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_2}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_2_note}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_3}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_3}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_3_note}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_4}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_4}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_4_note}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_5}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_5}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_5_note}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_6}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_6}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_6_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.note_de_CV}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.note_de_Francaise}</td>
-
+                
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.pay}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_total}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_ticket}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">
-                    {form.finalTotal}
+                    {form.ticketNumber}
                   </td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prof_percentage}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.profPercentage}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.details}</td>
+
+                
 
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motivation}</td>
 
                   <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
                   {!form.date_interview ? (  
 
-                    <Link href={`/admissionformconfirm/${form._id}`}>
+                    <Link href={`/admissionformdateclient/${form._id}`}>
                   <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                   </Link>
                     ):(
@@ -369,35 +382,36 @@ const AdmissionsList: React.FC = () => {
                   </td>
                   <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
 
-                    {form.finalTotal === ToTal && (
-                      <Link href={`/admissionformdetail/${form._id}`}>
-                        <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Accepted</button>
-                      </Link>
-                    )}
-
-                    {form.finalTotal === ToTal && (
-                      <Link href={`/admissionformdetail/${form._id}`}>
+                 
+                  {(form.isConfirmed === false) && (
+                     <Link href={`/admissionformconfirm/${form._id}`}>
                         <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Refused</button>
                       </Link>
-
-
-                    )}
-                    {!(form.finalTotal === ToTal || form.finalTotal < ToTal) && (
+                  )}
+                   {(form.isConfirmed === true) && (
+                     <Link href={`/admissionformconfirm/${form._id}`}>
+                        <button className='bg-blue-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Confirm</button>
+                      </Link>
+                  )}
+                   
+                   {!(form.isConfirmed === true || form.isConfirmed === false) && (
                       <Link href={`/admissionformconfirm/${form._id}`}>
                         <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                       </Link>
                     )}
 
+                
+                    
+
                   </td>
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                      {form.isConfirmed === false ? 
-                 <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>déjà<span className='ml-1'>relancé</span></button>
-
-                      :
-                        <Link href={`/admissionformdate/${form._id}`}>
+                      <p className='flex'> 
+                        <Link href={`/admissionformclientrelance/${form._id}`}>
 
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
-                        </Link>}
+                          <span className='ml-2 font-bold'>{form.counter === 0 ? null : form.counter }</span>
+                        </Link>
+                        </p>
                     </td>
                   </tr>
               ))
@@ -407,6 +421,7 @@ const AdmissionsList: React.FC = () => {
 
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
