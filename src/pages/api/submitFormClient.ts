@@ -4,8 +4,8 @@ import AdmissionFormClient, { IAdmissionFormClient } from "./models/AdmissionFor
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import acceptingTemplte from '../templates/acceptingTemplate';
+import { generateToken } from "./lib/jwt";
 import { verify } from "jsonwebtoken";
-
 //import refusingTemplate from './refusingTemplate';
 
 connectDB();
@@ -123,6 +123,7 @@ export default async function handler(
       });
 
       await newForm.save();
+      const userToken = generateToken(newForm._id.toString());
 
       // Set up Nodemailer
       const transporter = nodemailer.createTransport({
@@ -144,7 +145,7 @@ export default async function handler(
       
       });
     
-      res.status(201).json({ message: "User registered successfully" });
+      res.status(201).json({ message: "User registered successfully",  token: userToken });
     } catch (error) {
       res.status(500).json({ message: "User registering failed" });
     }

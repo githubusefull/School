@@ -5,12 +5,13 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';  // or import moment from 'moment';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 interface FormDataDate {
   id: string;
   isConfirmed: boolean; // Add boolean field
   counter: number; // Add counter field
-
+  userIdRelance: string;
 
 }
 
@@ -18,6 +19,7 @@ interface FormDataDate {
 
 interface FormData {
   _id: string;
+  userIdRelance: string;
   name: string;
   prenome: string;
   email: string;
@@ -82,24 +84,53 @@ const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
   isConfirmed: form.isConfirmed, // Add boolean fiel
   counter: form.counter,
-
+  userIdRelance: form.userIdRelance,
 });
+const getUserIdFromToken = (token: string): string | null => {
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.id || null;
+  } catch (error) {
+    console.error('Failed to decode token:', error);
+    return null;
+  }
+};
 
+const [userIdRelance, setUserIdRelance] = useState<string | null>(null);
+
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const userId = getUserIdFromToken(token);
+    console.log('User ID:', userId);
+    setUserIdRelance(userId);
+  }
+}, []);
+
+useEffect(() => {
+  if (userIdRelance) {
+    setFormData(prev => ({ ...prev, userIdRelance}));
+  }
+}, [userIdRelance]);
 
 
 const handleUpdateConfirmed = async (increment: number) => {
+  const token = localStorage.getItem('token');
+
     try {
       const response = await fetch('/api/prof_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+
         },
         body: JSON.stringify({
           id: formData.id,
           updateData: {
             isConfirmed: true,
             counter: increment, // Increment and include counter
-
+            userIdRelance,
           },
         }),
       });
@@ -113,7 +144,9 @@ const handleUpdateConfirmed = async (increment: number) => {
       setFormData((prevState) => ({
         ...prevState,
         isConfirmed: true,
-        counter: prevState.counter + increment, // Update counter in state
+        counter: prevState.counter + increment,
+        userIdRelance:'',
+        // Update counter in state
 
       }));
 

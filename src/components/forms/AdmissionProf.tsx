@@ -4,10 +4,11 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-//import jwtDecode from 'jwt-decode';
-const jwtDecode = require('jwt-decode');
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 interface FormData {
+  userId: string;
+  userIdNote: string;
   name: string;
   prenome: string;
   email: string;
@@ -24,36 +25,36 @@ interface FormData {
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
-  niveau_1_note: string;
+  niveau_1_note: number;
   matiere_2: string;
   niveau_2: string;
-  niveau_2_note: string;
+  niveau_2_note: number;
   matiere_3: string;
   niveau_3: string;
-  niveau_3_note: string;
+  niveau_3_note: number;
   matiere_4: string;
   niveau_4: string;
-  niveau_4_note: string;
+  niveau_4_note: number;
   matiere_5: string;
   niveau_5: string;
-  niveau_5_note: string;
+  niveau_5_note: number;
   matiere_6: string;
   niveau_6: string;
-  niveau_6_note: string;
-  note_de_Francaise: string;
-  note_de_CV: string;
+  niveau_6_note: number;
+  note_de_Francaise: number;
+  note_de_CV: number;
   motivation: string;
   civilite: string;
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  totale?: string; // Optional, as it’s computed and added later
-  userId?: string; // Optional, as it’s added later
 }
 
 const AdmissionFormProf: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
+    userId: '',
+    userIdNote:'',
     name: '',
     prenome: '',
     email: '',
@@ -70,24 +71,24 @@ const AdmissionFormProf: React.FC = () => {
     telephone_portable: '',
     matiere_1: '',
     niveau_1: '',
-    niveau_1_note: '',
+    niveau_1_note: 0,
     matiere_2: '',
     niveau_2: '',
-    niveau_2_note: '',
+    niveau_2_note: 0,
     matiere_3: '',
     niveau_3: '',
-    niveau_3_note: '',
+    niveau_3_note: 0,
     matiere_4: '',
     niveau_4: '',
-    niveau_4_note: '',
+    niveau_4_note: 0,
     matiere_5: '',
     niveau_5: '',
-    niveau_5_note: '',
+    niveau_5_note: 0,
     matiere_6: '',
     niveau_6: '',
-    niveau_6_note: '',
-    note_de_Francaise: '',
-    note_de_CV: '',
+    niveau_6_note: 0,
+    note_de_Francaise: 0,
+    note_de_CV: 0,
     motivation: '',
     civilite: '',
     telephone_fixe: '',
@@ -95,19 +96,9 @@ const AdmissionFormProf: React.FC = () => {
     date_de_naissance: '',
   });
 
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const id = getUserIdFromToken(token);
-      setUserId(id);
-    }
-  }, []);
-
   const getUserIdFromToken = (token: string): string | null => {
     try {
-      const decoded: any =jwtDecode(token);
+      const decoded: any = jwtDecode(token);
       return decoded.id || null;
     } catch (error) {
       console.error('Failed to decode token:', error);
@@ -115,20 +106,26 @@ const AdmissionFormProf: React.FC = () => {
     }
   };
 
-  const total =
-    (parseFloat(formData.niveau_1_note) || 0) +
-    (parseFloat(formData.niveau_2_note) || 0) +
-    (parseFloat(formData.niveau_3_note) || 0) +
-    (parseFloat(formData.niveau_4_note) || 0) +
-    (parseFloat(formData.niveau_5_note) || 0) +
-    (parseFloat(formData.niveau_6_note) || 0);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const average = (total / 6);
-  const finalTotal = average.toFixed(2);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      console.log('User ID:', userId);
+      setUserId(userId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      setFormData(prev => ({ ...prev, userId }));
+    }
+  }, [userId]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
@@ -139,12 +136,6 @@ const AdmissionFormProf: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    
-    const updatedFormData: FormData = {
-      ...formData,
-      totale: finalTotal,
-      userId: userId || '', // Include userId here
-    };
 
     try {
       const response = await fetch('/api/submitFormProf', {
@@ -153,62 +144,65 @@ const AdmissionFormProf: React.FC = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedFormData),
+        body: JSON.stringify(formData),
       });
-      const data = await response.json();
 
-      setFormData({
-        name: '',
-        prenome: '',
-        email: '',
-        password: '',
-        ville: '',
-        quartiers_Rabat: '',
-        quartiers_Casablanca: '',
-        situation_professionelle: '',
-        niveau_atteint_dans_les_etudes: '',
-        experiences_dans_l_enseignement: '',
-        cursus_economique_Commercial: '',
-        specialte: '',
-        motorise: '',
-        telephone_portable: '',
-        matiere_1: '',
-        niveau_1: '',
-        niveau_1_note: '',
-        matiere_2: '',
-        niveau_2: '',
-        niveau_2_note: '',
-        matiere_3: '',
-        niveau_3: '',
-        niveau_3_note: '',
-        matiere_4: '',
-        niveau_4: '',
-        niveau_4_note: '',
-        matiere_5: '',
-        niveau_5: '',
-        niveau_5_note: '',
-        matiere_6: '',
-        niveau_6: '',
-        niveau_6_note: '',
-        note_de_Francaise: '',
-        note_de_CV: '',
-        motivation: '',
-        civilite: '',
-        telephone_fixe: '',
-        annee_obtention_du_Bac: '',
-        date_de_naissance: '',
-      });
-      setMessage(data.message);
-      toast.success(data.message);
-      router.push('/professeuradmissions');
-    } catch (error) {
-      setMessage('An error occurred. Please try again.');
+      const data = await response.json();
+      if (response.ok) {
+        setFormData({
+          userId: '',
+          userIdNote:'',
+          name: '',
+          prenome: '',
+          email: '',
+          password: '',
+          ville: '',
+          quartiers_Rabat: '',
+          quartiers_Casablanca: '',
+          situation_professionelle: '',
+          niveau_atteint_dans_les_etudes: '',
+          experiences_dans_l_enseignement: '',
+          cursus_economique_Commercial: '',
+          specialte: '',
+          motorise: '',
+          telephone_portable: '',
+          matiere_1: '',
+          niveau_1: '',
+          niveau_1_note: 0,
+          matiere_2: '',
+          niveau_2: '',
+          niveau_2_note: 0,
+          matiere_3: '',
+          niveau_3: '',
+          niveau_3_note: 0,
+          matiere_4: '',
+          niveau_4: '',
+          niveau_4_note: 0,
+          matiere_5: '',
+          niveau_5: '',
+          niveau_5_note: 0,
+          matiere_6: '',
+          niveau_6: '',
+          niveau_6_note: 0,
+          note_de_Francaise: 0,
+          note_de_CV: 0,
+          motivation: '',
+          civilite: '',
+          telephone_fixe: '',
+          annee_obtention_du_Bac: '',
+          date_de_naissance: '',
+        });
+        setMessage(data.message);
+        toast.success(data.message);
+        router.push('/professeuradmissions');
+      } else {
+        throw new Error(data.message || 'Form submission failed');
+      }
+    } catch (error: any) {
+      console.error('Error submitting form:', error); // Log error details
+      toast.error(`Error: ${error.message}`);
     }
   };
-
-
-  
-
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>

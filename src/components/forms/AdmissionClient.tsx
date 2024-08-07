@@ -4,9 +4,10 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import {  useRouter } from 'next/navigation';
-const jwtDecode = require('jwt-decode');
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 export interface FormDataClient {
+  userId: string;
   name: string;
   prenome: string;
   email: string;
@@ -38,7 +39,6 @@ export interface FormDataClient {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-  userId?: string; // Optional, as it’s added later
 
 
 }
@@ -46,6 +46,7 @@ export interface FormDataClient {
 const AdmissionClient: React.FC = () => {
  const router = useRouter();
   const [formData, setFormData] = useState<FormDataClient>({
+    userId: '',
     name: '',
     prenome: '',
     email: '',
@@ -82,19 +83,9 @@ const AdmissionClient: React.FC = () => {
 
   });
 
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const id = getUserIdFromToken(token);
-      setUserId(id);
-    }
-  }, []);
-
   const getUserIdFromToken = (token: string): string | null => {
     try {
-      const decoded: any =jwtDecode(token);
+      const decoded: any = jwtDecode(token);
       return decoded.id || null;
     } catch (error) {
       console.error('Failed to decode token:', error);
@@ -102,6 +93,23 @@ const AdmissionClient: React.FC = () => {
     }
   };
 
+  
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      console.log('User ID:', userId);
+      setUserId(userId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      setFormData(prev => ({ ...prev, userId }));
+    }
+  }, [userId]);
  
   
 
@@ -127,12 +135,7 @@ const AdmissionClient: React.FC = () => {
     e.preventDefault();
     const token = localStorage.getItem('token');
 
-    const updatedFormData = {
-      ...formData,
-      totale: '',
-      userId: userId || '', // Include userId here
-
-    };
+  
     try {
       const response = await fetch('/api/submitFormClient', {
         method: 'POST',
@@ -140,11 +143,12 @@ const AdmissionClient: React.FC = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedFormData),
+        body: JSON.stringify(formData),
       });
       const data = await response.json();
-
+      if (response.ok) {
       setFormData({
+        userId: '',
         name: '',
         prenome: '',
         email: '',
@@ -178,16 +182,18 @@ const AdmissionClient: React.FC = () => {
         annee_obtention_du_Bac: '',
         date_de_naissance: '',
         //cv_Photo: null,
-
       });
       setMessage(data.message);
       toast.success(data.message);
       router.push('/clientadmissions')
-
-    } catch (error) {
-      setMessage('An error occurred. Please try again.');
+    } else {
+      throw new Error(data.message || 'Form submission failed');
     }
-  };
+  } catch (error: any) {
+    console.error('Error submitting form:', error); // Log error details
+    toast.error(`Error: ${error.message}`);
+  }
+};
 
 
 

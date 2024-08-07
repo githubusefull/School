@@ -1,9 +1,11 @@
 'use client';
-import { useState, ChangeEvent, FormEvent } from 'react';
+
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+//import jwtDecode from 'jwt-decode';
 
 interface FormData {
   name: string;
@@ -35,12 +37,14 @@ const AdmissionUser: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const token = localStorage.getItem('token'); // Adjust this if you store the token differently
 
     try {
       const response = await axios.post('/api/submitFormUser', formData, {
         headers: {
           'Content-Type': 'application/json',
-        }
+          'Authorization': `Bearer ${token}`,
+        },
       });
 
       if (response.status === 201) {
@@ -51,6 +55,7 @@ const AdmissionUser: React.FC = () => {
         router.push('/useradmissions'); // Redirect to a success page or similar
       } else {
         toast.error('Form submission failed!');
+        setMessage('Yes')
       }
     } catch (error: any) {
       toast.error(`Error: ${error.response?.data?.message || error.message}`);

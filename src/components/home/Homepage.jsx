@@ -1,14 +1,18 @@
-'use client';
+
 const Homepage = () => {
 
   
 
 
   return (
-    <div>
-      <p className='text-4xl'>My School 1</p>
-      
+    <div className="justify-center">
+    <div className='text-gray-300 mt-9 text-2xl font-700 justify-center flex'>
+      <p className='mt-7'>My School Admissions</p>
     </div>
+
+    
+    
+  </div>
   )
 }
 

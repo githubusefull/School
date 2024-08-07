@@ -4,6 +4,7 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 interface FormDataNote {
   id: string;
@@ -15,6 +16,7 @@ interface FormDataNote {
   niveau_6_note: number;
   note_de_Francaise: number;
   note_de_CV: number;
+  userIdNote: string;
   //finalTotal: number;
   
 }
@@ -62,6 +64,7 @@ interface FormData {
   date_de_naissance: string;
   finalTotal: number;
   date_interview: number;
+  userIdNote: string;
 
 }
 
@@ -85,9 +88,42 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     niveau_6_note: form.niveau_2_note,
     note_de_Francaise:0,
     note_de_CV: 0,
+    userIdNote: form.userIdNote
+
     //finalTotal: 0,
   
   });
+
+
+  const getUserIdFromToken = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+
+  const [userIdNote, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      console.log('User ID:', userId);
+      setUserId(userId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userIdNote) {
+      setFormData(prev => ({ ...prev, userIdNote }));
+    }
+  }, [userIdNote]);
+
+
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -96,6 +132,9 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+
+
 
     const total: number =
     Number(formData.niveau_1_note) +
@@ -113,6 +152,8 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+
         },
         body: JSON.stringify({
         id: formData.id,
@@ -126,6 +167,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             note_de_Francaise: formData.note_de_Francaise,
             note_de_CV: formData.note_de_CV,
             finalTotal,
+            userIdNote,
           
         
           },
@@ -148,6 +190,8 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         niveau_6_note: 0,
         note_de_Francaise: 0,
         note_de_CV: 0,
+        userIdNote: ''
+
         //finalTotal: 0,
      
       });
@@ -606,7 +650,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="niveau_1_note"
               id="Niveau_1_note"
-              value={form.niveau_1_note}
+              value={formData.niveau_1_note}
               onChange={handleChange}
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -661,7 +705,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="niveau_2_note"
               id="Niveau_2_note"
-              value={form.niveau_2_note}
+              value={formData.niveau_2_note}
               onChange={handleChange}
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -710,7 +754,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="niveau_3_note"
               id="Niveau_3_note"
-              value={form.niveau_3_note}
+              value={formData.niveau_3_note}
               onChange={handleChange}
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -756,7 +800,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="niveau_4_note"
               id="Niveau_4_note"
-              value={form.niveau_4_note}
+              value={formData.niveau_4_note}
               onChange={handleChange}
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -802,7 +846,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="niveau_5_note"
               id="Niveau_5_note"
-              value={form.niveau_5_note}
+              value={formData.niveau_5_note}
               onChange={handleChange}
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -844,7 +888,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="niveau_6_note"
               id="Niveau_6_note"
-              value={form.niveau_6_note}
+              value={formData.niveau_6_note}
               onChange={handleChange}
               placeholder='1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -861,7 +905,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               name="note_de_Francaise"
               id="note_de_Francaise"
-              value={form.note_de_Francaise}
+              value={formData.note_de_Francaise}
               onChange={handleChange}
               placeholder='Note de Francaise 1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -872,7 +916,7 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
               type="number"
               id='Note de CV 1/10'
               name='note_de_CV'
-              value={form.note_de_CV}
+              value={formData.note_de_CV}
               onChange={handleChange}
               placeholder='Note de CV 1/10'
               className="shadow rounded-[4px] font-[600] w-full bg-gray-300 appearance-none border py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"

@@ -1,7 +1,6 @@
-// models/AdmissionFormProf.ts
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
-export interface IUserDetails {
+export interface IAdmissionFormProf extends Document {
   name: string;
   prenome: string;
   email: string;
@@ -34,6 +33,7 @@ export interface IUserDetails {
   matiere_6: string;
   niveau_6: string;
   niveau_6_note: number;
+  finalTotal:  number;
   note_de_Francaise: number;
   note_de_CV: number;
   motivation: string;
@@ -41,63 +41,117 @@ export interface IUserDetails {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
+  date_interview: Date;
+  isConfirmed: boolean;
+  counter: number // Initialize counter
+  userId: string; // Add userId here
+  userIdNote: string; // Add userId here
+  userIdInterview: string;
+  userIdRelance: string;
+  //cv_Photo?: string; // Optional field
 }
 
-export interface IAdmissionFormProf extends Document {
-  userId: IUserDetails;
-  finalTotal?: number;
-  date_interview?: Date;
-  isConfirmed?: boolean;
-  counter?: number;
-}
+ const AdmissionFormProfSchema: Schema<IAdmissionFormProf> = new Schema({
+  userId: { type: String },
+  userIdNote: { type: String },
+  userIdInterview: { type: String },
+  userIdRelance: {type: String},
+  name: { type: String, required: true },
+  prenome: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String },
+  ville: { type: String},
+  quartiers_Rabat: { type: String},
+  quartiers_Casablanca: { type: String},
+  situation_professionelle: { type: String},
+  niveau_atteint_dans_les_etudes: { type: String},
+  experiences_dans_l_enseignement:{ type: String},
+  cursus_economique_Commercial: { type: String},
+  specialte: { type: String},
+  motorise: { type: String},
+  telephone_portable: { type: String},
+  matiere_1: { type: String},
+  niveau_1: { type: String},
+  niveau_1_note: { type: Number},
+  matiere_2: { type: String},
+  niveau_2: { type: String},
+  niveau_2_note: { type: Number},
+  matiere_3: { type: String},
+  niveau_3: { type: String},
+  niveau_3_note: { type: Number},
+  matiere_4: { type: String},
+  niveau_4: { type: String },
+  niveau_4_note: { type: Number},
+  matiere_5: { type: String},
+  niveau_5: { type: String },
+  niveau_5_note: { type: Number},
+  matiere_6: { type: String},
+  niveau_6: { type: String},
+  niveau_6_note: { type: Number},
+  note_de_Francaise: { type: Number},
+  finalTotal: { type: Number},
+  note_de_CV: { type: Number },
+  motivation: { type: String },
+  civilite: { type: String },
+  telephone_fixe: { type: String,  },
+  annee_obtention_du_Bac: { type: String },
+  date_de_naissance: { type: String  },
+  date_interview:{type: Date, },
+  isConfirmed:{type: Boolean},
+  counter: { type: Number, default: 0,  }, // Initialize counter
 
-const AdmissionFormProfSchema: Schema = new Schema({
-  userId: {
-    name: { type: String, required: true },
-    prenome: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    ville: { type: String, required: true },
-    quartiers_Rabat: { type: String, required: true },
-    quartiers_Casablanca: { type: String, required: true },
-    situation_professionelle: { type: String, required: true },
-    niveau_atteint_dans_les_etudes: { type: String, required: true },
-    experiences_dans_l_enseignement: { type: String, required: true },
-    cursus_economique_Commercial: { type: String, required: true },
-    specialte: { type: String, required: true },
-    motorise: { type: String, required: true },
-    telephone_portable: { type: String, required: true },
-    matiere_1: { type: String, required: true },
-    niveau_1: { type: String, required: true },
-    niveau_1_note: { type: Number, required: true },
-    matiere_2: { type: String, required: true },
-    niveau_2: { type: String, required: true },
-    niveau_2_note: { type: Number, required: true },
-    matiere_3: { type: String, required: true },
-    niveau_3: { type: String, required: true },
-    niveau_3_note: { type: Number, required: true },
-    matiere_4: { type: String, required: true },
-    niveau_4: { type: String, required: true },
-    niveau_4_note: { type: Number, required: true },
-    matiere_5: { type: String, required: true },
-    niveau_5: { type: String, required: true },
-    niveau_5_note: { type: Number, required: true },
-    matiere_6: { type: String, required: true },
-    niveau_6: { type: String, required: true },
-    niveau_6_note: { type: Number, required: true },
-    note_de_Francaise: { type: Number, required: true },
-    note_de_CV: { type: Number, required: true },
-    motivation: { type: String, required: true },
-    civilite: { type: String, required: true },
-    telephone_fixe: { type: String, required: true },
-    annee_obtention_du_Bac: { type: String, required: true },
-    date_de_naissance: { type: String, required: true },
-  },
-  finalTotal: { type: Number },
-  date_interview: { type: Date },
-  isConfirmed: { type: Boolean },
-  counter: { type: Number }
+  //cv_Photo: { type: String, required: false }, // Optional field
 });
 
-export default mongoose.models.AdmissionFormProf || mongoose.model<IAdmissionFormProf>('AdmissionFormProf', AdmissionFormProfSchema);
 
+
+const AdmissionFormProf: Model<IAdmissionFormProf> = mongoose.models.AdmissionFormProf || mongoose.model<IAdmissionFormProf>('AdmissionFormProf', AdmissionFormProfSchema);
+
+export default AdmissionFormProf;
+
+// Usage
+const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionFormProf>) => {
+  try {
+    const updatedDocument = await AdmissionFormProf.findByIdAndUpdate(
+      id,
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    console.log('Updated Document:', updatedDocument);
+    return updatedDocument;
+  } catch (error) {
+    console.error('Error updating document:', error);
+    throw error;
+  }
+};
+
+// Example usage
+const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
+const newValues: Partial<IAdmissionFormProf> = {
+  userIdNote:'',
+  userIdInterview:'',
+  userIdRelance:'',
+  niveau_1_note: 0,
+  niveau_2_note: 0,
+  niveau_3_note: 0,
+  niveau_4_note: 0,
+  niveau_5_note: 0,
+  niveau_6_note: 0,
+  note_de_Francaise:0,
+  note_de_CV:0,
+  finalTotal: 0,
+  date_interview:new Date(0),
+  isConfirmed: false, // Add boolean value
+  counter: 0, // Initialize counter
+
+};
+
+
+updateAdmissionFormById(documentId, newValues).then(updatedDocument => {
+  console.log('Successfully updated document:', updatedDocument);
+}).catch(error => {
+  console.error('Failed to update document:', error);
+});

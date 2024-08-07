@@ -1,46 +1,43 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectDB from './lib/db'
+import connectDB from './lib/db';
 import AdmissionFormUser, { IAdmissionFormUser } from "./models/AdmissionFormUser";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
-import acceptingTemplte from '../templates/acceptingTemplate';
+import acceptingTemplate from '../templates/acceptingTemplate';
 import { generateToken } from "./lib/jwt";
+//import { verify } from "jsonwebtoken";
 
-//import refusingTemplate from './refusingTemplate';
+// Import the refusing template if needed in the future
+// import refusingTemplate from '../templates/refusingTemplate';
 
 connectDB();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const {
-        name,
-        prenome,
-        email,
-        password,
-        post
-      
-      } = req.body;
-    const user = await AdmissionFormUser.findOne({ email });
-    if (user) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
+   
 
     try {
+      // Verify the token and extract the user ID
+      //const decoded = verify(authToken, process.env.JWT_SECRET as string) as { id: string };
+      //const userId = decoded.id;
+
+      const { name, prenome, email, password, post } = req.body;
+      const user = await AdmissionFormUser.findOne({ email });
+      if (user) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       const newForm: IAdmissionFormUser = new AdmissionFormUser({
         name,
         prenome,
         email,
-        password:hashedPassword,
+        password: hashedPassword,
         post,
-        
       });
 
       await newForm.save();
-      const token = generateToken(newForm._id.toString());
+      const userToken = generateToken(newForm._id.toString());
 
       // Set up Nodemailer
       const transporter = nodemailer.createTransport({
@@ -51,20 +48,18 @@ export default async function handler(
         },
       });
 
-      //console.log('Sending email to:', email);
-
       // Send email
       await transporter.sendMail({
         from: process.env.EMAIL_USER as string,
         to: email, // sending to the user's email
         subject: "Admission Form Submission Confirmation",
-        html: acceptingTemplte({ name, email  }),
-      
+        html: acceptingTemplate({ name, email }),
       });
 
-      res.status(201).json({ message: "User registered successfully", token });
+      res.status(201).json({ message: "User registered successfully", token: userToken });
     } catch (error) {
-      res.status(500).json({ message: "User registering failed" });
+      console.error('Unexpected error:', error);
+      res.status(500).json({ message: "User registering failed", error: 'Unexpected error' });
     }
   } else if (req.method === "GET") {
     try {
