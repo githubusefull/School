@@ -1,18 +1,23 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-// Define the schema for sub-documents in the forms array
-const FormSchema = new Schema({
-  mobile: { type: Number, required: true },
-}, { _id: false });
 
-// Define the main schema
+
 export interface IAdmissionFormUser extends Document {
   name: string;
   prenome: string;
   email: string;
   password: string;
   post: string;
-  forms: Array<{ mobile: number }>; // Add the forms field here
+  professeurs: string;
+  professeurs_accepted: string;
+  professeurs_interview: string;
+  clients: string;
+  clients_interview: string;
+  clients_confirmed: string;
+  salary_month:string;
+  percentage: string;
+  prima: string;
+  salary_net: string;
 }
 
 const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
@@ -21,7 +26,16 @@ const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String },
   post: { type: String },
-  forms: { type: [FormSchema], default: [] }, // Use FormSchema here
+  professeurs: { type: String },
+  professeurs_accepted: { type: String },
+  professeurs_interview: { type: String },
+  clients: { type: String },
+  clients_interview: { type: String },
+  clients_confirmed: { type: String },
+  salary_month:{ type: String },
+  percentage: { type: String },
+  prima: { type: String },
+  salary_net: { type: String },
 });
 
 const AdmissionFormUser: Model<IAdmissionFormUser> = mongoose.models.AdmissionFormUser || mongoose.model<IAdmissionFormUser>('AdmissionFormUser', AdmissionFormUserSchema);

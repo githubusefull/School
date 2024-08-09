@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+import { useRouter } from 'next/navigation'; // for Next.js 13 and later
+import Link from 'next/link';
 
 
 interface IAdmissionFormProf {
@@ -84,6 +86,7 @@ const Mysidbare: React.FC = () => {
 
  
   const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -174,6 +177,26 @@ const Mysidbare: React.FC = () => {
   const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdlocal).length;
 
 
+
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setUserIdlocal(storedToken);
+    }
+}, []);
+
+const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('formData');
+    alert('Logged out');
+    router.push('/');
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+};
+
+
   return (
     <>
    
@@ -200,6 +223,26 @@ const Mysidbare: React.FC = () => {
               <div className="text-white mt-4 mb-4">NB.clients: <span>{numberOfUserIdsClient}</span></div>
               <div className="text-white mt-4 mb-4">NB.client.Interviews: <span>{numberOfUserIdsInterClient}</span></div>
               <div className="text-white mt-4 mb-4">NB.Client.Confirmed: <span>{numberOfUserIdsNoteClient}</span></div>
+              <div>
+              {userIdlocal ? (
+              <button
+                onClick={handleLogout}
+                type="button"
+                className="bg-gray-300 text-[13px]  transition-all  duration-300 hover:scale-100 text-black font-bold py-[5px] mt-2 mb-1 px-6 rounded focus:outline-none focus:shadow-outline"
+                >
+                Logout
+              </button>
+            ) : (
+              <Link href="/login">
+                <button
+                  type="button"
+                  className="bg-gray-300 text-[13px]  transition-all  duration-300 hover:scale-100 text-black font-bold py-[5px] mt-2 mb-1 px-6 rounded focus:outline-none focus:shadow-outline"
+                  >
+                  Login
+                </button>
+              </Link>
+            )}
+              </div>
             </li>
           </ul>
         </div>

@@ -44,6 +44,7 @@ interface FormData {
   date_de_naissance: string;
   date_interview: number;
   finalTotal: number;
+  userIdNote: string;
   //cv_Photo: File | null;
 }
 const defaultFormData: FormData = {
@@ -89,6 +90,7 @@ const defaultFormData: FormData = {
   date_de_naissance: '',
   date_interview: 0,
   finalTotal: 0,
+  userIdNote:''
 };
 
 async function getFormById(id: string): Promise<FormData> {

@@ -30,20 +30,18 @@ const Formlogin = () => {
         }
       };
     return (
-        <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
-           <p className='text-2xl font-[500] mb-4'>Login</p>
+        <form className="max-w-lg mx-auto p-8 mt-9 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
+        <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE LOGIN</p>
+       
             <div className="mb-4">
                 {error && <p className="text-red-500 mb-4">{error}</p>}
 
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                    Email
-                </label>
                 <input
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Enter your email"
-                    className="shadow appearance-none border rounded-[4px] bg-gray-300 w-full  md:w-[300px]  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Email"
+                    className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -51,15 +49,13 @@ const Formlogin = () => {
             </div>
 
             <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                    Password
-                </label>
+               
                 <input
                     type="password"
                     id="password"
                     name="password"
-                    placeholder="Enter your password"
-                    className="shadow appearance-none border rounded-[4px] bg-gray-300 w-full md:w-[300px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Password"
+                    className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -74,7 +70,7 @@ const Formlogin = () => {
                     type="submit"
                     className="bg-blue-500 hover:bg-blue-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                    Submit
+                    Login
                 </button>
 
             </div>

@@ -124,7 +124,11 @@ const AdmissionsListUser: React.FC = () => {
                   <span className='inline ml-1'>Post</span>
 
                 </th>
-              
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Display User</span>
+
+                </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Relance
                   <span className='inline ml-1'> User</span>
@@ -147,10 +151,15 @@ const AdmissionsListUser: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.email}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.post}</td>
 
-                
-  
+                  <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+                  <p className='flex justify-center'> 
+                  <Link href={`/admissionformusers/${form._id}`}>
+                        <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Display</button>
+                      </Link>
+                    </p>
+                    </td>
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                      <p className='flex'> 
+                      <p className='flex justify-center'> 
                         <Link href={`/admissionformclientrelance/${form._id}`}>
 
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
