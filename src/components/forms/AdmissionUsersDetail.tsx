@@ -91,6 +91,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
 
+
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -444,13 +446,15 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
                  
                   </>
                      : 
-                      <button
-                      type='button'
+
+                       <div
+                          
                           onClick={toggleSidebar}
-                          className="bg-green-600  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                          className="bg-green-600 cursor-pointer  text-gray-300 font-bold py-2 px-5 w-20 rounded focus:outline-none focus:shadow-outline">
                             Edite
                    
-                      </button>
+                      </div>
+                     
 }
                   </div>
     </form> 

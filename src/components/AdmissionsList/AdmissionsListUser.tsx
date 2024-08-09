@@ -4,34 +4,42 @@ import React, { useEffect, useState } from 'react'
 //import axios from 'axios';
 //import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
-import { format } from 'date-fns';  // or import moment from 'moment';
+//import { format } from 'date-fns';  // or import moment from 'moment';
 
 
 
 
-interface IAdmissionFormClient {
+interface IAdmissionFormUser {
   _id: string;
   name: string;
   prenome: string;
   email: string;
   post: string;
-  counter: number;
+  professeurs: string;
+  professeurs_accepted: string;
+  professeurs_interview: string;
+  clients: string;
+  clients_interview: string;
+  clients_confirmed: string;
+  salary_month:string;
+  percentage: string;
+  prima: string;
+  salary_net: string;
 }
 
 
 
 const AdmissionsListUser: React.FC = () => {
 
-  const [admissions, setAdmissions] = useState<IAdmissionFormClient[]>([]);
+  const [admissions, setAdmissions] = useState<IAdmissionFormUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormClient[]>([]);
+  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormUser[]>([]);
 
 
 
   
 
-  let ToTal = 10;
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -74,7 +82,7 @@ const AdmissionsListUser: React.FC = () => {
 
   return (
 
-    <div className="text-gray-300 p-10 w-full min-h-screen gap-3">
+    <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
 
       <div className="">
 
@@ -130,10 +138,57 @@ const AdmissionsListUser: React.FC = () => {
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Relance
-                  <span className='inline ml-1'> User</span>
+                  
+                  <span className='inline ml-1'>Professeurs</span>
 
                 </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Professeurs Accepted</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Professeurs Interview</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Clients</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Clients Interview</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Clients Confirmed</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Salary Month</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Percentage Affectation</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Prima</span>
+
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  
+                  <span className='inline ml-1'>Salary Net</span>
+
+                </th>
+ 
+              
               
            
               </tr>
@@ -163,7 +218,6 @@ const AdmissionsListUser: React.FC = () => {
                         <Link href={`/admissionformclientrelance/${form._id}`}>
 
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
-                          <span className='ml-2 font-bold'>{form.counter === 0 ? null : form.counter }</span>
                         </Link>
                         </p>
                     </td>

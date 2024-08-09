@@ -24,6 +24,11 @@ const AdmissionUser: React.FC = () => {
     post: '',
   });
 
+
+  
+
+
+
   const [message, setMessage] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
@@ -33,6 +38,7 @@ const AdmissionUser: React.FC = () => {
       [name]: value,
     }));
   };
+ 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -67,29 +73,8 @@ const AdmissionUser: React.FC = () => {
     }
   };
 
-  const updateFormData = (): void => {
-    const storedFormData = localStorage.getItem('formData');
-    if (storedFormData) {
-      const newFormData: FormData = JSON.parse(storedFormData);
-      setFormData(newFormData);
-    }
-  };
+  
 
-  useEffect(() => {
-    updateFormData(); // Load form data when the component mounts
-  }, []);
-
-  useEffect(() => {
-    const handleStorageChange = (): void => {
-      updateFormData(); // Update form data when localStorage changes
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
   
   return (
     <form className="max-w-lg mx-auto p-8 mt-9 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>

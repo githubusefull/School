@@ -112,7 +112,7 @@ const Mysidbare: React.FC = () => {
    
 
   const [isOpen, setIsOpen] = useState(true);
-  const [userIdlocal, setUserIdlocal] = useState<string | null>(null);
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     prenome: '',
@@ -125,6 +125,20 @@ const Mysidbare: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
+ 
+
+  const [userIdL, setUserIdL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      console.log('User ID:', userId);
+      setUserIdL(userId);
+    }
+  }, []);
+ 
+
   const getUserIdFromToken = (token: string): string | null => {
     try {
       const decoded: any = jwtDecode(token);
@@ -134,57 +148,23 @@ const Mysidbare: React.FC = () => {
       return null;
     }
   };
-
-  const updateFormData = () => {
-    const storedFormData = localStorage.getItem('formData');
-    if (storedFormData) {
-      const newFormData: FormData = JSON.parse(storedFormData);
-      setFormData(newFormData);
-    }
-  };
-
  
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const userId = getUserIdFromToken(token);
-      setUserIdlocal(userId);
-    }
-    updateFormData(); // Load form data when the component mounts
-  }, []);
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      updateFormData(); // Update form data when localStorage changes
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-  
 
 
-  const numberOfUserIds = admissions.filter(admission => admission.userId === userIdlocal).length;
-  const numberOfInterviews = admissions.filter(admission => admission.userIdInterview === userIdlocal).length;
-  const numberOfUserNote = admissions.filter(admission => admission.userIdNote === userIdlocal).length;
 
-  const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdlocal).length;
-  const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdlocal).length;
-  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdlocal).length;
+  const numberOfUserIds = admissions.filter(admission => admission.userId === userIdL).length;
+  const numberOfInterviews = admissions.filter(admission => admission.userIdInterview === userIdL).length;
+  const numberOfUserNote = admissions.filter(admission => admission.userIdNote === userIdL).length;
+
+  const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdL).length;
+  const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdL).length;
+  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdL).length;
 
 
 
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setUserIdlocal(storedToken);
-    }
-}, []);
+ ;
 
 const handleLogout = () => {
     localStorage.removeItem('token');
@@ -195,7 +175,6 @@ const handleLogout = () => {
       window.location.reload();
     }, 100);
 };
-
 
   return (
     <>
@@ -224,7 +203,7 @@ const handleLogout = () => {
               <div className="text-white mt-4 mb-4">NB.client.Interviews: <span>{numberOfUserIdsInterClient}</span></div>
               <div className="text-white mt-4 mb-4">NB.Client.Confirmed: <span>{numberOfUserIdsNoteClient}</span></div>
               <div>
-              {userIdlocal ? (
+              {userIdL ? (
               <button
                 onClick={handleLogout}
                 type="button"
