@@ -112,21 +112,21 @@ const AdmissionsListProfe: React.FC = () => {
 
   return (
 
-    <div className="text-gray-300 p-10 w-full min-h-screen gap-3">
+    <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
 
       <div className="">
 
-        <div className="">
-          <div>
+      <div className="flex justify-center">
+      <div className="flex justify-center w-80">
        
 
 
-       <input
+          <input
         type="text"
         placeholder="Search by name and mobile"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-3 p-[7px] text-sm  min-w-full bg-gray-950 text-gray-300 outline-none rounded"
+        className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
       />
           
      </div>
@@ -136,17 +136,7 @@ const AdmissionsListProfe: React.FC = () => {
        
         </div>
         <div className='p-8 flex justify-between'>
-        <div className='text-gray-300 p-4 bg-black'>
-          <div className='rounded-[4px] p-4 font-[500] w-[300px]'>
-          <p><span className='flex justify-start mb-3 text-[20px]'>Personnel</span></p>
-          <p>Nom: <span>Aziz</span></p>
-          <p>Prenom: <span>Khalidi</span></p>
-          <p><span>Number of affectation: </span> <span>56</span></p>
-          <p><span>Number of Prof validation: </span> <span>56</span></p>
-          <p><span>Number of Client validation: </span> <span>56</span></p>
-
-          </div>
-        </div>
+       
       
 
 

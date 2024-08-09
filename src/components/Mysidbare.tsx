@@ -1,0 +1,211 @@
+'use client';
+import { useEffect, useState } from 'react';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+
+
+interface IAdmissionFormProf {
+  _id: string;
+  name: string;
+  prenome: string;
+  email: string;
+  password: string;
+  ville: string;
+  quartiers_Rabat: string;
+  quartiers_Casablanca: string;
+  situation_professionelle: string;
+  niveau_atteint_dans_les_etudes: string;
+  experiences_dans_l_enseignement: string;
+  cursus_economique_Commercial: string;
+  specialte: string;
+  motorise: string;
+  telephone_portable: string;
+  matiere_1: string;
+  niveau_1: string;
+  niveau_1_note: number;
+  matiere_2: string;
+  niveau_2: string;
+  niveau_2_note: number;
+  matiere_3: string;
+  niveau_3: string;
+  niveau_3_note: number;
+  matiere_4: string;
+  niveau_4: string;
+  niveau_4_note: number;
+  matiere_5: string;
+  niveau_5: string;
+  niveau_5_note: number;
+  matiere_6: string;
+  niveau_6: string;
+  niveau_6_note: number;
+  finalTotal: number;
+  note_de_Francaise: number;
+  note_de_CV: number;
+  motivation: string;
+  civilite: string;
+  telephone_fixe: string;
+  annee_obtention_du_Bac: string;
+  date_de_naissance: string;
+  date_interview: Date;
+  isConfirmed: boolean;
+  counter: number;
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface IAdmissionFormClient {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface FormData {
+  name: string;
+  prenome: string;
+  email: string;
+  password: string;
+  post: string;
+}
+
+const Mysidbare: React.FC = () => {
+  const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormProf');
+        const data = await response.json();
+        setAdmissions(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+
+ 
+  const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormClient');
+        const data = await response.json();
+        setAdmissionsClient(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+
+  
+
+
+
+
+
+
+   
+
+  const [isOpen, setIsOpen] = useState(true);
+  const [userIdlocal, setUserIdlocal] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    prenome: '',
+    email: '',
+    password: '',
+    post: '',
+  });
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const getUserIdFromToken = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+
+  const updateFormData = () => {
+    const storedFormData = localStorage.getItem('formData');
+    if (storedFormData) {
+      const newFormData: FormData = JSON.parse(storedFormData);
+      setFormData(newFormData);
+    }
+  };
+
+ 
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      setUserIdlocal(userId);
+    }
+    updateFormData(); // Load form data when the component mounts
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      updateFormData(); // Update form data when localStorage changes
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+  
+
+
+  const numberOfUserIds = admissions.filter(admission => admission.userId === userIdlocal).length;
+  const numberOfInterviews = admissions.filter(admission => admission.userIdInterview === userIdlocal).length;
+  const numberOfUserNote = admissions.filter(admission => admission.userIdNote === userIdlocal).length;
+
+  const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdlocal).length;
+  const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdlocal).length;
+  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdlocal).length;
+
+
+  return (
+    <>
+   
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white transition-transform transform ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="mt-4">
+          <button
+            onClick={toggleSidebar}
+            className="mb-4  bg-gray-800 text-white"
+          >
+            Close
+          </button>
+          <ul className='mt-8 p-4 flex justify-center mr-8'>
+            <li className="mb-2 text-[12px]">
+            <div className="text-white mt-4 mb-4 flex justify-center">Profile</div>
+              <div className="text-white mt-4 mb-4">Name: <span>{formData.name}</span></div>
+              <div className="text-white mt-4 mb-4">Email: <span>{formData.email}</span></div>
+              <div className="text-white mt-4 mb-4">Nb.professors : <span>{numberOfUserIds}</span></div>
+              <div className="text-white mt-4 mb-4">Nb.professors.Accepted: <span>{numberOfUserNote}</span></div>
+              <div className="text-white mt-4 mb-4">NB.professors.Interviews: <span>{numberOfInterviews}</span></div>
+              <div className="text-white mt-4 mb-4">NB.clients: <span>{numberOfUserIdsClient}</span></div>
+              <div className="text-white mt-4 mb-4">NB.client.Interviews: <span>{numberOfUserIdsInterClient}</span></div>
+              <div className="text-white mt-4 mb-4">NB.Client.Confirmed: <span>{numberOfUserIdsNoteClient}</span></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Mysidbare;

@@ -5,7 +5,6 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-//import jwtDecode from 'jwt-decode';
 
 interface FormData {
   name: string;
@@ -27,7 +26,7 @@ const AdmissionUser: React.FC = () => {
 
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -35,7 +34,7 @@ const AdmissionUser: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const token = localStorage.getItem('token'); // Adjust this if you store the token differently
 
@@ -48,19 +47,50 @@ const AdmissionUser: React.FC = () => {
       });
 
       if (response.status === 201) {
+       
         // Store the token in localStorage if received
         localStorage.setItem('token', response.data.token);
-
+        localStorage.setItem('formData', JSON.stringify(formData));
         toast.success('Form submitted successfully!');
-        router.push('/useradmissions'); // Redirect to a success page or similar
+        router.push('/')  
+          // Wait for the navigation to complete, then reload
+          setTimeout(() => {
+            window.location.reload();
+          }, 100); // Delay in milliseconds
+      
       } else {
         toast.error('Form submission failed!');
-        setMessage('Yes')
+        setMessage('Yes');
       }
     } catch (error: any) {
       toast.error(`Error: ${error.response?.data?.message || error.message}`);
     }
   };
+
+  const updateFormData = (): void => {
+    const storedFormData = localStorage.getItem('formData');
+    if (storedFormData) {
+      const newFormData: FormData = JSON.parse(storedFormData);
+      setFormData(newFormData);
+    }
+  };
+
+  useEffect(() => {
+    updateFormData(); // Load form data when the component mounts
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (): void => {
+      updateFormData(); // Update form data when localStorage changes
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+  
   return (
     <form className="max-w-lg mx-auto p-8 mt-9 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE USER</p>

@@ -53,9 +53,9 @@ export interface IAdmissionFormClient extends Document {
   ticketNumber: number,
   counter: number, // Initialize counter
   userId: string; // Optional, as it’s added later
-
-  //cv_Photo?: string; // Optional field
-}
+  userIdNote: string; // Add userId here
+  userIdInterview: string;
+  userIdRelance: string;}
 
 const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   userId: { type: String },
@@ -102,7 +102,9 @@ const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   profPercentage: {type: Number},
   ticketNumber: {type: Number},
   counter: { type: Number, default: 0 }, // Initialize counter
-
+  userIdNote: {type: String}, // Add userId here
+  userIdInterview: {type: String},
+  userIdRelance: {type: String}
   //cv_Photo: { type: String, required: false }, // Optional field
 });
 
@@ -135,6 +137,10 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 // Example usage
 const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
 const newValues: Partial<IAdmissionFormClient> = {
+  userId:'',
+  userIdNote: '', // Add userId here
+  userIdInterview:'',
+  userIdRelance:'',
   price_total: 0,
   price_ticket: 0,
   ticket_number: 0,

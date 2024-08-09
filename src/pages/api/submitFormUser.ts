@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import acceptingTemplate from '../templates/acceptingTemplate';
 import { generateToken } from "./lib/jwt";
+
 //import { verify } from "jsonwebtoken";
 
 // Import the refusing template if needed in the future
@@ -13,8 +14,8 @@ import { generateToken } from "./lib/jwt";
 connectDB();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+
   if (req.method === "POST") {
-   
 
     try {
       // Verify the token and extract the user ID

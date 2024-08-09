@@ -5,10 +5,13 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';  // or import moment from 'moment';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 interface FormDataDate {
   id: string;
   date_interview: number;
+  userIdInterview: string;
+
 
 
 }
@@ -50,6 +53,7 @@ interface FormData {
   date_de_naissance: string;
   date_interview: number;
   isConfirmed: boolean; // Add boolean field
+  userIdInterview: string;
 
 }
 
@@ -69,11 +73,36 @@ const AdmissionFormDateClient: React.FC<AdmissionFormNoteProps> = ({ form }) => 
 const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
   date_interview: form.date_interview,
-
-
+  userIdInterview: form.userIdInterview
  
 });
 
+const getUserIdFromToken = (token: string): string | null => {
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.id || null;
+  } catch (error) {
+    console.error('Failed to decode token:', error);
+    return null;
+  }
+};
+
+const [userIdInterview, setUserIdInterview] = useState<string | null>(null);
+
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const userId = getUserIdFromToken(token);
+    console.log('User ID:', userId);
+    setUserIdInterview(userId);
+  }
+}, []);
+
+useEffect(() => {
+  if (userIdInterview) {
+    setFormData(prev => ({ ...prev, userIdInterview }));
+  }
+}, [userIdInterview]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -83,7 +112,8 @@ const [formData, setFormData] = useState<FormDataDate>({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-   
+    const token = localStorage.getItem('token');
+
 
 
     try {
@@ -91,12 +121,14 @@ const [formData, setFormData] = useState<FormDataDate>({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+
         },
         body: JSON.stringify({
           id: formData.id,
           updateData: {
             date_interview: formData.date_interview,
-
+            userIdInterview,
          
           },
         }),
@@ -111,6 +143,7 @@ const [formData, setFormData] = useState<FormDataDate>({
       setFormData({
         id: '',
         date_interview: 0,
+        userIdInterview:'',
 
         
       });
@@ -118,6 +151,9 @@ const [formData, setFormData] = useState<FormDataDate>({
     
       
       router.push('/clientadmissions')
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {

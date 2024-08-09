@@ -194,7 +194,11 @@ const AdmissionFormProf: React.FC = () => {
         });
         setMessage(data.message);
         toast.success(data.message);
-        router.push('/professeuradmissions');
+        router.push('/professeuradmissions')  
+        // Wait for the navigation to complete, then reload
+        setTimeout(() => {
+          window.location.reload();
+        }, 100); 
       } else {
         throw new Error(data.message || 'Form submission failed');
       }

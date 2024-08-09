@@ -78,8 +78,8 @@ const AdmissionsListUser: React.FC = () => {
 
       <div className="">
 
-        <div className="">
-          <div>
+      <div className="flex justify-center">
+          <div className="flex justify-center w-80">
        
 
 
@@ -88,7 +88,7 @@ const AdmissionsListUser: React.FC = () => {
         placeholder="Search by name and mobile"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-3 p-[7px] text-sm  min-w-full bg-gray-950 text-gray-300 outline-none rounded"
+        className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
       />
           
      </div>

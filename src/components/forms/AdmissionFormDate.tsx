@@ -159,6 +159,9 @@ useEffect(() => {
     
       
       router.push('/professeuradmissions')
+      setTimeout(() => {
+        window.location.reload();
+      }, 100); 
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
@@ -167,7 +170,6 @@ useEffect(() => {
   };
   
 
-console.log(userIdInterview)
  
 
 

@@ -39,7 +39,9 @@ export interface FormDataClient {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
-
+  userIdNote: string; // Add userId here
+  userIdInterview: string;
+  userIdRelance: string;
 
 }
 
@@ -79,7 +81,9 @@ const AdmissionClient: React.FC = () => {
     telephone_fixe: '',
     annee_obtention_du_Bac: '',
     date_de_naissance: '',
-    //cv_Photo: null,
+    userIdNote:'', // Add userId here
+    userIdInterview: '',
+    userIdRelance: '',    //cv_Photo: null,
 
   });
 
@@ -149,6 +153,9 @@ const AdmissionClient: React.FC = () => {
       if (response.ok) {
       setFormData({
         userId: '',
+        userIdNote:'', // Add userId here
+        userIdInterview:'',
+        userIdRelance: '',
         name: '',
         prenome: '',
         email: '',
@@ -185,7 +192,11 @@ const AdmissionClient: React.FC = () => {
       });
       setMessage(data.message);
       toast.success(data.message);
-      router.push('/clientadmissions')
+      router.push('/clientadmissions')  
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+
     } else {
       throw new Error(data.message || 'Form submission failed');
     }

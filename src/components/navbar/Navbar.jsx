@@ -52,9 +52,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-black text-gray-300 shadow-md">
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="relative flex items-center h-16  mt-4">
+    <nav className="bg-black m-3 p-5 fixed ml-80 mt-4 z-40  text-gray-300 shadow-md">
+      <div className="flex items-center text-[16px]">
+        <div className="flex relative w-82 h-16">
           <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
             <button
               onClick={toggleMenu}
@@ -101,7 +101,7 @@ const Navbar = () => {
 
             <div className="flex-shrink-0  mt-5 ml-4">
               <Link href="/">
-                <p className="text-2xl font-bold">MySchool</p>
+                <p className="text-2xl mt-2 mr-6 font-bold">MySchool</p>
               </Link>
             </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-end  mt-8">
