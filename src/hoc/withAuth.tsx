@@ -27,7 +27,7 @@ const withAuth = (WrappedComponent: any) => {
       // Handle redirection based on isAdmin property
       if (formData.isAdmin === false) {
         // Redirect non-admin users away from restricted URLs
-        if (pathname && ['/useradmissionform', '/useradmissions', '/payement', 'affectation'].includes(pathname)) {
+        if (pathname && ['/useradmissionform', '/useradmissions', '/payement', '/affectation'].includes(pathname)) {
           router.push('/'); // Redirect to a safe page
           return;
         }

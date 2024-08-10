@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 import withAuth from '@/hoc/withAuth';
-
+import { HandleUpdateUser } from './UserUpdate';
 interface FormData {
   userId: string;
   userIdNote: string;
@@ -49,6 +49,16 @@ interface FormData {
   telephone_fixe: string;
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
+}
+
+interface FormDataUpdateUser {
+  id:string;
+  numberOfUserIds: number;
+  numberOfInterviews: number;
+  numberOfUserNote: number;
+  numberOfUserIdsClient: number;
+  numberOfUserIdsInterClient: number;
+  numberOfUserIdsNoteClient: number;
 }
 
 const AdmissionFormProf: React.FC = () => {
@@ -96,6 +106,15 @@ const AdmissionFormProf: React.FC = () => {
     annee_obtention_du_Bac: '',
     date_de_naissance: '',
   });
+  const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
+    id:'',
+    numberOfUserIds: 0,
+    numberOfInterviews: 0,
+    numberOfUserNote: 0,
+    numberOfUserIdsClient: 0,
+    numberOfUserIdsInterClient: 0,
+    numberOfUserIdsNoteClient: 0,
+  });
 
   const getUserIdFromToken = (token: string): string | null => {
     try {
@@ -121,8 +140,10 @@ const AdmissionFormProf: React.FC = () => {
   useEffect(() => {
     if (userId) {
       setFormData(prev => ({ ...prev, userId }));
+      setFormDataUpdateUser(prev => ({ ...prev, id: formDataUpdateUser.id })); // Update formDataUpdateUser with userId
+
     }
-  }, [userId]);
+  }, [userId, formDataUpdateUser]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -197,6 +218,8 @@ const AdmissionFormProf: React.FC = () => {
         });
         setMessage(data.message);
         toast.success(data.message);
+        await HandleUpdateUser(formDataUpdateUser, setFormDataUpdateUser, setMessage);
+
         router.push('/professeuradmissions')  
         // Wait for the navigation to complete, then reload
         setTimeout(() => {

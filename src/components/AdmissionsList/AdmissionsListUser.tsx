@@ -132,8 +132,8 @@ const AdmissionsListUser: React.FC = () => {
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Display User</span>
+                     Display
+                  <span className='inline ml-1'>User</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -142,13 +142,13 @@ const AdmissionsListUser: React.FC = () => {
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Professeurs Accepted</span>
+                    Professeurs
+                  <span className='inline ml-1'>Accepted</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Professeurs Interview</span>
+                Professeurs
+                  <span className='inline ml-1'>Interview</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -157,23 +157,23 @@ const AdmissionsListUser: React.FC = () => {
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Clients Interview</span>
+                Clients
+                  <span className='inline ml-1'>Interview</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Clients Confirmed</span>
+                Clients
+                  <span className='inline ml-1'>Confirmed</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Salary Month</span>
+                Salary
+                  <span className='inline ml-1'>Month</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Percentage Affectation</span>
+                Percentage
+                  <span className='inline ml-1'>Affectation</span>
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -182,8 +182,8 @@ const AdmissionsListUser: React.FC = () => {
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Salary Net</span>
+                Salary
+                  <span className='inline ml-1'>Net</span>
 
                 </th>
  

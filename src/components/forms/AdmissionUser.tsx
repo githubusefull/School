@@ -1,11 +1,11 @@
 'use client';
-
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import withAuth from '@/hoc/withAuth';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 interface FormData {
   name: string;
@@ -13,8 +13,23 @@ interface FormData {
   email: string;
   password: string;
   post: string;
+  numberOfUserIds: number;
+  numberOfInterviews: number;
+  numberOfUserNote: number;
+  numberOfUserIdsClient: number;
+  numberOfUserIdsInterClient: number;
+  numberOfUserIdsNoteClient: number;
 }
-
+interface IAdmissionFormClient {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface IAdmissionFormProf {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
 const AdmissionUser: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -23,6 +38,12 @@ const AdmissionUser: React.FC = () => {
     email: '',
     password: '',
     post: '',
+    numberOfUserIds: 0,
+    numberOfInterviews: 0,
+    numberOfUserNote: 0,
+    numberOfUserIdsClient: 0,
+    numberOfUserIdsInterClient: 0,
+    numberOfUserIdsNoteClient: 0,
   });
 
 
@@ -77,6 +98,74 @@ const AdmissionUser: React.FC = () => {
   
 
   
+
+
+  const [userIdL, setUserIdL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      console.log('User ID:', userId);
+      setUserIdL(userId);
+    }
+  }, []);
+ 
+
+  const getUserIdFromToken = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+
+
+  const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormProf');
+        const data = await response.json();
+        setAdmissions(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+
+ 
+  const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormClient');
+        const data = await response.json();
+        setAdmissionsClient(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+
+ 
+  const numberOfUserIds = admissions.filter(admission => admission.userId === userIdL).length;
+  const numberOfInterviews = admissions.filter(admission => admission.userIdInterview === userIdL).length;
+  const numberOfUserNote = admissions.filter(admission => admission.userIdNote === userIdL).length;
+
+  const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdL).length;
+  const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdL).length;
+  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdL).length;
+
+
   return (
     <form className="max-w-lg mx-auto p-8 mt-9 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE USER</p>

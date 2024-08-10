@@ -85,8 +85,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Type assertion for error handling
       if (error instanceof Error) {
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        console.error('Error uppdate user:', error.message);
+
       } else {
         res.status(500).json({ message: 'Internal Server Error', error: 'Unknown error' });
+
       }
     }
   } else {
