@@ -10,6 +10,7 @@ import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decod
 interface FormDataDate {
   id: string;
   date_interview: number;
+  time_interview: string;
   userIdInterview: string;
 
 
@@ -52,6 +53,7 @@ interface FormData {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
   date_interview: number;
+  time_interview: string;
   isConfirmed: boolean; // Add boolean field
   userIdInterview: string;
 
@@ -73,6 +75,7 @@ const AdmissionFormDateClient: React.FC<AdmissionFormNoteProps> = ({ form }) => 
 const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
   date_interview: form.date_interview,
+  time_interview: form.time_interview,
   userIdInterview: form.userIdInterview
  
 });
@@ -128,6 +131,8 @@ useEffect(() => {
           id: formData.id,
           updateData: {
             date_interview: formData.date_interview,
+            time_interview: formData.time_interview,
+
             userIdInterview,
          
           },
@@ -144,6 +149,7 @@ useEffect(() => {
         id: '',
         date_interview: 0,
         userIdInterview:'',
+        time_interview: '',
 
         
       });
@@ -786,7 +792,7 @@ useEffect(() => {
       </div>
 
     : 
-    <div className="mb-4">
+    <div className="mb-4 flex gap-2">
     <input
       type="date"
       id="date_interview"
@@ -796,7 +802,18 @@ useEffect(() => {
       value={formData.date_interview}
       onChange={handleChange}
     />
-  </div>}
+     <input
+    type="time"
+    id="time_interview"
+    name="time_interview"
+    placeholder='Time Interview'
+    className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    value={formData.time_interview}
+    onChange={handleChange}
+  />
+  </div>  
+  
+  }
 
 
       <div className="mb-4">

@@ -5,6 +5,7 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';  // or import moment from 'moment';
+import withAuth from '@/hoc/withAuth';
 
 interface FormDataDate {
   id: string;
@@ -810,4 +811,4 @@ const handleUpdateConfirmed = async (increment: number) => {
   );
 };
 
-export default AdmissionFormClientRelance;
+export default withAuth(AdmissionFormClientRelance);

@@ -174,15 +174,8 @@ const Navbar = () => {
 
                 
                 </div>
-                <Link href="/home">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">IDs</p>
-                </Link>
-                <Link href="/home">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Affectation</p>
-                </Link>
-                <Link href="/payement">
-                  <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">Payement</p>
-                </Link>
+             
+             
                 
                   {/*  
                {token ? (

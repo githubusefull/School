@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 import React, { useEffect, useState } from 'react'
-//import axios from 'axios';
-//import withAuth from '@/hoc/withAuth';
+import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
 //import { format } from 'date-fns';  // or import moment from 'moment';
 
@@ -237,4 +236,4 @@ const AdmissionsListUser: React.FC = () => {
   )
 }
 
-export default AdmissionsListUser;
+export default withAuth(AdmissionsListUser);

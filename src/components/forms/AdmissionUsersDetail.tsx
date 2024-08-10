@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 import Link from 'next/link';
+//import withAuth from '@/hoc/withAuth';
 
 interface FormDataUser {
   id: string;

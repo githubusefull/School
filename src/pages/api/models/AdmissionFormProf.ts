@@ -1,3 +1,4 @@
+import { timeStamp } from 'console';
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 export interface IAdmissionFormProf extends Document {
@@ -42,6 +43,7 @@ export interface IAdmissionFormProf extends Document {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
   date_interview: Date;
+  time_interview: string;
   isConfirmed: boolean;
   counter: number // Initialize counter
   userId: string; // Add userId here
@@ -96,7 +98,8 @@ export interface IAdmissionFormProf extends Document {
   telephone_fixe: { type: String,  },
   annee_obtention_du_Bac: { type: String },
   date_de_naissance: { type: String  },
-  date_interview:{type: Date, },
+  date_interview:{type: Date },
+  time_interview:{type: String },
   isConfirmed:{type: Boolean},
   counter: { type: Number, default: 0,  }, // Initialize counter
 
@@ -144,6 +147,7 @@ const newValues: Partial<IAdmissionFormProf> = {
   note_de_CV:0,
   finalTotal: 0,
   date_interview:new Date(0),
+  time_interview:'',
   isConfirmed: false, // Add boolean value
   counter: 0, // Initialize counter
 

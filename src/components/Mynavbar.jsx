@@ -63,7 +63,7 @@ const Mynavbar = () => {
           <div className="text-white font-bold ml-[43px] mt-3">MySchool</div>
         </Link>
         <div className="space-x-4 flex mr-8 gap-3">
-          <Link href="/home">
+          <Link href="/affectation">
             <p className="text-gray-300 font-[500] mt-1 text-[15px] scale-110 transition-all duration-300 hover:scale-100">
               Affectation
             </p>

@@ -11,7 +11,7 @@ interface FormDataDate {
   id: string;
   date_interview: number;
   userIdInterview: string;
-
+  time_interview: string;
 
 }
 
@@ -62,7 +62,7 @@ interface FormData {
   finalTotal: number;
   date_interview: number;
   isConfirmed: boolean; // Add boolean field
-
+  time_interview: string;
 }
 
 interface AdmissionFormNoteProps {
@@ -81,8 +81,8 @@ const AdmissionFormDate: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 const [formData, setFormData] = useState<FormDataDate>({
   id: form._id,
   date_interview:form.date_interview,
-  userIdInterview:form.userIdInterview
-
+  userIdInterview:form.userIdInterview,
+  time_interview:form.time_interview,
 
  
 });
@@ -135,6 +135,7 @@ useEffect(() => {
           id: formData.id,
           updateData: {
             date_interview: formData.date_interview,
+            time_interview: formData.time_interview,
             userIdInterview,
 
          
@@ -152,7 +153,7 @@ useEffect(() => {
         id: '',
         date_interview: 0,
         userIdInterview:'',
-
+        time_interview:'',
         
       });
       
@@ -793,7 +794,7 @@ useEffect(() => {
       </div>
 
     : 
-    <div className="mb-4">
+    <div className="mb-4 flex gap-2">
     <input
       type="date"
       id="date_interview"
@@ -803,7 +804,18 @@ useEffect(() => {
       value={formData.date_interview}
       onChange={handleChange}
     />
-  </div>}
+     <input
+    type="time"
+    id="time_interview"
+    name="time_interview"
+    placeholder='Time Interview'
+    className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    value={formData.time_interview}
+    onChange={handleChange}
+  />
+  </div>  
+  
+  }
 
 
       <div className="mb-4">

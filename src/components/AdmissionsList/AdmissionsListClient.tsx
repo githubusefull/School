@@ -43,6 +43,7 @@ interface IAdmissionFormClient {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
   date_interview: Date;
+  time_interview: string;
   isConfirmed: boolean;
   pay: string;
   price_total: number;
@@ -360,12 +361,13 @@ const AdmissionsList: React.FC = () => {
                   <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                   </Link>
                     ):(
-                      <p className='text-gray-300 font-[600]'>
-                   
-                        {format(new Date(form.date_interview), 'dd-MM-yyyy')}
-                        
-                      
-                      </p>
+                      <p className='text-gray-300 font-[400] flex'>
+                      <span>
+                         {format(new Date(form.date_interview), 'dd-MM-yyyy')}
+                      </span>
+                    <span className='ml-1 text-blue-500'>{form.time_interview}</span>
+                    
+                    </p>
                     )}
                   
 

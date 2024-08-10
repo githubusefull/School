@@ -5,6 +5,7 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import withAuth from '@/hoc/withAuth';
 
 interface FormData {
   name: string;
@@ -58,12 +59,12 @@ const AdmissionUser: React.FC = () => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('formData', JSON.stringify(formData));
         toast.success('Form submitted successfully!');
-        router.push('/')  
           // Wait for the navigation to complete, then reload
           setTimeout(() => {
             window.location.reload();
           }, 100); // Delay in milliseconds
-      
+              router.push('/')  
+
       } else {
         toast.error('Form submission failed!');
         setMessage('Yes');
@@ -164,4 +165,4 @@ const AdmissionUser: React.FC = () => {
   );
 };
 
-export default AdmissionUser;
+export default withAuth(AdmissionUser);

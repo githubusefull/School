@@ -5,6 +5,7 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+import withAuth from '@/hoc/withAuth';
 
 interface FormData {
   userId: string;
@@ -132,7 +133,7 @@ const AdmissionFormProf: React.FC = () => {
   };
 
 
-  
+
   const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -816,4 +817,4 @@ const AdmissionFormProf: React.FC = () => {
   );
 };
 
-export default AdmissionFormProf;
+export default withAuth(AdmissionFormProf);

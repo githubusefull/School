@@ -106,13 +106,6 @@ const Mysidbare: React.FC = () => {
 
 
 
-
-
-
-   
-
-  const [isOpen, setIsOpen] = useState(true);
-
   const [formData, setFormData] = useState<FormData>({
     name: '',
     prenome: '',
@@ -120,6 +113,25 @@ const Mysidbare: React.FC = () => {
     password: '',
     post: '',
   });
+
+
+   
+  useEffect(() => {
+    const storedFormData = localStorage.getItem('formData');
+    if (storedFormData) {
+      try {
+        const parsedFormData = JSON.parse(storedFormData);
+        console.log('Form Data:', parsedFormData);
+        // Perform any other operations with the parsedFormData
+        setFormData(parsedFormData);
+      } catch (error) {
+        console.error('Failed to parse formData from localStorage:', error);
+      }
+    }
+  }, []);
+  const [isOpen, setIsOpen] = useState(true);
+
+ 
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -164,7 +176,7 @@ const Mysidbare: React.FC = () => {
 
 
 
- ;
+
 
 const handleLogout = () => {
     localStorage.removeItem('token');
@@ -194,8 +206,8 @@ const handleLogout = () => {
           <ul className='mt-8 p-4 flex justify-center mr-8'>
             <li className="mb-2 text-[12px]">
             <div className="text-white mt-4 mb-4 flex justify-center">Profile</div>
-              <div className="text-white mt-4 mb-4">Name: <span>{formData.name}</span></div>
-              <div className="text-white mt-4 mb-4">Email: <span>{formData.email}</span></div>
+              <div className="text-white mt-4 mb-4">Name : <span>{formData.name ?  formData.name : 'User'}</span></div>
+              <div className="text-white mt-4 mb-4">Email : <span>{formData.email ?  formData.name : 'User'}</span></div>
               <div className="text-white mt-4 mb-4">Nb.professors : <span>{numberOfUserIds}</span></div>
               <div className="text-white mt-4 mb-4">Nb.professors.Accepted: <span>{numberOfUserNote}</span></div>
               <div className="text-white mt-4 mb-4">NB.professors.Interviews: <span>{numberOfInterviews}</span></div>

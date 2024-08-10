@@ -1,40 +1,42 @@
 'use client';
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-//import axios, { AxiosError } from 'axios';
-import React from 'react';
-import {  useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const withAuth = (WrappedComponent: any) => {
   const Auth = (props: any) => {
     const [loading, setLoading] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
-      const router = useRouter()
-
-
-
+    const router = useRouter();
+    const pathname = usePathname();
+    
     useEffect(() => {
       const token = localStorage.getItem('token');
       if (!token) {
-        router.push('/login')
-      } else {
-        setLoading(false)
-        setAuthenticated(true)
-        router.push('/clientadmissions')
-{/*               
-        axios.post('/api/loginForm', { token })
-          .then(() => {
-            setAuthenticated(true);
-            setLoading(false);
-            router.push('/admissions');
-          })
-          .catch((error: AxiosError) => {
-            console.error('Token verification failed:', error);
-            localStorage.removeItem('token');
-            router.push('/ss');
-          }); */}
+        router.push('/login');
+        return;
       }
-    }, []);
+
+      const storedFormData = localStorage.getItem('formData');
+      if (!storedFormData) {
+        router.push('/login');
+        return;
+      }
+
+      const formData = JSON.parse(storedFormData);
+
+      // Handle redirection based on isAdmin property
+      if (formData.isAdmin === false) {
+        // Redirect non-admin users away from restricted URLs
+        if (pathname && ['/useradmissionform', '/useradmissions', '/payement', 'affectation'].includes(pathname)) {
+          router.push('/'); // Redirect to a safe page
+          return;
+        }
+      }
+
+      // If authenticated, proceed to the wrapped component
+      setLoading(false);
+      setAuthenticated(true);
+    }, [router, pathname]);
 
     if (loading) {
       return <div className='flex justify-center'>Loading...</div>;
@@ -51,3 +53,4 @@ const withAuth = (WrappedComponent: any) => {
 };
 
 export default withAuth;
+

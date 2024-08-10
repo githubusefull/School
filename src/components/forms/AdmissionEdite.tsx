@@ -2,6 +2,7 @@
 'use client';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
+import withAuth from '@/hoc/withAuth';
 
 interface FormData {
   name: string;
@@ -807,4 +808,4 @@ const AdmissionEdite: React.FC = () => {
   );
 };
 
-export default AdmissionEdite;
+export default withAuth(AdmissionEdite);

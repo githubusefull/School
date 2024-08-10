@@ -18,6 +18,7 @@ export interface IAdmissionFormUser extends Document {
   percentage: string;
   prima: string;
   salary_net: string;
+  isAdmin: boolean;
 }
 
 const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
@@ -26,6 +27,7 @@ const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String },
   post: { type: String },
+  isAdmin: { type: Boolean, default: false },  // isAdmin field with default value false
   professeurs: { type: String },
   professeurs_accepted: { type: String },
   professeurs_interview: { type: String },

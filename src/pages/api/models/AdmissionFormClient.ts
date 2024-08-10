@@ -42,6 +42,7 @@ export interface IAdmissionFormClient extends Document {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
   date_interview: Date;
+  time_interview: string;
   isConfirmed: boolean;
   price_total: number,
   price_ticket: number,
@@ -92,6 +93,7 @@ const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   annee_obtention_du_Bac: { type: String},
   date_de_naissance: { type: String },
   date_interview:{type: Date},
+  time_interview:{type: String },
   isConfirmed:{type: Boolean},
   price_total: {type: Number},
   price_ticket: {type: Number},
@@ -151,6 +153,7 @@ const newValues: Partial<IAdmissionFormClient> = {
   ticketNumber: 0,
   counter: 0, // Initialize counter
   date_interview:new Date(0),
+  time_interview:'',
   isConfirmed: false, // 
 };
 
