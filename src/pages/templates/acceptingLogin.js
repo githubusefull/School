@@ -1,5 +1,5 @@
 
-module.exports = function acceptingTemplate({ name, email, program, Civilité, hobbies }) {
+module.exports = function acceptingLoginTemplate({ name, email, password }) {
     return `
     <html>
     <head>
@@ -62,7 +62,7 @@ module.exports = function acceptingTemplate({ name, email, program, Civilité, h
           <h4>Thank you for submitting your details. You can now log in to our website using the provided credentials:</h4>
           <ul>
             <li><strong>Email:</strong> ${email}</li>
-            <li><strong>Password:</strong> You submition password</li>
+            <li><strong>Password:</strong>${password}</li>
 
           </ul>
          <h4> We look forward to your active participation on our platform.</h4>

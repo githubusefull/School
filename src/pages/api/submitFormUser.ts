@@ -3,24 +3,25 @@ import connectDB from './lib/db';
 import AdmissionFormUser, { IAdmissionFormUser } from "./models/AdmissionFormUser";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
-import acceptingTemplate from '../templates/acceptingTemplate';
 import { generateToken } from "./lib/jwt";
-
-//import { verify } from "jsonwebtoken";
-
-// Import the refusing template if needed in the future
-// import refusingTemplate from '../templates/refusingTemplate';
+import { verify } from "jsonwebtoken";
+import acceptingLoginTemplate from '../templates/acceptingLogin';
 
 connectDB();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "POST") {
+    const authToken = req.headers.authorization?.split(' ')[1];
+    if (!authToken) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
 
     try {
       // Verify the token and extract the user ID
-      //const decoded = verify(authToken, process.env.JWT_SECRET as string) as { id: string };
-      //const userId = decoded.id;
+      const decoded = verify(authToken, process.env.JWT_SECRET as string) as { id: string };
+      const userId = decoded.id;
 
       const { name, prenome, email, password, post } = req.body;
       const user = await AdmissionFormUser.findOne({ email });
@@ -30,6 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newForm: IAdmissionFormUser = new AdmissionFormUser({
+        userId,
         name,
         prenome,
         email,
@@ -54,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         from: process.env.EMAIL_USER as string,
         to: email, // sending to the user's email
         subject: "Admission Form Submission Confirmation",
-        html: acceptingTemplate({ name, email }),
+        html: acceptingLoginTemplate({ name, email, password }),
       });
 
       res.status(201).json({ message: "User registered successfully", token: userToken });

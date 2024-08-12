@@ -150,8 +150,11 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         prima:''     
       });
     
-      
-      router.push('/useradmissions')
+
+      router.push('/useradmissions');
+      setTimeout(() => {
+        window.location.href = '/useradmissions';
+      }, 100);
       setMessage(data.message);
       toast.success('Edited Successfully');
     } catch (error) {

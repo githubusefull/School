@@ -56,7 +56,9 @@ export interface IAdmissionFormClient extends Document {
   userId: string; // Optional, as it’s added later
   userIdNote: string; // Add userId here
   userIdInterview: string;
-  userIdRelance: string;}
+  userIdRelance: string;
+  userIdConfirmClient: string;
+}
 
 const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   userId: { type: String },
@@ -106,6 +108,7 @@ const AdmissionFormSchema: Schema<IAdmissionFormClient> = new Schema({
   counter: { type: Number, default: 0 }, // Initialize counter
   userIdNote: {type: String}, // Add userId here
   userIdInterview: {type: String},
+  userIdConfirmClient:{type: String},
   userIdRelance: {type: String}
   //cv_Photo: { type: String, required: false }, // Optional field
 });
@@ -142,6 +145,7 @@ const newValues: Partial<IAdmissionFormClient> = {
   userId:'',
   userIdNote: '', // Add userId here
   userIdInterview:'',
+  userIdConfirmClient:'',
   userIdRelance:'',
   price_total: 0,
   price_ticket: 0,

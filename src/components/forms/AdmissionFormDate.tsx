@@ -14,8 +14,16 @@ interface FormDataDate {
   time_interview: string;
 
 }
+interface IAdmissionFormProf {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface FormDataUpdateUser {
+  id: string;
+  numberOfInterviews: number;
 
-
+}
 
 interface FormData {
   _id: string;
@@ -111,6 +119,8 @@ useEffect(() => {
 useEffect(() => {
   if (userIdInterview) {
     setFormData(prev => ({ ...prev, userIdInterview }));
+    setFormDataUpdateUser(prev => ({ ...prev, id: userIdInterview })); // Update formDataUpdateUser with userId
+
   }
 }, [userIdInterview]);
 
@@ -149,6 +159,8 @@ useEffect(() => {
 
       const data = await response.json();
       console.log('Updated Document:', data);
+      await handleUpdateUser();
+
       setFormData({
         id: '',
         date_interview: 0,
@@ -158,11 +170,9 @@ useEffect(() => {
       });
       
     
-      
-      router.push('/professeuradmissions')
-      setTimeout(() => {
-        window.location.reload();
-      }, 100); 
+    setTimeout(() => {
+      window.location.href = '/professeuradmissions';
+    }, 100);
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
@@ -171,7 +181,94 @@ useEffect(() => {
   };
   
 
- 
+ // update user 
+ const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
+  id: '',
+  numberOfInterviews: 0,
+});
+ const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
+ const [userIdL, setUserIdL] = useState<string | null>(null);
+
+ useEffect(() => {
+   const token = localStorage.getItem('token');
+   if (token) {
+     const userId = getUserIdFromTokenUser(token);
+     console.log('User ID:', userId);
+     setUserIdL(userId);
+   }
+ }, []);
+
+
+ const getUserIdFromTokenUser = (token: string): string | null => {
+   try {
+     const decoded: any = jwtDecode(token);
+     return decoded.id || null;
+   } catch (error) {
+     console.error('Failed to decode token:', error);
+     return null;
+   }
+ };
+ const numberOfInterviews = admissions.filter(admission => admission.userIdInterview === userIdL).length + 1;
+
+
+ const handleUpdateUser = async () => {
+  if (!userIdL) {
+    toast.error('No user ID found');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/user_update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        id: formDataUpdateUser.id,
+        updateData: {
+          numberOfInterviews,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data  = await response.json();
+    console.log('Updated Document:', data);
+
+    setFormDataUpdateUser((prevState) => ({
+      ...prevState,
+      numberOfInterviews: prevState.numberOfInterviews + 1,
+
+    }));
+   
+  } catch (error) {
+    console.error('Error updating user:', error);
+    toast.error('Failed to update user');
+  }
+};
+//all data import here: 
+
+
+
+
+
+useEffect(() => {
+  const fetchForms = async () => {
+    try {
+      const response = await fetch('/api/submitFormProf');
+      const data = await response.json();
+      setAdmissions(data);
+    } catch (error) {
+      console.error('Failed to fetch forms:', error);
+    } 
+  };
+
+  fetchForms();
+}, []);
 
 
  

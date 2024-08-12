@@ -13,7 +13,7 @@ export interface IAdmissionFormUser extends Document {
   numberOfUserNote: number;
   numberOfUserIdsClient: number;
   numberOfUserIdsInterClient: number;
-  numberOfUserIdsNoteClient: number;
+  numberOfUserIdsConfirmClient: number;
   salary_month: string;
   percentage: string;
   prima: string;
@@ -32,7 +32,7 @@ const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
   numberOfUserNote: {type: Number},
   numberOfUserIdsClient: {type: Number},
   numberOfUserIdsInterClient: {type: Number},
-  numberOfUserIdsNoteClient: {type: Number},
+  numberOfUserIdsConfirmClient: {type: Number},
   isAdmin: { type: Boolean, default: false },  // isAdmin field with default value false
   salary_month:{ type: String },
   percentage: { type: String },
@@ -70,7 +70,7 @@ const newValues: Partial<IAdmissionFormUser> = {
   numberOfUserNote: 0,
   numberOfUserIdsClient: 0,
   numberOfUserIdsInterClient: 0,
-  numberOfUserIdsNoteClient: 0,
+  numberOfUserIdsConfirmClient: 0,
   salary_month:'',
   percentage:'',
   prima: '',

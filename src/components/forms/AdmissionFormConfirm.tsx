@@ -4,9 +4,11 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 
 interface FormDataClient {
+  userIdConfirmClient: string;
   id: string;
   pay: string;
   price_total: number;
@@ -17,7 +19,10 @@ interface FormDataClient {
   details: string;
   isConfirmed: boolean;
 }
-
+interface IAdmissionFormClient {
+  userId: string;
+  userIdConfirmClient:string;
+}
 interface FormData {
   _id: string;
   name: string;
@@ -71,7 +76,13 @@ interface FormData {
   ticketNumber:number,
   isConfirmed: boolean; // Add boolean field
   counter: number; // Add counter field
+  //numberOfUserIdsConfirmClient: number;
+  userIdConfirmClient: string;
 
+}
+interface FormDataUpdateUser {
+  id: string;
+  numberOfUserIdsConfirmClient: number;
 }
 
 interface AdmissionFormNoteProps {
@@ -81,11 +92,15 @@ interface AdmissionFormNoteProps {
 const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
-
+  const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
+    id: '',
+    numberOfUserIdsConfirmClient: 0,
+  });
 
 
   const [formData, setFormData] = useState<FormDataClient>({
     id: form._id,
+    userIdConfirmClient:form.userIdConfirmClient,
     pay: form.pay,
     details: form.details,
     price_total: form.price_total,
@@ -98,6 +113,10 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     //finalTotal: 0,
   
   });
+
+// userL here: 
+
+
 
 
 
@@ -140,6 +159,7 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             isConfirmed: formData.isConfirmed,
             profPercentage,
             ticketNumber,
+            userIdConfirmClient,
            
           
         
@@ -153,7 +173,10 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
       const data = await response.json();
       console.log('Updated Document:', data);
+      await handleUpdateUser();
+
       setFormData({
+        userIdConfirmClient: '',
         id: '',
         pay: '',
         details: '',
@@ -166,9 +189,14 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
         
       });
+
     
-      
-      router.push('/clientadmissions')
+  
+
+    router.push('/clientadmissions');
+    setTimeout(() => {
+      window.location.href = '/useradmissions';
+    }, 100);
       setMessage(data.message);
       toast.success('Edited Successfully');
     } catch (error) {
@@ -178,6 +206,34 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     }
   };
   
+ // userIdClientConfirm
+ const [userIdConfirmClient, setUserIdConfirmClient] = useState<string | null>(null);
+
+const getUserIdFromTokenClient = (token: string): string | null => {
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.id || null;
+  } catch (error) {
+    console.error('Failed to decode token:', error);
+    return null;
+  }
+};
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const userId = getUserIdFromTokenClient(token);
+    console.log('User ID:', userId);
+    setUserIdConfirmClient(userId);
+  }
+}, []);
+
+useEffect(() => {
+  if (userIdConfirmClient) {
+    setFormDataUpdateUser(prev => ({ ...prev, id: userIdConfirmClient })); // Update formDataUpdateUser with userId
+
+  }
+}, [userIdConfirmClient]);
+
 
   const result = Number(formData.price_total) / Number(formData.price_ticket);
   const percentageToSubtract = result * Number(formData.prof_percentage) / 100;
@@ -192,7 +248,85 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   //const profPercentage : number = Math.ceil(profPT * 100) / 100;
   const ticketNumber: number = Math.ceil(tickNT * 100) / 100;
   
-// client update
+// user update from client update
+const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+
+useEffect(() => {
+  const fetchForms = async () => {
+    try {
+      const response = await fetch('/api/submitFormClient');
+      const data = await response.json();
+      setAdmissionsClient(data);
+    } catch (error) {
+      console.error('Failed to fetch forms:', error);
+    } 
+  };
+
+  fetchForms();
+}, []);
+
+
+const [userIdL, setUserIdL] = useState<string | null>(null);
+const numberOfUserIdsConfirmClient = admissionsClient.filter(admission => admission.userIdConfirmClient === userIdL).length + 1;
+
+
+
+const getUserIdFromTokenTow = (token: string): string | null => {
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.id || null;
+  } catch (error) {
+    console.error('Failed to decode token:', error);
+    return null;
+  }
+};
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const userId = getUserIdFromTokenTow(token);
+    console.log('User ID:', userId);
+    setUserIdL(userId);
+  }
+}, []);
+
+const handleUpdateUser = async () => {
+  if (!userIdL) {
+    toast.error('No user ID found');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/user_update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        id: formDataUpdateUser.id,
+        updateData: {
+          numberOfUserIdsConfirmClient,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data  = await response.json();
+    console.log('Updated Document:', data);
+
+    setFormDataUpdateUser((prevState) => ({
+      ...prevState,
+      numberOfUserIdsConfirmClient: prevState.numberOfUserIdsConfirmClient + 1,
+
+    }));
+    } catch (error) {
+    console.error('Error updating user:', error);
+  }
+};
+
 
 
 

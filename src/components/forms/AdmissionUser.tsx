@@ -19,6 +19,7 @@ interface FormData {
   numberOfUserIdsClient: number;
   numberOfUserIdsInterClient: number;
   numberOfUserIdsNoteClient: number;
+  isAdmin: boolean;
 }
 interface IAdmissionFormClient {
   userId: string;
@@ -44,6 +45,7 @@ const AdmissionUser: React.FC = () => {
     numberOfUserIdsClient: 0,
     numberOfUserIdsInterClient: 0,
     numberOfUserIdsNoteClient: 0,
+    isAdmin: false
   });
 
 
@@ -78,13 +80,21 @@ const AdmissionUser: React.FC = () => {
        
         // Store the token in localStorage if received
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('formData', JSON.stringify(formData));
+        if (formData.isAdmin === true){
+        localStorage.setItem('formData', JSON.stringify(formData))
+        router.push('/useradmissions');
+
+      } else {
+        localStorage.getItem('formData');
+        }
         toast.success('Form submitted successfully!');
-          // Wait for the navigation to complete, then reload
+
+          router.push('/useradmissions');
           setTimeout(() => {
-            window.location.reload();
-          }, 100); // Delay in milliseconds
-              router.push('/')  
+                window.location.href = '/useradmissions';
+            }, 100);
+
+              
 
       } else {
         toast.error('Form submission failed!');

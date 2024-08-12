@@ -45,7 +45,17 @@ export interface FormDataClient {
   userIdRelance: string;
 
 }
+interface IAdmissionFormClient {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
 
+interface FormDataUpdateUser {
+  id: string;
+  numberOfUserIdsClient: number;
+
+}
 const AdmissionClient: React.FC = () => {
  const router = useRouter();
   const [formData, setFormData] = useState<FormDataClient>({
@@ -113,6 +123,8 @@ const AdmissionClient: React.FC = () => {
   useEffect(() => {
     if (userId) {
       setFormData(prev => ({ ...prev, userId }));
+      setFormDataUpdateUser(prev => ({ ...prev, id: userId })); // Update formDataUpdateUser with userId
+
     }
   }, [userId]);
  
@@ -152,6 +164,7 @@ const AdmissionClient: React.FC = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        await handleUpdateUser();
       setFormData({
         userId: '',
         userIdNote:'', // Add userId here
@@ -191,12 +204,12 @@ const AdmissionClient: React.FC = () => {
         date_de_naissance: '',
         //cv_Photo: null,
       });
-      setMessage(data.message);
-      toast.success(data.message);
-      router.push('/clientadmissions')  
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+        setMessage(data.message);
+        toast.success(data.message);
+        router.push('/clientadmissions');
+          setTimeout(() => {
+                window.location.href = '/clientadmissions';
+            }, 100);
 
     } else {
       throw new Error(data.message || 'Form submission failed');
@@ -210,6 +223,96 @@ const AdmissionClient: React.FC = () => {
 
 
   
+// update 
+
+const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+const [userIdL, setUserIdL] = useState<string | null>(null);
+
+ 
+ 
+
+  const getUserIdFromTokenClient = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromTokenClient(token);
+      console.log('User ID:', userId);
+      setUserIdL(userId);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormClient');
+        const data = await response.json();
+        setAdmissionsClient(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+  const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdL).length + 1;
+
+const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
+  id: '',
+ 
+  numberOfUserIdsClient: 0,
+
+});
+
+
+const handleUpdateUser = async () => {
+  if (!userId) {
+    toast.error('No user ID found');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/user_update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        id: formDataUpdateUser.id,
+        updateData: {
+          numberOfUserIdsClient,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data  = await response.json();
+    console.log('Updated Document:', data);
+
+    setFormDataUpdateUser((prevState) => ({
+      ...prevState,
+      numberOfUserIdsClient: prevState.numberOfUserIdsClient + 1,
+
+    }));
+   
+    toast.success('User updated successfully');
+  } catch (error) {
+    console.error('Error updating user:', error);
+    toast.error('Failed to update user');
+  }
+};
 
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>

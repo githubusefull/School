@@ -6,6 +6,7 @@ interface IAdmissionFormClient {
   userId: string;
   userIdInterview: string;
   userIdNote: string;
+
 }
 
 interface IAdmissionFormProf {

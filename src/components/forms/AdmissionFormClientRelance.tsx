@@ -118,8 +118,12 @@ const handleUpdateConfirmed = async (increment: number) => {
 
       }));
 
-      router.push('/clientadmissions');
-      setMessage(data.message);
+     
+    router.push('/clientadmissions');
+    setTimeout(() => {
+      window.location.href = '/clientadmissions';
+    }, 100);
+    setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
       console.error('Error:', error);

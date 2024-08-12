@@ -1,11 +1,19 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {  useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+//import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
 
-
+interface FormData {
+    name: string;
+    prenome: string;
+    email: string;
+    post: string;
+    password: string;
+    isAdmin: boolean;
+ }
 
 const Formlogin = () => {
  
@@ -14,6 +22,36 @@ const Formlogin = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null); // Specify error type
     //const [formData, setFormData] = useState<FormData | null>(null);
+
+
+    
+    const [formData, setFormData] = useState<FormData>({
+        name: '',
+        prenome: '',
+        email: '',
+        password: '',
+        post: '',
+        isAdmin: false
+      });
+    
+    
+     
+       
+      useEffect(() => {
+        const storedFormData = localStorage.getItem('formData');
+        if (storedFormData) {
+          try {
+            const parsedFormData = JSON.parse(storedFormData);
+            console.log('Form Data:', parsedFormData);
+            // Perform any other operations with the parsedFormData
+            setFormData(parsedFormData);
+          } catch (error) {
+            console.error('Failed to parse formData from localStorage:', error);
+          }
+        }
+      }, []);
+
+ 
 
     const router = useRouter();
 
@@ -26,13 +64,13 @@ const Formlogin = () => {
           const {token, formData} = response.data;
           localStorage.setItem('token', token);
           localStorage.setItem('formData', JSON.stringify(formData));
-          //setFormData(formData);
-          alert('Login Success');
-          // Wait for the navigation to complete, then reload
+          toast.success('Login Success');
+          router.push('/');
+
+          // Wait a moment and then reload the page
           setTimeout(() => {
-            window.location.reload();
-          }, 100);
-          router.push('/clientadmissions');
+                window.location.href = '/';
+            }, 100);
 
          } catch (error: any) {
                 console.error(error);

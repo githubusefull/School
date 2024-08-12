@@ -20,6 +20,15 @@ interface FormDataNote {
   //finalTotal: number;
   
 }
+interface IAdmissionFormProf {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface FormDataUpdateUser {
+  id: string;
+  numberOfUserNote: number;
+}
 
 interface FormData {
   _id: string;
@@ -119,6 +128,8 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   useEffect(() => {
     if (userIdNote) {
       setFormData(prev => ({ ...prev, userIdNote }));
+      setFormDataUpdateUser(prev => ({ ...prev, id: userIdNote })); // Update formDataUpdateUser with userId
+
     }
   }, [userIdNote]);
 
@@ -180,6 +191,8 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
       const data = await response.json();
       console.log('Updated Document:', data);
+      await handleUpdateUser();
+
       setFormData({
         id: '',
         niveau_1_note: 0,
@@ -197,7 +210,12 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       });
     
       
-      router.push('/professeuradmissions')
+      router.push('/professeuradmissions');
+      setTimeout(() => {
+        window.location.href = '/professeuradmissions';
+      }, 100);
+
+      
       setMessage(data.message);
       toast.success('Edited Successfully');
     } catch (error) {
@@ -229,8 +247,10 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
       const data = await response.json();
       console.log('Updated Document:', data);
-      
       router.push('/professeuradmissions');
+      setTimeout(() => {
+            window.location.href = '/professeuradmissions';
+        }, 100);
       setMessage(data.message);
       toast.success('Refuse Sent Successfully');
     } catch (error) {
@@ -251,6 +271,98 @@ const AdmissionFormNote: React.FC<AdmissionFormNoteProps> = ({ form }) => {
   const finalTotal: number = Math.ceil(average * 100) / 100;
 
  
+
+  // update user here form update form 
+  const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
+    id: '',
+    numberOfUserNote: 0,
+  });
+
+
+  const [userIdL, setUserIdL] = useState<string | null>(null);
+
+  const getUserIdFromTokenNot = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromTokenNot(token);
+      console.log('User ID:', userId);
+      setUserIdL(userId);
+    }
+  }, []);
+
+  const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
+
+  const numberOfUserNote  = admissions.filter(admission => admission.userIdNote === userIdL).length + 1;
+  
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormProf');
+        const data = await response.json();
+        setAdmissions(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+
+  const handleUpdateUser = async () => {
+    if (!userIdL) {
+      toast.error('No user ID found');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/user_update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          id: formDataUpdateUser.id,
+          updateData: {
+            numberOfUserNote,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data  = await response.json();
+      console.log('Updated Document:', data);
+
+      setFormDataUpdateUser((prevState) => ({
+        ...prevState,
+        numberOfUserNote: prevState.numberOfUserNote + 1,
+    
+      }));
+      router.push('/professeuradmissions');
+      setTimeout(() => {
+        window.location.href = '/professeuradmissions';
+      }, 100);
+      } catch (error) {
+      console.error('Error updating user:', error);
+      toast.error('Failed to update user');
+    }
+  };
+
+
+
   return (
     <div>
 

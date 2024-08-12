@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 import withAuth from '@/hoc/withAuth';
-import { HandleUpdateUser } from './UserUpdate';
+
 interface FormData {
   userId: string;
   userIdNote: string;
@@ -50,9 +50,18 @@ interface FormData {
   annee_obtention_du_Bac: string;
   date_de_naissance: string;
 }
-
+interface IAdmissionFormClient {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface IAdmissionFormProf {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
 interface FormDataUpdateUser {
-  id:string;
+  id: string;
   numberOfUserIds: number;
   numberOfInterviews: number;
   numberOfUserNote: number;
@@ -65,7 +74,7 @@ const AdmissionFormProf: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     userId: '',
-    userIdNote:'',
+    userIdNote: '',
     name: '',
     prenome: '',
     email: '',
@@ -106,8 +115,9 @@ const AdmissionFormProf: React.FC = () => {
     annee_obtention_du_Bac: '',
     date_de_naissance: '',
   });
+
   const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
-    id:'',
+    id: '',
     numberOfUserIds: 0,
     numberOfInterviews: 0,
     numberOfUserNote: 0,
@@ -116,7 +126,9 @@ const AdmissionFormProf: React.FC = () => {
     numberOfUserIdsNoteClient: 0,
   });
 
-  const getUserIdFromToken = (token: string): string | null => {
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const getUserIdFromTokenTow = (token: string): string | null => {
     try {
       const decoded: any = jwtDecode(token);
       return decoded.id || null;
@@ -125,13 +137,10 @@ const AdmissionFormProf: React.FC = () => {
       return null;
     }
   };
-
-  const [userId, setUserId] = useState<string | null>(null);
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const userId = getUserIdFromToken(token);
+      const userId = getUserIdFromTokenTow(token);
       console.log('User ID:', userId);
       setUserId(userId);
     }
@@ -140,10 +149,11 @@ const AdmissionFormProf: React.FC = () => {
   useEffect(() => {
     if (userId) {
       setFormData(prev => ({ ...prev, userId }));
-      setFormDataUpdateUser(prev => ({ ...prev, id: formDataUpdateUser.id })); // Update formDataUpdateUser with userId
-
+      setFormDataUpdateUser(prev => ({ ...prev, id: userId })); // Update formDataUpdateUser with userId
     }
-  }, [userId, formDataUpdateUser]);
+  }, [userId]);
+
+  
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -152,10 +162,6 @@ const AdmissionFormProf: React.FC = () => {
       [name]: value,
     }));
   };
-
-
-
-  const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -173,9 +179,11 @@ const AdmissionFormProf: React.FC = () => {
 
       const data = await response.json();
       if (response.ok) {
+        // Perform update operation after successful form submission
+        await handleUpdateUser();
         setFormData({
           userId: '',
-          userIdNote:'',
+          userIdNote: '',
           name: '',
           prenome: '',
           email: '',
@@ -216,15 +224,11 @@ const AdmissionFormProf: React.FC = () => {
           annee_obtention_du_Bac: '',
           date_de_naissance: '',
         });
-        setMessage(data.message);
         toast.success(data.message);
-        await HandleUpdateUser(formDataUpdateUser, setFormDataUpdateUser, setMessage);
-
-        router.push('/professeuradmissions')  
-        // Wait for the navigation to complete, then reload
         setTimeout(() => {
-          window.location.reload();
-        }, 100); 
+              window.location.href = '/professeuradmissions';
+          }, 100);
+         
       } else {
         throw new Error(data.message || 'Form submission failed');
       }
@@ -233,10 +237,115 @@ const AdmissionFormProf: React.FC = () => {
       toast.error(`Error: ${error.message}`);
     }
   };
+
+
+  const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
+  const [userIdL, setUserIdL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      console.log('User ID:', userId);
+      setUserIdL(userId);
+    }
+  }, []);
+ 
+
+  const getUserIdFromToken = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+  const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormClient');
+        const data = await response.json();
+        setAdmissionsClient(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+  const numberOfUserIds  = admissions.filter(admission => admission.userId === userIdL).length + 1;
+  
+
+  const handleUpdateUser = async () => {
+    if (!userId) {
+      toast.error('No user ID found');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/user_update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          id: formDataUpdateUser.id,
+          updateData: {
+            numberOfUserIds,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data  = await response.json();
+      console.log('Updated Document:', data);
+
+      setFormDataUpdateUser((prevState) => ({
+        ...prevState,
+        numberOfUserIds: prevState.numberOfUserIds + 1,
+
+      }));
+      } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
+  //all data import here: 
+  
+  
+
+
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await fetch('/api/submitFormProf');
+        const data = await response.json();
+        setAdmissions(data);
+      } catch (error) {
+        console.error('Failed to fetch forms:', error);
+      } 
+    };
+
+    fetchForms();
+  }, []);
+
+ 
+  
+
+ 
+
+  
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE PROFESSEUR</p>
-      {message && (<p className='text-yellow-600'>{message}</p>)}
+      {/*message && (<p className='text-yellow-600'>{message}</p>)*/}
 
       <p className='text-gray-300 font-sans text-[15px]'>Professeurs : Vous avez un excellent relationnel, un solide bagage et une réelle passion pour l’enseignement ?
 

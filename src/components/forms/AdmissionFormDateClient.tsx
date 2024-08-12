@@ -13,12 +13,17 @@ interface FormDataDate {
   time_interview: string;
   userIdInterview: string;
 
-
-
+}
+interface IAdmissionFormClient {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
 }
 
-
-
+interface FormDataUpdateUser {
+  id: string;
+  numberOfUserIdsInterClient: number;
+}
 interface FormData {
   _id: string;
   name: string;
@@ -69,7 +74,21 @@ const AdmissionFormDateClient: React.FC<AdmissionFormNoteProps> = ({ form }) => 
 
 // finalTotal is a string
 
-  
+const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+
+useEffect(() => {
+  const fetchForms = async () => {
+    try {
+      const response = await fetch('/api/submitFormClient');
+      const data = await response.json();
+      setAdmissionsClient(data);
+    } catch (error) {
+      console.error('Failed to fetch forms:', error);
+    } 
+  };
+
+  fetchForms();
+}, []);
 
 
 const [formData, setFormData] = useState<FormDataDate>({
@@ -101,9 +120,18 @@ useEffect(() => {
   }
 }, []);
 
+const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
+  id: '',
+  numberOfUserIdsInterClient: 0,
+});
+const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdInterview).length + 1;
+
+
 useEffect(() => {
   if (userIdInterview) {
     setFormData(prev => ({ ...prev, userIdInterview }));
+    setFormDataUpdateUser(prev => ({ ...prev, id: userIdInterview })); // Update formDataUpdateUser with userId
+
   }
 }, [userIdInterview]);
 
@@ -145,6 +173,7 @@ useEffect(() => {
 
       const data = await response.json();
       console.log('Updated Document:', data);
+      await handleUpdateUser();
       setFormData({
         id: '',
         date_interview: 0,
@@ -155,18 +184,59 @@ useEffect(() => {
       });
       
     
-      
-      router.push('/clientadmissions')
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+        
+    router.push('/clientadmissions');
+    setTimeout(() => {
+      window.location.href = '/clientadmissions';
+    }, 100);
       setMessage(data.message);
       toast.success('Sent Successfully');
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  
+
+
+   //all update here:
+   
+   
+   const handleUpdateUser = async () => {
+    if (!userIdInterview) {
+      toast.error('No user ID found');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/user_update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          id: formDataUpdateUser.id,
+          updateData: {
+            numberOfUserIdsInterClient,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data  = await response.json();
+      console.log('Updated Document:', data);
+
+      setFormDataUpdateUser((prevState) => ({
+        ...prevState,
+        numberOfUserIdsInterClient: prevState.numberOfUserIdsInterClient + 1,
+
+      }));
+      } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
 
 
  

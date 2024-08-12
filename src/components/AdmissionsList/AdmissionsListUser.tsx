@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
+import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+
 //import { format } from 'date-fns';  // or import moment from 'moment';
 
 
@@ -14,18 +16,27 @@ interface IAdmissionFormUser {
   prenome: string;
   email: string;
   post: string;
-  professeurs: string;
-  professeurs_accepted: string;
-  professeurs_interview: string;
-  clients: string;
-  clients_interview: string;
-  clients_confirmed: string;
+  numberOfUserIds: number;
+  numberOfInterviews: number;
+  numberOfUserNote: number;
+  numberOfUserIdsClient: number;
+  numberOfUserIdsInterClient: number;
+  numberOfUserIdsNoteClient: number;
   salary_month:string;
   percentage: string;
   prima: string;
   salary_net: string;
 }
-
+interface IAdmissionFormClient {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
+interface IAdmissionFormProf {
+  userId: string;
+  userIdInterview: string;
+  userIdNote: string;
+}
 
 
 const AdmissionsListUser: React.FC = () => {
@@ -70,6 +81,81 @@ const AdmissionsListUser: React.FC = () => {
     }
   }, [searchTerm, admissions]);
   
+
+
+
+
+ //anumbers 
+ 
+
+ const [userIdL, setUserIdL] = useState<string | null>(null);
+
+ useEffect(() => {
+   const token = localStorage.getItem('token');
+   if (token) {
+     const userId = getUserIdFromToken(token);
+     console.log('User ID:', userId);
+     setUserIdL(userId);
+   }
+ }, []);
+
+
+ const getUserIdFromToken = (token: string): string | null => {
+   try {
+     const decoded: any = jwtDecode(token);
+     return decoded.id || null;
+   } catch (error) {
+     console.error('Failed to decode token:', error);
+     return null;
+   }
+ };
+
+
+ const [admissionsProf, setAdmissionsProf] = useState<IAdmissionFormProf[]>([]);
+
+ useEffect(() => {
+   const fetchForms = async () => {
+     try {
+       const response = await fetch('/api/submitFormProf');
+       const data = await response.json();
+       setAdmissionsProf(data);
+     } catch (error) {
+       console.error('Failed to fetch forms:', error);
+     } 
+   };
+
+   fetchForms();
+ }, []);
+
+
+ const [admissionsClient, setAdmissionsClient] = useState<IAdmissionFormClient[]>([]);
+
+ useEffect(() => {
+   const fetchForms = async () => {
+     try {
+       const response = await fetch('/api/submitFormClient');
+       const data = await response.json();
+       setAdmissionsClient(data);
+     } catch (error) {
+       console.error('Failed to fetch forms:', error);
+     } 
+   };
+
+   fetchForms();
+ }, []);
+
+
+ const numberOfUserIds = admissionsProf.filter(admission => admission.userId === userIdL).length;
+ const numberOfInterviews = admissionsProf.filter(admission => admission.userIdInterview === userIdL).length;
+ const numberOfUserNote = admissionsProf.filter(admission => admission.userIdNote === userIdL).length;
+
+ const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdL).length;
+ const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdL).length;
+ const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdL).length;
+
+
+
+
 
 
 
@@ -204,6 +290,12 @@ const AdmissionsListUser: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prenome}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.email}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.post}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIds}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfInterviews}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserNote}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIdsClient}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIdsNoteClient}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIdsInterClient}</td>
 
                   <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
                   <p className='flex justify-center'> 

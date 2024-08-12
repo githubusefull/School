@@ -65,6 +65,7 @@ interface FormData {
   email: string;
   password: string;
   post: string;
+  isAdmin: boolean;
 }
 
 const Mysidbare: React.FC = () => {
@@ -112,6 +113,7 @@ const Mysidbare: React.FC = () => {
     email: '',
     password: '',
     post: '',
+    isAdmin: false
   });
 
 
@@ -177,7 +179,6 @@ const Mysidbare: React.FC = () => {
 
 
 
-
 const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('formData');
@@ -206,14 +207,17 @@ const handleLogout = () => {
           <ul className='mt-8 p-4 flex justify-center mr-8'>
             <li className="mb-2 text-[12px]">
             <div className="text-white mt-4 mb-4 flex justify-center">Profile</div>
-              <div className="text-white mt-4 mb-4">Name : <span>{formData.name ?  formData.name : 'User'}</span></div>
-              <div className="text-white mt-4 mb-4">Email : <span>{formData.email ?  formData.name : 'User'}</span></div>
+           
+              <div className="text-white mt-4 mb-4">Name : <span>{formData.name ? formData.name : 'Name' }</span></div>
+              <div className="text-white mt-4 mb-4">Email : <span>{formData.email ?  formData.email : 'User'}</span></div>
               <div className="text-white mt-4 mb-4">Nb.professors : <span>{numberOfUserIds}</span></div>
               <div className="text-white mt-4 mb-4">Nb.professors.Accepted: <span>{numberOfUserNote}</span></div>
               <div className="text-white mt-4 mb-4">NB.professors.Interviews: <span>{numberOfInterviews}</span></div>
               <div className="text-white mt-4 mb-4">NB.clients: <span>{numberOfUserIdsClient}</span></div>
               <div className="text-white mt-4 mb-4">NB.client.Interviews: <span>{numberOfUserIdsInterClient}</span></div>
               <div className="text-white mt-4 mb-4">NB.Client.Confirmed: <span>{numberOfUserIdsNoteClient}</span></div>
+           
+              
               <div>
               {userIdL ? (
               <button

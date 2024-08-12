@@ -382,7 +382,7 @@ const AdmissionsList: React.FC = () => {
                   )}
                    {(form.isConfirmed === true) && (
                      <Link href={`/admissionformconfirm/${form._id}`}>
-                        <button className='bg-blue-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Confirm</button>
+                        <button className='bg-blue-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Confirmed</button>
                       </Link>
                   )}
                    
