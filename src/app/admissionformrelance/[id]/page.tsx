@@ -48,6 +48,8 @@ interface FormData {
   finalTotal: number;
   date_interview: number;
   isConfirmed: boolean;
+  userIdRelance: string;
+   counter: number;
   
 }
 const defaultFormData: FormData = {
@@ -93,7 +95,9 @@ const defaultFormData: FormData = {
   date_de_naissance: '',
   date_interview: 0,
   finalTotal: 0,
-  isConfirmed: false
+  isConfirmed: false,
+  userIdRelance:'',
+   counter: 0
 };
 
 // Fetch form data by ID

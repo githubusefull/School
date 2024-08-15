@@ -45,6 +45,8 @@ interface FormData {
   date_interview: number;
   finalTotal: number;
   isConfirmed: boolean; // Add boolean field
+  userIdInterview: string;
+  time_interview: string;
 
   //cv_Photo: File | null;
 }
@@ -92,6 +94,8 @@ const defaultFormData: FormData = {
   date_interview: 0,
   finalTotal: 0,
   isConfirmed: false, // Add boolean field
+  userIdInterview: '',
+  time_interview: '',
 
 };
 async function getFormById(id: string): Promise<FormData> {
