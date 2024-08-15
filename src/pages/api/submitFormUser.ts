@@ -59,10 +59,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         html: acceptingLoginTemplate({ name, email, password }),
       });
 
-      res.status(201).json({ message: "User registered successfully", token: userToken });
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      res.status(500).json({ message: "User registering failed", error: 'Unexpected error' });
+      res.status(201).json({ message: "User registered successfully", token: userToken});
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error registering user:', error.message);
+        res.status(500).json({ message: "User registering failed", error: error.message });
+      } else {
+        console.error('Unexpected error:', error);
+        res.status(500).json({ message: "User registering failed", error: 'Unexpected error' });
+      }
     }
   } else if (req.method === "GET") {
     try {

@@ -41,7 +41,7 @@ const defaultFormData: FormData = {
 
 async function getFormById(id: string): Promise<FormData> {
   try {
-    const response = await fetch(`http://localhost:3000/api/admissionformusers/${id}`, { method: 'GET' });
+    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformusers/${id}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }

@@ -2,8 +2,6 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import withAuth from '@/hoc/withAuth';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 
@@ -13,13 +11,13 @@ interface FormData {
   email: string;
   password: string;
   post: string;
-  numberOfUserIds: number;
-  numberOfInterviews: number;
-  numberOfUserNote: number;
-  numberOfUserIdsClient: number;
-  numberOfUserIdsInterClient: number;
-  numberOfUserIdsNoteClient: number;
   isAdmin: boolean;
+  numberOfUserIds: 0,
+  numberOfInterviews: 0,
+  numberOfUserNote: 0,
+  numberOfUserIdsClient: 0,
+  numberOfUserIdsInterClient: 0,
+  numberOfUserIdsNoteClient: 0,
 }
 interface IAdmissionFormClient {
   userId: string;
@@ -32,20 +30,19 @@ interface IAdmissionFormProf {
   userIdNote: string;
 }
 const AdmissionUser: React.FC = () => {
-  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     prenome: '',
     email: '',
     password: '',
     post: '',
+    isAdmin: false,
     numberOfUserIds: 0,
     numberOfInterviews: 0,
     numberOfUserNote: 0,
     numberOfUserIdsClient: 0,
     numberOfUserIdsInterClient: 0,
     numberOfUserIdsNoteClient: 0,
-    isAdmin: false
   });
 
 
@@ -63,51 +60,47 @@ const AdmissionUser: React.FC = () => {
     }));
   };
  
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    const token = localStorage.getItem('token'); // Adjust this if you store the token differently
+    const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.post('/api/submitFormUser', formData, {
+      const response = await fetch('/api/submitFormUser', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`, // Include token if present
+
         },
+        body: JSON.stringify(formData),
       });
 
-      if (response.status === 201) {
-       
-        // Store the token in localStorage if received
-        localStorage.setItem('token', response.data.token);
-        if (formData.isAdmin === true){
-        localStorage.setItem('formData', JSON.stringify(formData))
-        router.push('/useradmissions');
+      const result = await response.json();
 
-      } else {
-        localStorage.getItem('formData');
+      if (response.ok) {
+        console.log('User registered successfully:', result);
+        if (result.token) {
+          localStorage.setItem('token', result.token);
         }
-        toast.success('Form submitted successfully!');
+        setMessage(result.message)
+        toast.success(result.message);
+        setTimeout(() => {
+              window.location.href = '/useradmissions';
+          }, 100);  
+        
+        
+        } else {
+        console.error('Registration failed:', result.message);
+        toast.error(result.message);
 
-          router.push('/useradmissions');
-          setTimeout(() => {
-                window.location.href = '/useradmissions';
-            }, 100);
-
-              
-
-      } else {
-        toast.error('Form submission failed!');
-        setMessage('Yes');
+        // Handle errors (e.g., show error message)
       }
-    } catch (error: any) {
-      toast.error(`Error: ${error.response?.data?.message || error.message}`);
+    } catch (error) {
+      console.error('Unexpected error:', error);
     }
   };
 
-  
 
-  
 
 
   const [userIdL, setUserIdL] = useState<string | null>(null);
