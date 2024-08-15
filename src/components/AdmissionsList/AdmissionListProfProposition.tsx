@@ -159,7 +159,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
   const handleButtonClick = async (formId: string) => {
     try {
       // Fetch the form data by ID
-      const response = await fetch(`http://localhost:3000/api/admissionformpropositionselect/${formId}`);
+      const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformpropositionselect/${formId}`);
 
       const data = await response.json();
   
