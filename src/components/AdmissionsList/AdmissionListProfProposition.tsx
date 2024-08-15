@@ -13,7 +13,7 @@ import Link from 'next/link';
 
 interface FormPropositionSelect {
   id: string;
-  isSelected: boolean;
+  IsSelected: boolean;
   name: string;
   
 }
@@ -132,7 +132,7 @@ interface IAdmissionFormProf {
   date_interview: Date;
   time_interview: string;
   isConfirmed: boolean;
-  isSelected: boolean;
+  IsSelected: boolean;
   counter: number;
 }
 
@@ -150,7 +150,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
   const [formData, setFormData] = useState<FormPropositionSelect>({
     id: formProposition._id,
     name: formProposition.name,
-    isSelected: true,
+    IsSelected: true,
 
     
   });
@@ -213,7 +213,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
         body: JSON.stringify({
           id: id,
           updateData: {
-            isSelected: formData.isSelected,
+            isSelected: formData.IsSelected,
           },
         }),
       });
@@ -229,7 +229,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
       setFormData({
         id: formProposition._id,
         name: formProposition.name,
-        isSelected: true,
+        IsSelected: true,
         
       });
 
@@ -719,7 +719,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
                     </td>
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
                       <p>
-                          {form.isSelected === true ? 
+                          {form.IsSelected ? 
                            <button
                            className='bg-green-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Selected</button>
                             :
