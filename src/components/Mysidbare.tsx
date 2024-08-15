@@ -193,7 +193,7 @@ const handleLogout = () => {
     <>
    
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white transition-transform transform ${
+        className={`fixed top-0 left-0 h-full w-64 bg-customOrange text-white transition-transform transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -208,8 +208,8 @@ const handleLogout = () => {
             <li className="mb-2 text-[12px]">
             <div className="text-white mt-4 mb-4 flex justify-center">Profile</div>
            
-              <div className="text-white mt-4 mb-4">Name : <span>{formData.name ? formData.name : 'Name' }</span></div>
-              <div className="text-white mt-4 mb-4">Email : <span>{formData.email ?  formData.email : 'User'}</span></div>
+              <div className="text-white mt-4 mb-4">Name : <span>{formData.name ? formData.name : 'User name' }</span></div>
+              <div className="text-white mt-4 mb-4">Email : <span>{formData.email ?  formData.email : 'User email'}</span></div>
               <div className="text-white mt-4 mb-4">Nb.professors : <span>{numberOfUserIds}</span></div>
               <div className="text-white mt-4 mb-4">Nb.professors.Accepted: <span>{numberOfUserNote}</span></div>
               <div className="text-white mt-4 mb-4">NB.professors.Interviews: <span>{numberOfInterviews}</span></div>

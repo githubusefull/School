@@ -45,7 +45,8 @@ export interface IAdmissionFormProf extends Document {
   date_interview: Date;
   time_interview: string;
   isConfirmed: boolean;
-  counter: number // Initialize counter
+  isSelected: boolean;
+  counter: number; // Initialize counter
   userId: string; // Add userId here
   userIdNote: string; // Add userId here
   userIdInterview: string;
@@ -101,6 +102,7 @@ export interface IAdmissionFormProf extends Document {
   date_interview:{type: Date },
   time_interview:{type: String },
   isConfirmed:{type: Boolean},
+  isSelected: { type: Boolean },
   counter: { type: Number, default: 0,  }, // Initialize counter
 
   //cv_Photo: { type: String, required: false }, // Optional field
@@ -150,6 +152,8 @@ const newValues: Partial<IAdmissionFormProf> = {
   time_interview:'',
   isConfirmed: false, // Add boolean value
   counter: 0, // Initialize counter
+  isSelected: false, // Add boolean value
+
 
 };
 

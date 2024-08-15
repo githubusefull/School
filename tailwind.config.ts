@@ -8,7 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      
+      colors: {
+        customOrange: '#FF4C00',
+      },
         animation: {
           fadeIn: 'fadeIn 0.5s ease-in-out',
           fadeOut: 'fadeOut 0.5s ease-in-out',

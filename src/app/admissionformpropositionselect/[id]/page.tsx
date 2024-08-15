@@ -1,5 +1,6 @@
-//import AdmissionForm from "@/pages/models/AdmissionsForm";
-import AdmissionFormConfirm from "../../../components/forms/AdmissionFormConfirm";
+import Proposition from "@/components/forms/Proposition";
+//import PropositionSelect from "@/components/forms/PropositionSelect";
+//import Modal from '@/components/forms/Modal';
 
 interface FormData {
   _id: string;
@@ -117,7 +118,7 @@ const defaultFormData: FormData = {
 };
 async function getFormById(id: string): Promise<FormData> {
   try {
-    const response = await fetch(`http://localhost:3000/api/admissionformconfirm/${id}`, { method: 'GET' });
+    const response = await fetch(`http://localhost:3000/api/admissionformpropositionselect/${id}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -128,16 +129,22 @@ async function getFormById(id: string): Promise<FormData> {
   }
 }
 
-      
+
+ 
 interface FormIDProps   {
   //form: FormData | null;
   params: { id: string };
 }
  
 export default async function FormID({ params }: FormIDProps) {
-  const form = await getFormById(params.id);
+  //const form = await getFormById(params.id);
 
-  if (!form) {
+
+    const formSelect = await getFormById(params.id);
+   
+
+
+  if (!formSelect) {
     return (
       <div>
         <p>Failed to load form details for ID: {params.id}</p>
@@ -149,7 +156,8 @@ export default async function FormID({ params }: FormIDProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
     <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">
-      <AdmissionFormConfirm form={form}/>
+       <Proposition formSelect={formSelect}/>
+    
     </div>
   </div>
   );

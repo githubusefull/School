@@ -713,6 +713,9 @@ const AdmissionFormProf: React.FC = () => {
           <option value="" className="">Matière 1</option>
           <option value="Physique">Physique</option>
           <option value="Maths">Maths</option>
+          <option value="Chimie">Chimie</option>
+          <option value="Arabs">Arabs</option>
+
 
         </select>
       </div>
@@ -728,8 +731,10 @@ const AdmissionFormProf: React.FC = () => {
           >
             <option value="" className="">Niveau 1</option>
             <option value="Primaire">Primaire</option>
-            <option value="Collège">Collège</option>
-            <option value="Lycée">Lycée</option>
+            <option value="College">Collège</option>
+            <option value="Lycee">Lycée</option>
+            <option value="Lycee">Superieur</option>
+
           </select>
        
 

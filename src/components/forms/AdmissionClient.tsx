@@ -307,10 +307,8 @@ const handleUpdateUser = async () => {
 
     }));
    
-    toast.success('User updated successfully');
   } catch (error) {
     console.error('Error updating user:', error);
-    toast.error('Failed to update user');
   }
 };
 
@@ -686,6 +684,9 @@ const handleUpdateUser = async () => {
           <option value="" className="">Matière 1</option>
           <option value="Physique">Physique</option>
           <option value="Maths">Maths</option>
+          <option value="Chimie">Chimie</option>
+          <option value="Arabs">Arabs</option>
+
 
         </select>
       </div>
@@ -701,8 +702,8 @@ const handleUpdateUser = async () => {
           >
             <option value="" className="">Niveau 1</option>
             <option value="Primaire">Primaire</option>
-            <option value="Collège">Collège</option>
-            <option value="Lycée">Lycée</option>
+            <option value="College">Collège</option>
+            <option value="Lycee">Lycée</option>
           </select>
        
 

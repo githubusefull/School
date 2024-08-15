@@ -195,7 +195,7 @@ const AdmissionFormCofirm: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
     router.push('/clientadmissions');
     setTimeout(() => {
-      window.location.href = '/useradmissions';
+      window.location.href = '/clientadmissions';
     }, 100);
       setMessage(data.message);
       toast.success('Edited Successfully');
