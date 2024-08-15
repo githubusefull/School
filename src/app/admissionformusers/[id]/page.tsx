@@ -7,36 +7,38 @@ interface FormData {
     prenome: string;
     email: string;
     password: string;
-    post: string;
-    professeurs: string;
-    professeurs_accepted: string;
-    professeurs_interview: string;
-    clients: string;
-    clients_interview: string;
-    clients_confirmed: string;
-    percentage: string;
-    salary_net: string;
+  post: string;
+  numberOfUserIds: number;
+  numberOfInterviews: number;
+  numberOfUserNote: number;
+  numberOfUserIdsClient: number;
+  numberOfUserIdsInterClient: number;
+  numberOfUserIdsNoteClient: number;
+  numberOfUserIdsConfirmClient: number;
+  percentage: string;
+  salary_net: string;
     salary_month: string;
     prima: string;
     //cv_Photo: File | null;
 }
 const defaultFormData: FormData = {
-    _id: '',
-    name: '',
-    prenome: '',
-    email: '',
-    password: '',
-    post: '',
-    professeurs: '',
-    professeurs_accepted: '',
-    professeurs_interview: '',
-    clients: '',
-    clients_interview: '',
-    clients_confirmed: '',
-    percentage: '',
-    salary_net: '',
-    salary_month: '',
-    prima: '',
+  _id: '',
+  name: '',
+  prenome: '',
+  email: '',
+  password: '',
+  post: '',
+  numberOfUserIds: 0,
+  numberOfInterviews: 0,
+  numberOfUserNote: 0,
+  numberOfUserIdsClient: 0,
+  numberOfUserIdsInterClient: 0,
+  numberOfUserIdsNoteClient: 0,
+  numberOfUserIdsConfirmClient: 0,
+  percentage: '',
+  salary_net: '',
+  salary_month: '',
+  prima: '',
 };
 
 async function getFormById(id: string): Promise<FormData> {

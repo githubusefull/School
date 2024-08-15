@@ -174,7 +174,7 @@ const Mysidbare: React.FC = () => {
 
   const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdL).length;
   const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdL).length;
-  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdConfirmClient === userIdL).length;
+  const numberOfUserIdsConfirmClient = admissionsClient.filter(admission => admission.userIdConfirmClient === userIdL).length;
 
 
 
@@ -216,7 +216,7 @@ const handleLogout = () => {
               <div className="text-white mt-4 mb-4">NB.professors.Interviews: <span>{numberOfInterviews}</span></div>
               <div className="text-white mt-4 mb-4">NB.clients: <span>{numberOfUserIdsClient}</span></div>
               <div className="text-white mt-4 mb-4">NB.client.Interviews: <span>{numberOfUserIdsInterClient}</span></div>
-              <div className="text-white mt-4 mb-4">NB.Client.Confirmed: <span>{numberOfUserIdsNoteClient}</span></div>
+              <div className="text-white mt-4 mb-4">NB.client.Confirmed: <span>{numberOfUserIdsConfirmClient}</span></div>
            
               
               <div>

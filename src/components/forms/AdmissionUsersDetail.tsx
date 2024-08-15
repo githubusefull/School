@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 interface FormDataUser {
   id: string;
+  percentage_affectation: string;
   percentage: string;
   salary_net: string;
   salary_month: string;
@@ -24,14 +25,16 @@ interface FormData {
   email: string;
   password: string;
   post: string;
-  professeurs: string;
-  professeurs_accepted: string;
-  professeurs_interview: string;
-  clients: string;
-  clients_interview: string;
-  clients_confirmed: string;
+  numberOfUserIds: number;
+  numberOfInterviews: number;
+  numberOfUserNote: number;
+  numberOfUserIdsClient: number;
+  numberOfUserIdsInterClient: number;
+  numberOfUserIdsNoteClient: number;
+  numberOfUserIdsConfirmClient: number;
   salary_month:string;
   percentage: string;
+  percentage_affectation: string;
   prima: string;
   salary_net: string;
 }
@@ -57,6 +60,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     percentage: form.percentage,
     salary_net: form.salary_net,
     salary_month: form.salary_month,
+    percentage_affectation: form.percentage_affectation,
     prima: form.prima
 
   });
@@ -130,6 +134,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
             salary_month:formData.salary_month,
             percentage: formData.percentage,
             salary_net:formData.salary_net,
+            percentage_affectation: formData.percentage_affectation,
             prima:formData.prima
 
           },
@@ -147,6 +152,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         percentage: '',
         salary_net:'',
         salary_month:'',
+        percentage_affectation:'',
         prima:''     
       });
     
@@ -297,7 +303,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           name="professeurs"
           placeholder="Professeurs"
           className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.professeurs}
+          value={`Professeurs : ${!form.numberOfUserIds ? '0': form.numberOfUserIds}`}
+
           onChange={handleChange}
         />
       </div>
@@ -309,7 +316,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           name="professeurs_accepted"
           placeholder="Professeurs Accepted"
           className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.professeurs_accepted}
+          value={`Professeurs Accepted: ${!form.numberOfUserNote ? '0': form.numberOfUserNote}`}
+
           onChange={handleChange}
         />
       </div>
@@ -320,9 +328,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           id="professeurs_interview"
           name="professeurs_interview"
           placeholder="Professeurs Interview"
-
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.professeurs_interview}
+          value={`Professeurs Interview: ${!form.numberOfInterviews ? '0': form.numberOfInterviews}`}
           onChange={handleChange}
         />
       </div>
@@ -334,7 +341,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           placeholder='Clients'
           name="clients"
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.clients}
+          value={`Clients: ${!form.numberOfUserIdsClient ? '0': form.numberOfUserIdsClient}`}
           onChange={handleChange}
          />
          
@@ -347,7 +354,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           placeholder='Clients Interview'
           name="clients_interview"
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.clients_interview}
+          value={`Clients Interview: ${!form.numberOfUserIdsInterClient ? '0': form.numberOfUserIdsInterClient}`}
+
           onChange={handleChange}
          />
       </div>
@@ -358,7 +366,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           placeholder='Clients Confirmed'
           name="clients_confirmed"
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.clients_confirmed}
+          value={`Clients Confirmed: ${!form.numberOfUserIdsConfirmClient ? '0': form.numberOfUserIdsConfirmClient}`}
           onChange={handleChange}
          />
       </div>
@@ -369,9 +377,9 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
      <div className="mb-4">
         <input
           type="text"
-          id="percentage"
-          name="percentage"
-          placeholder="Percentage"
+          id="salary_month"
+          name="salary_month"
+          placeholder="Salary Month"
           className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value={formData.salary_month}
           onChange={handleChange}
@@ -391,25 +399,26 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       <div className="mb-4">
         <input
           type="text"
-          id="salary_net"
-          name="salary_net"
-          placeholder="Salary Net"
+          id="percentage_affectation"
+          name="percentage_affectation"
+          placeholder="Percentage Affectation"
           className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.prima}
+          value={formData.percentage_affectation}
           onChange={handleChange}
         />
       </div>
       <div className="mb-4">
         <input
           type="text"
-          id="salary_net"
-          name="salary_net"
-          placeholder="Salary Net"
+          id="prima"
+          name="prima"
+          placeholder="Prima"
           className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formData.salary_net}
+          value={formData.prima}
           onChange={handleChange}
         />
       </div>
+      
       </>
      : null}
 

@@ -360,14 +360,14 @@ const AdmissionsListProfe: React.FC = () => {
                   {!form.date_interview ? (  
 
                     <Link href={`/admissionformdate/${form._id}`}>
-                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
+                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[15px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
                   </Link>
                     ):(
                       <p className='text-gray-300 font-[400] flex'>
-                        <span>
+                        <span className=''>
                            {format(new Date(form.date_interview), 'dd-MM-yyyy')}
                         </span>
-                      <span className='ml-1 text-blue-500'>{form.time_interview}</span>
+                      <span className='ml-[3px] text-blue-500'>{form.time_interview}</span>
                       
                       </p>
                     )}

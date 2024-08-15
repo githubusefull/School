@@ -269,7 +269,7 @@ useEffect(() => {
 
   fetchForms();
 }, []);
-
+ console.log(form._id)
 
  
   return (
@@ -328,7 +328,7 @@ useEffect(() => {
           type="text"
           id="name"
           name="name"
-          placeholder="Nom"
+          placeholder="Name"
           className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700  leading-tight  focus:outline-none focus:shadow-outline"
           value={form.name}
           onChange={handleChange}

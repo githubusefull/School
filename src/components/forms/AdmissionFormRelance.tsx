@@ -101,9 +101,9 @@ const [userIdRelance, setUserIdRelance] = useState<string | null>(null);
 useEffect(() => {
   const token = localStorage.getItem('token');
   if (token) {
-    const userId = getUserIdFromToken(token);
-    console.log('User ID:', userId);
-    setUserIdRelance(userId);
+    const userIdRelance = getUserIdFromToken(token);
+    console.log('User ID:', userIdRelance);
+    setUserIdRelance(userIdRelance);
   }
 }, []);
 

@@ -273,7 +273,11 @@ const AdmissionsListUser: React.FC = () => {
                   <span className='inline ml-1'>User</span>
 
                 </th>
-              
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                     
+                  <span className='inline ml-1'>Notification</span>
+
+                </th>
               
            
               </tr>
@@ -314,7 +318,7 @@ const AdmissionsListUser: React.FC = () => {
                   Salary
                   <span className='inline ml-1'>Net</span>
                   </td>
-
+                
                 
                 
               

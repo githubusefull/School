@@ -17,6 +17,7 @@ export interface IAdmissionFormUser extends Document {
   salary_month: string;
   percentage: string;
   prima: string;
+  percentage_affectation: string;
   salary_net: string;
   isAdmin: boolean;
 }
@@ -37,6 +38,7 @@ const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
   salary_month:{ type: String },
   percentage: { type: String },
   prima: { type: String },
+  percentage_affectation:{type: String},
   salary_net: { type: String },
 });
 
@@ -72,6 +74,7 @@ const newValues: Partial<IAdmissionFormUser> = {
   numberOfUserIdsInterClient: 0,
   numberOfUserIdsConfirmClient: 0,
   salary_month:'',
+  percentage_affectation:'',
   percentage:'',
   prima: '',
   salary_net: '',
