@@ -184,10 +184,9 @@ const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('formData');
     alert('Logged out');
-    router.push('/');
     setTimeout(() => {
-      window.location.reload();
-    }, 100);
+      window.location.href = '/login';
+  }, 100);
 };
 
   return (

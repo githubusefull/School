@@ -15,6 +15,7 @@ interface FormData {
   numberOfUserIdsInterClient: number;
   numberOfUserIdsNoteClient: number;
   numberOfUserIdsConfirmClient: number;
+  percentage_affectation: string;
   percentage: string;
   salary_net: string;
     salary_month: string;
@@ -35,6 +36,7 @@ const defaultFormData: FormData = {
   numberOfUserIdsInterClient: 0,
   numberOfUserIdsNoteClient: 0,
   numberOfUserIdsConfirmClient: 0,
+  percentage_affectation:'',
   percentage: '',
   salary_net: '',
   salary_month: '',
