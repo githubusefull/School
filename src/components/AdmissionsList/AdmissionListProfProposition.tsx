@@ -176,10 +176,9 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
     try {
       await handleSubmit(selectedForm._id);
       toast.success('Selected Successfully');
-           
-      setTimeout(() => {
-        window.location.href = '/professeuradmissions';
-      }, 100);
+      setIsDialogOpen(false);
+   
+      
     } catch (error) {
       console.error('Error in handleConfirm:', error);
       toast.error('Failed to select');
@@ -224,6 +223,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
 
       const data = await response.json();
       console.log('Updated Document:', data);
+      window.location.reload();
 
 
       setFormData({
@@ -233,7 +233,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
         
       });
 
-      toast.success(data.message);
+      //toast.success(data.message);
       //toast.success('Edited Successfully');
     } catch (error) {
       console.error('Error:', error);
@@ -365,10 +365,8 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
         matiere_1: '',
         niveau_1: '',
       });
-      toast.success(data.message);
-      setTimeout(() => {
-            window.location.href = '/';
-        }, 100);
+      //toast.success(data.message);
+     
        
     } else {
       throw new Error(data.message || 'Form submission failed');
@@ -837,11 +835,9 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
               </div>
 
                      
-              <div className="grid grid-cols-3 mt-4 gap-4">
-                  <div className="text-gray-300 p-4 rounded-[5px] outline  outline-1">
-                    <span>Detail Proposition</span>
-                  </div>
-                  <div className="text-gray-300 p-4 rounded-[5px] outline  outline-1">
+              <div className="grid grid-cols-2 mt-4 px-8 gap-4">
+                  
+                  <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
             <span>Form Professeur Proposition</span>
             
             <div className="overflow-x-auto h-64">
@@ -872,7 +868,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
 
 
                   </div>   
-                  <div className="text-gray-300 p-4 rounded-[5px] outline  outline-1">
+                  <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
                       <span>Form Client</span>
                       <div className="overflow-x-auto h-64">
                           <div className="border-collapse font-light text-[9px]">

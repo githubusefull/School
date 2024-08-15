@@ -194,7 +194,7 @@ const handleLogout = () => {
     <>
    
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-customOrange text-white transition-transform transform ${
+        className={`fixed top-0 left-0 h-full w-64 bg-customOrange z-60 text-white transition-transform transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
