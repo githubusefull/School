@@ -217,11 +217,7 @@ const AdmissionsListUser: React.FC = () => {
                   <span className='inline ml-1'>Post</span>
 
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                     Display
-                  <span className='inline ml-1'>User</span>
-
-                </th>
+               
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   
                   <span className='inline ml-1'>Professeurs</span>
@@ -272,7 +268,11 @@ const AdmissionsListUser: React.FC = () => {
                   <span className='inline ml-1'>Net</span>
 
                 </th>
- 
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                     Display
+                  <span className='inline ml-1'>User</span>
+
+                </th>
               
               
            
@@ -290,14 +290,35 @@ const AdmissionsListUser: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prenome}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.email}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.post}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIds}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfInterviews}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserNote}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIdsClient}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIdsNoteClient}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.numberOfUserIdsInterClient}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">{form.numberOfUserIds}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">{form.numberOfUserNote}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">{form.numberOfInterviews}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">{form.numberOfUserIdsClient}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">{form.numberOfUserIdsInterClient}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">{form.numberOfUserIdsNoteClient}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">
+                  Salary
+                  <span className='inline ml-1'>Month</span>
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">
+                  Percentage
+                  <span className='inline ml-1'>Affectation</span>
 
-                  <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">
+                  <span className='inline ml-1'>Prima</span>
+
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">
+                    
+                  Salary
+                  <span className='inline ml-1'>Net</span>
+                  </td>
+
+                
+                
+              
+                  <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px] ">
                   <p className='flex justify-center'> 
                   <Link href={`/admissionformusers/${form._id}`}>
                         <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Display</button>

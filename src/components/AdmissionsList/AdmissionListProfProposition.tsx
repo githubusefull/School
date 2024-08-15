@@ -81,7 +81,7 @@ interface FormData {
     ticketNumber:number,
     isConfirmed: boolean;
     userIdConfirmClient: string;
-    isSelected: boolean;
+    IsSelected: boolean;
     date_proposition: string;
     time_proposition: string;
     userIdProposition: string;
@@ -159,7 +159,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
   const handleButtonClick = async (formId: string) => {
     try {
       // Fetch the form data by ID
-      const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformpropositionselect/${formId}`);
+      const response = await fetch(`/api/admissionformpropositionselect/${formId}`);
 
       const data = await response.json();
   
@@ -213,7 +213,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
         body: JSON.stringify({
           id: id,
           updateData: {
-            isSelected: formData.IsSelected,
+            IsSelected: formData.IsSelected,
           },
         }),
       });
@@ -788,7 +788,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
 
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name Professeur: {selectedForm?.name}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email : {selectedForm?.email}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">isSelected : {selectedForm?.isSelected === true ?
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">isSelected : {selectedForm?.IsSelected === true ?
                      <button className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Selected</button>
                   
                  :                      <button className='bg-yellow-400 text-gray-700  ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Not/Selected</button>
@@ -835,6 +835,8 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
           </div>
        
               </div>
+
+                     
               <div className="grid grid-cols-3 mt-4 gap-4">
                   <div className="text-gray-300 p-4 rounded-[5px] outline  outline-1">
                     <span>Detail Proposition</span>
@@ -850,7 +852,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
 
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name Professeur: {selectedForm?.name}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email : {selectedForm?.email}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">isSelected : {selectedForm?.isSelected === true ?
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">isSelected : {selectedForm?.IsSelected === true ?
                      <button className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Selected</button>
                   
                  :                      <button className='bg-yellow-400 text-gray-700  ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Not/Selected</button>
@@ -863,7 +865,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
               </div>
               </div>
 
-                 
+              
               
            
             

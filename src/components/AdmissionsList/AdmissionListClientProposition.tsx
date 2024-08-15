@@ -295,7 +295,9 @@ const AdmissionsListClientProposition: React.FC = () => {
                   Confir/NoConfir
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                <span className='inline m-1'>Relance</span>
+                    Notification
+                <span className='inline m-1'>de</span>
+                    Relance 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 <span className='inline m-1'>Proposition</span>
@@ -398,8 +400,9 @@ const AdmissionsListClientProposition: React.FC = () => {
                     
 
                   </td>
-                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                      <p className='flex'> 
+  
+                    <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
+                      <p className='flex justify-center'> 
                         <Link href={`/admissionformclientrelance/${form._id}`}>
 
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>

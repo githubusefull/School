@@ -1057,14 +1057,14 @@ const handleUpdateUser = async () => {
         {form.isConfirmed === true ? (
           <button
             type="submit"
-            className="bg-red-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            No Confirm
+             Confirmed
           </button>
         ) : (
           <button
             type="submit"
-            className="bg-blue-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-green-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
              Confirm
           </button>
@@ -1073,24 +1073,6 @@ const handleUpdateUser = async () => {
 
  
 
-        {form.isConfirmed && (
-          <>
-            <button
-              type="submit"
-              className="bg-blue-500  text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Confirm
-            </button>
-
-            <button
-              type="submit"
-              className="bg-red-500 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              No Confirm
-            </button>
-          </>
-        )
-        }
 
       </div>
     </form>

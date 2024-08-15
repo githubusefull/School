@@ -58,6 +58,7 @@ interface IAdmissionFormClient {
   userId: string;
   userIdInterview: string;
   userIdNote: string;
+  userIdConfirmClient: string;
 }
 interface FormData {
   name: string;
@@ -173,7 +174,7 @@ const Mysidbare: React.FC = () => {
 
   const numberOfUserIdsClient = admissionsClient.filter(admission => admission.userId === userIdL).length;
   const numberOfUserIdsInterClient = admissionsClient.filter(admission => admission.userIdInterview === userIdL).length;
-  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdNote === userIdL).length;
+  const numberOfUserIdsNoteClient = admissionsClient.filter(admission => admission.userIdConfirmClient === userIdL).length;
 
 
 
