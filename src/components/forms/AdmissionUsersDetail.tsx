@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
@@ -10,6 +11,14 @@ import Link from 'next/link';
 
 interface FormDataUser {
   id: string;
+  name: string;
+  numberOfUserIds: number;
+  numberOfInterviews: number;
+  numberOfUserNote: number;
+  numberOfUserIdsClient: number;
+  numberOfUserIdsInterClient: number;
+  numberOfUserIdsNoteClient: number;
+  numberOfUserIdsConfirmClient: number;
   percentage_affectation: string;
   percentage: string;
   salary_net: string;
@@ -39,11 +48,23 @@ interface FormData {
   salary_net: string;
 }
 
+
+
 interface AdmissionFormNoteProps {
   form: FormData;
+
 }
 
-const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
+
+
+
+
+
+
+const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
+
+
+
   const [message, setMessage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,13 +78,22 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
   const [formData, setFormData] = useState<FormDataUser>({
     id: form._id,
+    name: form.name,
     percentage: form.percentage,
     salary_net: form.salary_net,
     salary_month: form.salary_month,
     percentage_affectation: form.percentage_affectation,
-    prima: form.prima
+    prima: form.prima,
+    numberOfUserIds: form.numberOfUserIds,
+    numberOfInterviews: form.numberOfInterviews,
+    numberOfUserNote: form.numberOfUserNote,
+    numberOfUserIdsClient: form.numberOfUserIdsClient,
+    numberOfUserIdsInterClient: form.numberOfUserIdsInterClient,
+    numberOfUserIdsNoteClient: form.numberOfUserIdsNoteClient,
+    numberOfUserIdsConfirmClient: form.numberOfUserIdsConfirmClient,
 
   });
+
 
 
   const getUserIdFromToken = (token: string): string | null => {
@@ -107,19 +137,6 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
 
-
-{/*   
-    const total: number =
-    Number(formData.niveau_1_note) +
-    Number(formData.niveau_2_note) +
-    Number(formData.niveau_3_note) +
-    Number(formData.niveau_4_note) +
-    Number(formData.niveau_5_note) +
-    Number(formData.niveau_6_note);
-  const average: number = total / 6;
-  const finalTotal: number = Math.ceil(average * 100) / 100;
-  */}
-
     try {
       const response = await fetch('/api/user_update', {
         method: 'PUT',
@@ -131,6 +148,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         body: JSON.stringify({
         id: formData.id,
           updateData: {
+            name:formData.name,
+            numberOfUserIds:formData.numberOfUserIds,
             salary_month:formData.salary_month,
             percentage: formData.percentage,
             salary_net:formData.salary_net,
@@ -149,11 +168,19 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       console.log('Updated Document:', data);
       setFormData({
         id: '',
+        name:'',
         percentage: '',
         salary_net:'',
         salary_month:'',
-        percentage_affectation:'',
-        prima:''     
+        percentage_affectation: '',
+        prima: '',
+        numberOfUserIds: 0,
+        numberOfInterviews: 0,
+        numberOfUserNote: 0,
+        numberOfUserIdsClient: 0,
+        numberOfUserIdsInterClient: 0,
+        numberOfUserIdsNoteClient: 0,
+        numberOfUserIdsConfirmClient: 0   
       });
     
 
@@ -173,48 +200,18 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 
 
-  const handleUpdateUnaccepted = async () => {
-    try {
-      const response = await fetch('/api/unaccepted_update', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: formData.id,
-         
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log('Updated Document:', data);
-      
-      router.push('/professeuradmissions');
-      setMessage(data.message);
-      toast.success('Refuse Sent Successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to update document');
-    }
-  };
+ 
+ 
 
 
-  {/*  
 
-  const total: number =
-    Number(formData.niveau_1_note) +
-    Number(formData.niveau_2_note) +
-    Number(formData.niveau_3_note) +
-    Number(formData.niveau_4_note) +
-    Number(formData.niveau_5_note) +
-    Number(formData.niveau_6_note);
-  const average: number = total / 6;
-  const finalTotal: number = Math.ceil(average * 100) / 100;
- */}
+
+
+
+
+
+
+
  
   return (
     <div>
@@ -239,7 +236,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
           name="name"
           placeholder="Nom"
           className="shadow appearance-none border font-[600] rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700  leading-tight  focus:outline-none focus:shadow-outline"
-          value={form.name}
+          value={formData.name}
           onChange={handleChange}
         />
       </div>
@@ -296,27 +293,26 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
         />
       </div>
       */}
+        <div className="mb-4">
+          <input
+            type="number"
+            id="numberOfUserIds"
+            name="numberOfUserIds"
+            placeholder={`Professeurs: ${form.numberOfUserIds ?  form.numberOfUserIds : '0'}`}
+            className="shadow appearance-none font-[600] border placeholder:text-gray-600 rounded-[4px] bg-gray-300 w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            //value={formData?.numberOfUserIds || ''}
+            onChange={handleChange}
+          />
+        </div>
+
       <div className="mb-4">
         <input
           type="text"
-          id="professeurs"
-          name="professeurs"
-          placeholder="Professeurs"
-          className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={`Professeurs : ${!form.numberOfUserIds ? '0': form.numberOfUserIds}`}
-
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="mb-4">
-        <input
-          type="text"
-          id="professeurs_accepted"
-          name="professeurs_accepted"
-          placeholder="Professeurs Accepted"
-          className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={`Professeurs Accepted: ${!form.numberOfUserNote ? '0': form.numberOfUserNote}`}
+          id="numberOfUserNote"
+          name="numberOfUserNote"
+          placeholder={`Professeurs Accepted: ${form.numberOfUserNote ? form.numberOfUserNote : '0' }`}
+          className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          //value={`Professeurs Accepted: ${form.numberOfUserNote}`}
 
           onChange={handleChange}
         />
@@ -325,11 +321,11 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       <div className="mb-4">
 
         <input
-          id="professeurs_interview"
-          name="professeurs_interview"
-          placeholder="Professeurs Interview"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={`Professeurs Interview: ${!form.numberOfInterviews ? '0': form.numberOfInterviews}`}
+          id="numberOfInterviews"
+          name="numberOfInterviews"
+          placeholder={`Professeurs Interview: ${form.numberOfInterviews ? form.numberOfInterviews : '0' }`}
+          className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          //value={`Professeurs Accepted: ${form.numberOfUserNote}`}
           onChange={handleChange}
         />
       </div>
@@ -337,11 +333,11 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       <div className="mb-4">
 
         <input
-          id="clients"
-          placeholder='Clients'
-          name="clients"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={`Clients: ${!form.numberOfUserIdsClient ? '0': form.numberOfUserIdsClient}`}
+          id="numberOfUserIdsClient"
+          name="numberOfUserIdsClient"
+          placeholder={`Clients: ${form.numberOfUserIdsClient ? form.numberOfUserIdsClient : '0' }`}
+          className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          //value={`Professeurs Accepted: ${form.numberOfUserNote}`}
           onChange={handleChange}
          />
          
@@ -350,11 +346,10 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       <div className="mb-4">
 
       <input
-          id="clients_interview"
-          placeholder='Clients Interview'
-          name="clients_interview"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={`Clients Interview: ${!form.numberOfUserIdsInterClient ? '0': form.numberOfUserIdsInterClient}`}
+          id="numberOfUserIdsInterClient"
+          name="numberOfUserIdsInterClient"
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border placeholder:text-gray-600  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder={`Clients Interview: ${!form.numberOfUserIdsInterClient ? '0': form.numberOfUserIdsInterClient}`}
 
           onChange={handleChange}
          />
@@ -362,11 +357,11 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({ form }) => {
       <div className="mb-4">
 
       <input
-          id="clients_confirmed"
-          placeholder='Clients Confirmed'
-          name="clients_confirmed"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={`Clients Confirmed: ${!form.numberOfUserIdsConfirmClient ? '0': form.numberOfUserIdsConfirmClient}`}
+          id="numberOfUserIdsConfirmClient"
+          name="numberOfUserIdsConfirmClient"
+          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 placeholder:text-gray-600 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder={`Clients Confirmed: ${!form.numberOfUserIdsConfirmClient ? '0': form.numberOfUserIdsConfirmClient}`}
+
           onChange={handleChange}
          />
       </div>

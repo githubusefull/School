@@ -23,8 +23,8 @@ export interface IAdmissionFormUser extends Document {
 }
 
 const AdmissionFormUserSchema: Schema<IAdmissionFormUser> = new Schema({
-  name: { type: String, required: true },
-  prenome: { type: String, required: true },
+  name: { type: String},
+  prenome: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String },
   post: { type: String },
@@ -67,6 +67,7 @@ const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissio
 // Example usage
 const documentId = '60d5ec49cfa1e72c4cba0c52'; // Replace with the actual ID
 const newValues: Partial<IAdmissionFormUser> = {
+  name:'',
   numberOfUserIds: 0,
   numberOfInterviews: 0,
   numberOfUserNote: 0,

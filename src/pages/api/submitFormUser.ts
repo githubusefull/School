@@ -10,20 +10,32 @@ import acceptingLoginTemplate from '../templates/acceptingLogin';
 connectDB();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
   if (req.method === "POST") {
     const authToken = req.headers.authorization?.split(' ')[1];
     if (!authToken) {
       return res.status(401).json({ message: "No token provided" });
     }
 
-
     try {
       // Verify the token and extract the user ID
       const decoded = verify(authToken, process.env.JWT_SECRET as string) as { id: string };
       const userId = decoded.id;
 
-      const { name, prenome, email, password, post } = req.body;
+      const { name, prenome, email, password, post,
+        numberOfUserIds,
+        numberOfInterviews,
+        numberOfUserNote,
+        numberOfUserIdsClient,
+        numberOfUserIdsInterClient,
+        numberOfUserIdsNoteClient,
+        numberOfUserIdsConfirmClient,
+        percentage_affectation,
+        percentage,
+        salary_net,
+        salary_month,
+        prima,
+
+       } = req.body;
       const user = await AdmissionFormUser.findOne({ email });
       if (user) {
         return res.status(400).json({ message: "User already exists" });
@@ -37,6 +49,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email,
         password: hashedPassword,
         post,
+        numberOfUserIds,
+        numberOfInterviews,
+        numberOfUserNote,
+        numberOfUserIdsClient,
+        numberOfUserIdsInterClient,
+        numberOfUserIdsNoteClient,
+        numberOfUserIdsConfirmClient,
+        percentage_affectation,
+        percentage,
+        salary_net,
+        salary_month,
+        prima,
       });
 
       await newForm.save();
@@ -59,24 +83,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         html: acceptingLoginTemplate({ name, email, password }),
       });
 
-      res.status(201).json({ message: "User registered successfully", token: userToken});
+      res.status(201).json({ message: "User registered successfully", token: userToken });
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error('Error registering user:', error.message);
-        res.status(500).json({ message: "User registering failed", error: error.message });
+        res.status(500).json({ message: "User registration failed", error: error.message });
       } else {
         console.error('Unexpected error:', error);
-        res.status(500).json({ message: "User registering failed", error: 'Unexpected error' });
+        res.status(500).json({ message: "User registration failed", error: 'Unexpected error' });
       }
     }
   } else if (req.method === "GET") {
+    const { id } = req.query;
+
     try {
-      const forms = await AdmissionFormUser.find();
-      res.setHeader('Cache-Control', 'no-store'); // Disable caching
-      res.status(200).json(forms);
+      if (id) {
+        const form = await AdmissionFormUser.findById(id);
+
+        if (!form) {
+          return res.status(404).json({ message: "Form not found" });
+        }
+
+        res.setHeader('Cache-Control', 'no-store'); // Disable caching
+        res.status(200).json(form);
+      } else {
+        const forms = await AdmissionFormUser.find();
+        res.setHeader('Cache-Control', 'no-store'); // Disable caching
+        res.status(200).json(forms);
+      }
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch forms" });
-    }
+      res.status(500).json({ message: "Failed to fetch forms" });    }
   } else {
     res.setHeader("Allow", ["POST", "GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);

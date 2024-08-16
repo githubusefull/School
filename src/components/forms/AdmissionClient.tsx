@@ -322,47 +322,32 @@ const handleUpdateUser = async () => {
 
         Vous souhaitez intégrer notre équipe enseignante ? Déposez votre candidature</p> */}
 
-      <div className="mt-4 mb-4">
-        <label className="block font-[600] text-gray-400   mb-2">
-          Civilité
-        </label>
-        <div>
-          <label className="inline-flex   items-center">
-            <input
-              type="radio"
-              name="civilite"
-              value="Mr"
-              className="form-radio  bg-gray-300"
-              onChange={handleChange}
-              checked={formData.civilite === 'Mr'}
-            />
-            <span className="ml-2 text-gray-300">Mr</span>
-          </label>
-          <label className="inline-flex rounded-[4px] items-center ml-6">
-            <input
-              type="radio"
-              name="civilite"
-              value="Mme"
-              className="form-radio bg-gray-300"
-              onChange={handleChange}
-              checked={formData.civilite === 'Mme'}
-            />
-            <span className="ml-2 text-gray-300">Mme</span>
-          </label>
-          <label className="inline-flex rounded-[4px] items-center ml-6">
-            <input
-              type="radio"
-              name="civilite"
-              value="Mlle"
-              className="form-radio bg-gray-300"
-              onChange={handleChange}
-              checked={formData.civilite === 'Mlle'}
-            />
-            <span className="ml-2 text-gray-300">Mlle</span>
-          </label>
-        </div>
-      </div>
+     
+<div className="mb-4">
 
+        <select className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+        onChange={handleChange}>
+          <option value="" className="">Vous êtes ?</option>
+          <option value="parents">Parents d'eleves</option>
+          <option value="ecolire/collegien/lyceen/etudiant">Ecolire, collégien, lycéen ou étudiant</option>
+          <option value="adulte/souhaitant/une/formation">Adulte souhaitant une formation</option>
+          <option value="entreprise">Entreprise</option>
+
+        </select>
+</div>
+<div className="mb-4">
+
+        <select className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+        onChange={handleChange}>
+          <option value="" className="">Les cours sont pour</option>
+          <option value="Vous/meme">Vous même</option>
+          <option value="Votre/fils">Votre fils</option>
+          <option value="Votre/fille">Votre fille</option>
+          <option value="Autre">Autre</option>
+          <option value="Entreprise">Entreprise</option>
+
+        </select>
+</div>
 
       <div className="mb-4">
         <input
@@ -684,7 +669,6 @@ const handleUpdateUser = async () => {
           <option value="" className="">Matière 1</option>
           <option value="Physique">Physique</option>
           <option value="Maths">Maths</option>
-          <option value="Chimie">Chimie</option>
           <option value="Arabs">Arabs</option>
 
 
