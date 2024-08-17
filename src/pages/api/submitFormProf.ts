@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const {
         name, prenome, email, password, ville, quartiers_Rabat, quartiers_Casablanca, 
         situation_professionelle, niveau_atteint_dans_les_etudes, experiences_dans_l_enseignement, 
-        cursus_economique_Commercial, specialte, motorise, telephone_portable, 
+        cursus_economique_Commercial, specialte, motorise, mission, telephone_portable, 
         matiere_1, niveau_1, niveau_1_note, matiere_2, niveau_2, niveau_2_note, 
         matiere_3, niveau_3, niveau_3_note, matiere_4, niveau_4, niveau_4_note, 
         matiere_5, niveau_5, niveau_5_note, matiere_6, niveau_6, niveau_6_note, 
@@ -54,6 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         cursus_economique_Commercial,
         specialte,
         motorise,
+        mission,
         telephone_portable,
         matiere_1,
         niveau_1,

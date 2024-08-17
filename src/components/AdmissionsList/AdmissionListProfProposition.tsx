@@ -102,6 +102,7 @@ interface IAdmissionFormProf {
   cursus_economique_Commercial: string;
   specialte: string;
   motorise: string;
+  mission:string;
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
@@ -248,8 +249,8 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
 
   const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
   const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormProf[]>([]);
+  const [searchSelector, setSearchSelector] = useState(''); // Default selector
 
   //const [filteredPropositions, setFilteredPropositions] = useState<FormData>(formProposition);
 
@@ -277,21 +278,7 @@ const AdmissionsListProfProposition: React.FC <PropositionDataProps> = ({ formPr
 
 
  
-  useEffect(() => {
-    if (searchTerm === '') {
-      setFilteredAdmissions(admissions);
-    } else {
-      setFilteredAdmissions(
-        admissions.filter((admission) =>
-          admission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        admission.matiere_1.includes(searchTerm) ||
-        admission.niveau_1.includes(searchTerm)  ||
-        (`${admission.matiere_1} ${admission.niveau_1}`).toLowerCase().includes(searchTerm.toLowerCase())
-
-      )
-      );
-    }
-  }, [searchTerm, admissions]);
+ 
 
 
 // form proposition
@@ -378,12 +365,44 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
 };
 
 
+{/*   
+// search 
+useEffect(() => {
+  if (searchTerm === '') {
+    setFilteredAdmissions(admissions);
+  } else {
+    setFilteredAdmissions(
+      admissions.filter((admission) =>
+        admission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      admission.matiere_1.includes(searchTerm) ||
+      admission.niveau_1.includes(searchTerm)  ||
+      (`${admission.matiere_1} ${admission.niveau_1}`).toLowerCase().includes(searchTerm.toLowerCase())
+
+    )
+    );
+  }
+}, [searchTerm, admissions]);*/}
 
 
-
-
-
-
+useEffect(() => {
+  if (searchSelector === '') {
+    setFilteredAdmissions(admissions);
+  } else {
+    setFilteredAdmissions(
+      admissions.filter((admission) => {
+        const searchLower = searchSelector.toLowerCase();
+        return (
+          admission.ville.toLowerCase() === searchLower ||
+          admission.matiere_1.toLowerCase() === searchLower ||
+          admission.niveau_1.toLowerCase() === searchLower ||
+          admission.motorise && admission.motorise.toLowerCase() === searchLower ||
+          admission.civilite.toLowerCase() === searchLower ||
+          admission.mission && admission.mission.toLowerCase() === searchLower 
+        );
+      })
+    );
+  }
+}, [searchSelector, admissions]);
 
 
   if (loading) {
@@ -396,21 +415,149 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
     <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
       <div className="">
 
-      <div className="flex justify-center">
-      <div className="flex justify-center w-80">
+
+        <div className="grid grid-cols-6 mt-4 px-4">
+          <div className='px-4'>
+            <select
+              value={searchSelector}
+              onChange={(e) => setSearchSelector(e.target.value)}
+              id="ville"
+              name="ville"
+              className="shadow rounded-[4px]  font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+
+            >
+              <option value="" className="">Ville</option>
+              <option value="Rabat">Rabat</option>
+              <option value="Casablanca">Casablanca</option>
+              <option value="Kenitra">Kenitra</option>
+              <option value="Asfi">Asfi</option>
+              <option value="Kenitra">Kenitra</option>
+              <option value="Asfi">Asfi</option>
+              <option value="Fès">Fès</option>
+              <option value="Tanger">Tanger</option>
+              <option value="Marrakech">Marrakech</option>
+              <option value="Salé">Salé</option>
+              <option value="Agadir">Agadir</option>
+              <option value="Mohammedia">Mohammedia</option>
+              <option value="Eljadida">Eljadida</option>
+              <option value="Errachidia">Errachidia</option>
+              <option value="Essaouira">Essaouira</option>
+              <option value="Tétouan">Tétouan</option>
+              <option value="Meknès">Meknès</option>
+            </select>
+          </div>
+          <div className='px-4'>
+            <select
+             value={searchSelector}
+             onChange={(e) => setSearchSelector(e.target.value)}
+              id="Matiere/1"
+              name="Matiere/1"
+              className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+
+            >
+              <option value="" className="">Matière 1</option>
+              <option value="Aide/aux/devoirs">Aide aux devoirs
+              </option>
+              <option value="Maths">Maths</option>
+              <option value="Physique">Physique</option>
+              <option value="Chimie">Chimie</option>
+              <option value="Biologie/SVT">Biologie/SVT</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sciences/de/l'ingenieur">Sciences de l'ingénieur</option>
+              <option value="Coaching/psycho-pedagogique">Coaching psycho-pédagogique</option>
+              <option value="Management">Management</option>
+              <option value="Français/(mission)">Français(mission)</option>
+              <option value="Arabe">Arabe</option>
+              <option value="Anglais">Anglais</option>
+              <option value="Allemand">Allemand</option>
+              <option value="Espagnol">Espagnol</option>
+              <option value="Economie">Economie</option>
+              <option value="Comptabilite">Comptabilité</option>
+              <option value="Gestion">Gestion</option>
+              <option value="Philosophie">Philosophie</option>
+              <option value="Histoire/Geographie">Histoire/Géographie</option>
+              <option value="Informatique">Informatique</option>
+              <option value="Electronique">Électronique</option>
+              <option value="Statistiques">Statistiques</option>
+              <option value="Droit">Droit</option>
+              <option value="Sociologie">Sociologie</option>
+              <option value="Education/islamique">Education islamique</option>
+              <option value="Communication">Communication</option>
+              <option value="Autres">Autres</option>
+            </select>
+          </div>
+          <div className='px-4'>
+            <select
+             value={searchSelector}
+             onChange={(e) => setSearchSelector(e.target.value)}
+              id="Niveau/1"
+              name="Niveau/1"
+              className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+
+            >
+              <option value="" className="">Niveau 1</option>
+              <option value="Primaire">Primaire</option>
+              <option value="College">Collège</option>
+              <option value="Lycee/(Sauf cientifiques)">Lycée (Sauf scientifiques)</option>
+              <option value="Lycée/y/compris scientifiques">Lycée y compris scientifiques</option>
+              <option value="Superieur">Supérieur</option>
+
+              </select>
+              </div>
+              <div className='px-4'>
+            <select
+             value={searchSelector}
+             onChange={(e) => setSearchSelector(e.target.value)}
+              id="Civilite"
+              name="Civilite"
+              className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+
+            >
+              <option value="" className="">Civilité</option>
+              <option value="Mr">Mr</option>
+              <option value="Mme">Mme</option>
+              <option value="Mlle">Mlle</option>
+              </select>
+              </div>
+              <div className='px-4'>
+            <select
+             value={searchSelector}
+             onChange={(e) => setSearchSelector(e.target.value)}
+              id="motorise"
+              name="motorise"
+              className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+
+            >
+              <option value="" className="">Motorisé</option>
+              <option value="Oui">Oui</option>
+              <option value="Non">No</option>
+           
+              </select>
+              </div>
+          <div className='px-4'>
+            <select
+              value={searchSelector}
+              onChange={(e) => setSearchSelector(e.target.value)}
+              id="mission"
+              name="mission"
+              className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
+
+            >
+              <option value="" className="">Mission</option>
+              <option value="Oui">Oui</option>
+              <option value="Non">No</option>
+           
+              </select>
+              </div>
+         
        
 
-
-          <input
-        type="text"
-        placeholder="Search by name and mobile"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
-      />
-       
+        </div>
           
-     </div>
+    
+
+      <div className="flex justify-center">
+      
             
           
 
@@ -500,6 +647,9 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Motorisé
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Mission
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
@@ -632,6 +782,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.cursus_economique_Commercial}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.specialte}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motorise}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.mission}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_1}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1_note}</td>

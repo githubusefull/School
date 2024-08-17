@@ -55,6 +55,7 @@ interface IAdmissionFormProf {
   time_interview: string;
   isConfirmed: boolean;
   counter: number;
+  mission:string;
 }
 
 
@@ -209,6 +210,9 @@ const AdmissionsListProfe: React.FC = () => {
                   Motorisé
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Mission
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Matière
                   <span className='inline ml-1'>1</span>
                 </th>
@@ -329,6 +333,7 @@ const AdmissionsListProfe: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.cursus_economique_Commercial}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.specialte}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motorise}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.mission}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_1}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1_note}</td>

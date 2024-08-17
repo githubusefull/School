@@ -23,6 +23,7 @@ interface FormData {
   cursus_economique_Commercial: string;
   specialte: string;
   motorise: string;
+  mission:string;
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
@@ -88,6 +89,7 @@ const AdmissionFormProf: React.FC = () => {
     cursus_economique_Commercial: '',
     specialte: '',
     motorise: '',
+    mission:'',
     telephone_portable: '',
     matiere_1: '',
     niveau_1: '',
@@ -197,6 +199,7 @@ const AdmissionFormProf: React.FC = () => {
           cursus_economique_Commercial: '',
           specialte: '',
           motorise: '',
+          mission:'',
           telephone_portable: '',
           matiere_1: '',
           niveau_1: '',
@@ -704,17 +707,41 @@ const AdmissionFormProf: React.FC = () => {
           Pour chaque matière, indiquez le niveau maximal que vous pouvez enseigner :
         </label>
         <select
-          id="Matiere_1"
+          id="matiere_1"
           name="matiere_1"
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
           value={formData.matiere_1}
           onChange={handleChange}
         >
           <option value="" className="">Matière 1</option>
-          <option value="Physique">Physique</option>
-          <option value="Maths">Maths</option>
-          <option value="Chimie">Chimie</option>
-          <option value="Arabs">Arabs</option>
+          <option value="Aide/aux/devoirs">Aide aux devoirs
+              </option>
+              <option value="Maths">Maths</option>
+              <option value="Physique">Physique</option>
+              <option value="Chimie">Chimie</option>
+              <option value="Biologie/SVT">Biologie/SVT</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sciences/de/l'ingenieur">Sciences de l'ingénieur</option>
+              <option value="Coaching/psycho-pedagogique">Coaching psycho-pédagogique</option>
+              <option value="Management">Management</option>
+              <option value="Français/(mission)">Français(mission)</option>
+              <option value="Arabe">Arabe</option>
+              <option value="Anglais">Anglais</option>
+              <option value="Allemand">Allemand</option>
+              <option value="Espagnol">Espagnol</option>
+              <option value="Economie">Economie</option>
+              <option value="Comptabilite">Comptabilité</option>
+              <option value="Gestion">Gestion</option>
+              <option value="Philosophie">Philosophie</option>
+              <option value="Histoire/Geographie">Histoire/Géographie</option>
+              <option value="Informatique">Informatique</option>
+              <option value="Electronique">Électronique</option>
+              <option value="Statistiques">Statistiques</option>
+              <option value="Droit">Droit</option>
+              <option value="Sociologie">Sociologie</option>
+              <option value="Education/islamique">Education islamique</option>
+              <option value="Communication">Communication</option>
+              <option value="Autres">Autres</option>
 
 
         </select>
@@ -730,10 +757,11 @@ const AdmissionFormProf: React.FC = () => {
             onChange={handleChange}
           >
             <option value="" className="">Niveau 1</option>
-            <option value="Primaire">Primaire</option>
-            <option value="College">Collège</option>
-            <option value="Lycee">Lycée</option>
-            <option value="Lycee">Superieur</option>
+              <option value="Primaire">Primaire</option>
+              <option value="College">Collège</option>
+              <option value="Lycee/(Sauf cientifiques)">Lycée (Sauf scientifiques)</option>
+              <option value="Lycée/y/compris scientifiques">Lycée y compris scientifiques</option>
+              <option value="Superieur">Supérieur</option>
 
           </select>
        
@@ -927,6 +955,38 @@ const AdmissionFormProf: React.FC = () => {
 
       
       <div className="mb-4">
+        <label className="block font-[600] text-gray-400   mb-2">
+          Mission
+        </label>
+        <div>
+          <label className="inline-flex   items-center">
+            <input
+              type="radio"
+              name="mission"
+              value="Oui"
+              className="form-radio  bg-gray-300"
+              onChange={handleChange}
+              checked={formData.mission === 'Oui'}
+            />
+            <span className="ml-2 text-gray-300">Oui</span>
+          </label>
+          <label className="inline-flex rounded-[4px] items-center ml-6">
+            <input
+              type="radio"
+              name="mission"
+              value="Non"
+              className="form-radio bg-gray-300"
+              onChange={handleChange}
+              checked={formData.mission === 'Non'}
+            />
+            <span className="ml-2 text-gray-300">Non</span>
+          </label>
+
+        </div>
+      </div>
+
+
+      <div className="mb-4">
 
         <div className="mb-4">
 
@@ -941,6 +1001,7 @@ const AdmissionFormProf: React.FC = () => {
 
         </div>
       </div>
+     
       <div className="mb-4">
         <button
           type="submit"

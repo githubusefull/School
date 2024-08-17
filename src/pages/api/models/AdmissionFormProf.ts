@@ -14,6 +14,7 @@ export interface IAdmissionFormProf extends Document {
   cursus_economique_Commercial: string;
   specialte: string;
   motorise: string;
+  mission:string;
   telephone_portable: string;
   matiere_1: string;
   niveau_1: string;
@@ -71,6 +72,7 @@ export interface IAdmissionFormProf extends Document {
   cursus_economique_Commercial: { type: String},
   specialte: { type: String},
   motorise: { type: String},
+  mission:{type: String},
   telephone_portable: { type: String},
   matiere_1: { type: String},
   niveau_1: { type: String},
