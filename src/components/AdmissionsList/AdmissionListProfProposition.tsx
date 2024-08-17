@@ -670,7 +670,7 @@ const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
                         <span>
                            {format(new Date(form.date_interview), 'dd-MM-yyyy')}
                         </span>
-                      <span className='ml-1 text-blue-500'>{form.time_interview}</span>
+                      <span className='ml-[3px] text-blue-500'>{form.time_interview}</span>
                       
                       </p>
                     )}

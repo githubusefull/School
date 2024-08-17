@@ -117,8 +117,10 @@ const defaultFormData: FormData = {
 
 };
 async function getFormById(id: string): Promise<FormData> {
+  const timestamp = new Date().getTime(); // Add timestamp
+
   try {
-    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformpropositionselect/${id}`, { method: 'GET' });
+    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformpropositionselect/${id}?t=${timestamp}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
