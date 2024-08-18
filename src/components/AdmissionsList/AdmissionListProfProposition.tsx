@@ -1017,7 +1017,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
 
         <div className="grid grid-cols-2 mt-4 px-8 gap-4">
-
+   {/*            
           <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
             <span>Form Professeur Proposition</span>
 
@@ -1041,14 +1041,10 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                 </div>
               </div>
             </div>
-
-
-
-
-
-
-
           </div>
+*/}
+
+
           <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
             <span>Form Client</span>
             <div className="overflow-x-auto h-64">
