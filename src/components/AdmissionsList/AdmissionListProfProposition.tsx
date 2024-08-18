@@ -411,41 +411,12 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
   const [ville, setVille] = useState(''); // Default selector
   const [matiere, setMatier] = useState(''); // Default selector
   const [niveau, setNiveau] = useState(''); // Default selector
-  //const [isVisible, setVisible] = useState(false);
+  const [civilite, setCivilite] = useState(''); // Default selector
+  const [motorise, setMotorise] = useState(''); // Default selector
+  const [mission, setMission] = useState(''); // Default selector
 
-
-  {/*   
   useEffect(() => {
-    if (ville === '' && matiere === '' && niveau === '') {
-      setFilteredAdmissions(admissions);
-
-    } else {
-      setFilteredAdmissions(
-        admissions.filter((admission) => {
-          const searchLower = ville.toLowerCase();
-          const matiereLower = matiere.toLowerCase();
-          const niveaureLower = niveau.toLowerCase();
-
-          return (
-            (admission.ville && admission.ville.toLowerCase() === searchLower) ||
-            (admission.matiere_1 &&
-              admission.matiere_1.toLowerCase() === matiereLower) ||
-            admission.ville.toLowerCase() === searchLower ||
-            admission.matiere_1.toLowerCase() === matiereLower ||
-            admission.niveau_1.toLowerCase() === niveaureLower ||
-            admission.motorise && admission.motorise.toLowerCase() === searchLower ||
-            admission.civilite.toLowerCase() === searchLower ||
-            admission.mission && admission.mission.toLowerCase() === searchLower
-          );
-        })
-      );
-    }
-  }, [ville, niveau, admissions, matiere]);
-*/}
-
-  // test filter 
-  useEffect(() => {
-    if (ville === '' && matiere === '' && niveau === '') {
+    if (ville === '' && matiere === '' && niveau === '' && civilite === '' && motorise === ''&& mission === '') {
       setFilteredAdmissions(admissions);
     } else {
       setFilteredAdmissions(
@@ -453,16 +424,21 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           const villeLower = ville.toLowerCase();
           const matiereLower = matiere.toLowerCase();
           const niveauLower = niveau.toLowerCase();
-  
+          const civiliteLower = civilite.toLowerCase();
+          const motoriseLower = motorise.toLowerCase();
+          const missionLower = mission.toLowerCase();
           return (
             (admission.ville && admission.ville.toLowerCase() === villeLower) &&
             (matiereLower === '' || (admission.matiere_1 && admission.matiere_1.toLowerCase() === matiereLower)) &&
-            (niveauLower === '' || (admission.niveau_1 && admission.niveau_1.toLowerCase() === niveauLower))
+            (niveauLower === '' || (admission.niveau_1 && admission.niveau_1.toLowerCase() === niveauLower))     &&
+            (civiliteLower === '' || (admission.civilite && admission.civilite.toLowerCase() === civiliteLower)) &&
+            (motoriseLower === '' || (admission.motorise && admission.motorise.toLowerCase() === motoriseLower)) &&
+            (missionLower === '' || (admission.mission && admission.mission.toLowerCase() === missionLower)) 
           );
         })
       );
     }
-  }, [ville, matiere, niveau, admissions]);
+  }, [ville, matiere, niveau, civilite, motorise, mission, admissions]);
   
 
 
@@ -568,8 +544,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           </div>
           <div className='px-4'>
             <select
-              value={ville}
-              onChange={(e) => setVille(e.target.value)}
+              value={civilite}
+              onChange={(e) => setCivilite(e.target.value)}
               id="Civilite"
               name="Civilite"
               className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -583,8 +559,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           </div>
           <div className='px-4'>
             <select
-              value={ville}
-              onChange={(e) => setVille(e.target.value)}
+              value={motorise}
+              onChange={(e) => setMotorise(e.target.value)}
               id="motorise"
               name="motorise"
               className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -598,8 +574,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           </div>
           <div className='px-4'>
             <select
-              value={ville}
-              onChange={(e) => setVille(e.target.value)}
+              value={mission}
+              onChange={(e) => setMission(e.target.value)}
               id="mission"
               name="mission"
               className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
