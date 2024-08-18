@@ -4,6 +4,7 @@ export interface IAdmissionFormProposition extends Document {
     date_proposition: Date;
     time_proposition: string;
     userIdProposition: string;
+    userIdClient: string;
     finalTotal: number;
     matiere_1: string | undefined;
     niveau_1: string | undefined;
@@ -15,6 +16,7 @@ export interface IAdmissionFormProposition extends Document {
     date_proposition: {type: Date },
     time_proposition: {type: String },
     userIdProposition: {type: String },
+    userIdClient:  {type: String },
     finalTotal: {type: Number },
     matiere_1: {type: String },
     niveau_1: {type: String },

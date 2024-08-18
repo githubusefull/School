@@ -51,6 +51,8 @@ export interface IAdmissionFormProf extends Document {
   userIdNote: string; // Add userId here
   userIdInterview: string;
   userIdRelance: string;
+  userIdClient: string;
+
   //cv_Photo?: string; // Optional field
 }
 
@@ -104,6 +106,7 @@ export interface IAdmissionFormProf extends Document {
   time_interview:{type: String },
   isConfirmed:{type: Boolean},
   IsSelected: { type: Boolean },
+  userIdClient: {type: String},
   counter: { type: Number, default: 0,  }, // Initialize counter
 
   //cv_Photo: { type: String, required: false }, // Optional field
@@ -140,6 +143,7 @@ const newValues: Partial<IAdmissionFormProf> = {
   userIdNote:'',
   userIdInterview:'',
   userIdRelance:'',
+  userIdClient: '',
   niveau_1_note: 0,
   niveau_2_note: 0,
   niveau_3_note: 0,

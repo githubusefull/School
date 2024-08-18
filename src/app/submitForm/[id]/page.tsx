@@ -111,7 +111,6 @@ interface FormData {
   export default async function FormID({ params }: FormIDProps) {
     const form = await getFormById(params.id);
 
-    console.log(form?.finalTotal)
     if (!form) {
       return (
         <div>

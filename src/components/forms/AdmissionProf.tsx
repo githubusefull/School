@@ -963,10 +963,10 @@ const AdmissionFormProf: React.FC = () => {
             <input
               type="radio"
               name="mission"
-              value="Oui"
+              value="Oui_mission"
               className="form-radio  bg-gray-300"
               onChange={handleChange}
-              checked={formData.mission === 'Oui'}
+              checked={formData.mission === 'Oui_mission'}
             />
             <span className="ml-2 text-gray-300">Oui</span>
           </label>
@@ -974,10 +974,10 @@ const AdmissionFormProf: React.FC = () => {
             <input
               type="radio"
               name="mission"
-              value="Non"
+              value="Non_mission"
               className="form-radio bg-gray-300"
               onChange={handleChange}
-              checked={formData.mission === 'Non'}
+              checked={formData.mission === 'Non_mission'}
             />
             <span className="ml-2 text-gray-300">Non</span>
           </label>

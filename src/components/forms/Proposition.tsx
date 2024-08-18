@@ -65,20 +65,21 @@ interface FormData {
 
 interface PropositionDataProps {
   formProposition: FormData;
+  id: string;
 }
 interface PropositionDataProps {
   formSelect: FormData;
 }
 
 
-  const Proposition: React.FC<PropositionDataProps> = ({ formProposition, formSelect }) => {
+  const Proposition: React.FC<PropositionDataProps> = ({ formProposition, formSelect, id }) => {
 
   return (
      <div className="justify-center mt-2 w-[170vh]">
     <div className='text-gray-300  text-2xl font-700 justify-center flex'>
       <p className=''>Table Professeur</p>
     </div>
-     <AdmissionListProfProposition formProposition={formProposition} formSelect={formSelect}/>
+     <AdmissionListProfProposition formProposition={formProposition} id={id} formSelect={formSelect}/>
   </div>
   )
 }

@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         matiere_3, niveau_3, niveau_3_note, matiere_4, niveau_4, niveau_4_note, 
         matiere_5, niveau_5, niveau_5_note, matiere_6, niveau_6, niveau_6_note, 
         note_de_Francaise, note_de_CV, motivation, civilite, telephone_fixe, 
-        annee_obtention_du_Bac, date_de_naissance
+        annee_obtention_du_Bac, date_de_naissance,userIdClient
       } = req.body;
 
       const user = await AdmissionFormProf.findOne({ email });
@@ -81,6 +81,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         telephone_fixe,
         annee_obtention_du_Bac,
         date_de_naissance,
+        userIdClient,
+
       });
 
       await newForm.save();

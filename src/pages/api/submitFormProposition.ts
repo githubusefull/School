@@ -20,6 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         date_proposition,
         time_proposition,
         userIdProposition,
+        userIdClient,
         finalTotal,
         matiere_1,
         niveau_1,
@@ -34,6 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         date_proposition,
         time_proposition,
         userIdProposition,
+        userIdClient,
         finalTotal,
         matiere_1,
         niveau_1,
@@ -70,6 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } else if (req.method === "GET") {
+    
     try {
       const forms = await AdmissionFormProposition.find();
       res.setHeader('Cache-Control', 'no-store'); // Disable caching
