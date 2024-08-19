@@ -22,8 +22,20 @@ interface FormPropositionSelect {
 }
 interface FormDataInfoProposition {
   id: string;
-  date_proposition: string;
-  time_proposition: string;
+  monday_proposition: string;
+  tuesday_proposition: string;
+  wednesday_proposition: string;
+  thursday_proposition: string;
+  friday_proposition: string;
+  saturday_proposition: string;
+  sunday_proposition: string;
+  monday_time: string;
+  tuesday_time: string;
+  wednesday_time: string;
+  thursday_time: string;
+  friday_time: string;
+  saturday_time: string;
+  sunday_time: string;
   userIdProposition: string;
   userIdClient: string;
   finalTotal: number;
@@ -37,6 +49,7 @@ interface FormData {
   email: string;
   password: string;
   ville: string;
+  vous_etes: string;
   quartiers_Rabat: string;
   quartiers_Casablanca: string;
   situation_professionelle: string;
@@ -75,6 +88,20 @@ interface FormData {
   finalTotal: number;
   counter: number;
   pay: string;
+  monday_proposition: string;
+  tuesday_proposition: string;
+  wednesday_proposition: string;
+  thursday_proposition: string;
+  friday_proposition: string;
+  saturday_proposition: string;
+  sunday_proposition: string;
+  monday_time: string;
+  tuesday_time: string;
+  wednesday_time: string;
+  thursday_time: string;
+  friday_time: string;
+  saturday_time: string;
+  sunday_time: string;
   details: string;
   price_total: number;
   price_ticket: number;
@@ -121,6 +148,7 @@ interface IAdmissionFormProf {
   email: string;
   password: string;
   ville: string;
+  vous_etes: string;
   quartiers_Rabat: string;
   quartiers_Casablanca: string;
   situation_professionelle: string;
@@ -350,8 +378,20 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
   const [formDataPropo, setFormDataPropo] = useState<FormDataInfoProposition>({
     id: formProposition._id,
-    date_proposition: formProposition.date_proposition,
-    time_proposition: formProposition.time_proposition,
+    monday_proposition: formProposition.monday_proposition,
+    tuesday_proposition: formProposition.tuesday_proposition,
+    wednesday_proposition: formProposition.wednesday_proposition,
+    thursday_proposition: formProposition.thursday_proposition,
+    friday_proposition: formProposition.friday_proposition,
+    saturday_proposition: formProposition.saturday_proposition,
+    sunday_proposition: formProposition.sunday_proposition,
+    monday_time: formProposition.monday_time,
+    tuesday_time: formProposition.tuesday_time,
+    wednesday_time: formProposition.wednesday_time,
+    thursday_time: formProposition.thursday_time,
+    friday_time: formProposition.friday_time,
+    saturday_time: formProposition.saturday_time,
+    sunday_time: formProposition.sunday_time,
     userIdProposition: formProposition.userIdProposition,
     finalTotal: formProposition.finalTotal,
     matiere_1: formProposition.matiere_1,
@@ -386,8 +426,20 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
       if (response.ok) {
         setFormDataPropo({
           id: '',
-          date_proposition: '',
-          time_proposition: '',
+          monday_proposition: '',
+          tuesday_proposition: '',
+          wednesday_proposition : '',
+          thursday_proposition: '',
+          friday_proposition: '',
+          saturday_proposition: '',
+          sunday_proposition: '',
+          monday_time: '',
+          tuesday_time: '',
+          wednesday_time: '',
+          thursday_time: '',
+          friday_time: '',
+          saturday_time:'',
+          sunday_time:'',
           userIdProposition: '',
           finalTotal: 0,
           matiere_1: '',
@@ -924,28 +976,151 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                           <div className="bg-white p-6 rounded-[4px] shadow-lg">
 
 
-                            <div className="grid grid-cols-2 mt-4 gap-4 text-start">
+                            <div className="grid grid-cols-3 mt-4 gap-4 text-start">
                               <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
                                 <span className='text-start text-gray-800'>Form Proposition</span>
-                                <form onSubmit={handleSubmitProposition}>
+                                <div className='overflow-x-auto h-72'>
 
-                                  <div className="mb-4 mt-4 flex gap-2">
+
+                                <form onSubmit={handleSubmitProposition} className='p-3'>
+
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700'>Mon</label>
+
+                                        <input
+                                          type="date"
+                                          id="monday_proposition"
+                                          name="monday_proposition"
+                                          placeholder='Date Proposition'
+                                          className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300  py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                          value={formDataPropo.monday_proposition}
+                                          onChange={handleChangeProposition}
+                                        />
+
+                                        <input
+                                          type="time"
+                                          id="monday_time"
+                                          name="monday_time"
+                                          placeholder='Time Proposition'
+                                          className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300  py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                          value={formDataPropo.monday_time}
+                                          onChange={handleChangeProposition}
+                                        />
+
+                                      
+                                    
+                                   
+                                  </div>
+                                  <div className="mb-4 mt-4 flex gap-1">
+                                  <label className='text-gray-700'>Tue</label>
+
                                     <input
                                       type="date"
-                                      id="date_proposition"
-                                      name="date_proposition"
+                                      id="tuesday_proposition"
+                                      name="tuesday_proposition"
                                       placeholder='Date Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.date_proposition}
+                                      className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300 py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.tuesday_proposition}
                                       onChange={handleChangeProposition}
                                     />
                                     <input
                                       type="time"
-                                      id="time_proposition"
-                                      name="time_proposition"
+                                      id="tuesday_time"
+                                      name="tuesday_time"
+                                      placeholder='Time Proposition'
+                                      className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300 py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.tuesday_time}
+                                      onChange={handleChangeProposition}
+                                    />
+                                  </div>
+                                  <div className="mb-4 mt-4 flex gap-1">
+                                  <label className='text-gray-700'>Wed</label>
+
+                                    <input
+                                      type="date"
+                                      id="wednesday_proposition"
+                                      name="wednesday_proposition"
+                                      placeholder='Date Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.wednesday_proposition}
+                                      onChange={handleChangeProposition}
+                                    />
+                                    <input
+                                      type="time"
+                                      id="wednesday_time"
+                                      name="wednesday_time"
                                       placeholder='Time Proposition'
                                       className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.time_proposition}
+                                      value={formDataPropo.wednesday_time}
+                                      onChange={handleChangeProposition}
+                                    />
+                                  </div>
+                                        
+
+
+                                  <div className="mb-4 mt-4 flex gap-1">
+                                  <label className='text-gray-700'>Thu</label>
+
+                                    <input
+                                      type="date"
+                                      id="thursday_time"
+                                      name="thursday_time"
+                                      placeholder='Date Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.thursday_time}
+                                      onChange={handleChangeProposition}
+                                    />
+                                    <input
+                                      type="time"
+                                      id="thursday_time"
+                                      name="thursday_time"
+                                      placeholder='Time Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.thursday_time}
+                                      onChange={handleChangeProposition}
+                                    />
+                                  </div>
+                                  <div className="mb-4 mt-4 flex gap-1">
+                                  <label className='text-gray-700'>Fri</label>
+
+                                    <input
+                                      type="date"
+                                      id="friday_proposition"
+                                      name="friday_proposition"
+                                      placeholder='Date Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.friday_proposition}
+                                      onChange={handleChangeProposition}
+                                    />
+                                    <input
+                                      type="time"
+                                      id="friday_time"
+                                      name="friday_time"
+                                      placeholder='Time Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.friday_time}
+                                      onChange={handleChangeProposition}
+                                    />
+                                  </div>
+                                  <div className="mb-4 mt-4 flex gap-1">
+                                  <label className='text-gray-700 '>Sat</label>
+
+                                    <input
+                                      type="date"
+                                      id="saturday_proposition"
+                                      name="saturday_proposition"
+                                      placeholder='Date Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.saturday_proposition}
+                                      onChange={handleChangeProposition}
+                                    />
+                                    <input
+                                      type="time"
+                                      id="sunday_time"
+                                      name="sunday_time"
+                                      placeholder='Time Proposition'
+                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                      value={formDataPropo.sunday_time}
                                       onChange={handleChangeProposition}
                                     />
                                   </div>
@@ -963,39 +1138,64 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
 
                                 </form>
+                                </div>
                               </div>
 
 
 
                               <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
-                                <span className='text-start text-gray-800'>Form Detail</span>
+                                <span className='text-start text-gray-800'>Form Client</span>
 
-                                <div className="overflow-x-auto h-64 flex text-gray-800">
+                                <div className="overflow-x-auto h-72 flex text-gray-800">
                                   <div className="border-collapse font-light text-[9px]">
-
-                                    <div>
 
                                       <div className='mt-2 text-[12px]'>
 
-                                        <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name Client: {formProposition.name}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name: {formProposition.name}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email: {formProposition.email}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Telephone: {formProposition.telephone_portable}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Ville: {formProposition.ville}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Vous Etes: {formProposition.vous_etes}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Details: {formProposition.details}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Total: {formProposition.price_total}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Ticket: {formProposition.price_ticket}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Professeur: {formProposition.profPercentage}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Percentge Professeur: {formProposition.prof_percentage}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Number Ticket: {formProposition.ticketNumber}</p>
 
-                                        <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name Professeur: {selectedForm?.name}</p>
-                                        <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email : {selectedForm?.email}</p>
-                                        <p className="py-2 px-4 border-b border-gray-700 font-semibold ">isSelected : {selectedForm?.IsSelected === true ?
-                                          <button className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Selected</button>
-
-                                          : <button className='bg-yellow-400 text-gray-700  ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Not/Selected</button>
-
-
-                                        }</p>
-
-                                      </div>
+                                    
                                     </div>
                                   </div>
                                 </div>
-
-
                               </div>
+
+
+                              <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
+                                <span className='text-start text-gray-800'>Form Professeur</span>
+
+                                <div className="overflow-x-auto h-72 flex text-gray-800">
+                                  <div className="border-collapse font-light text-[9px]">
+
+                                      <div className='mt-2 text-[12px]'>
+
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Civilite : {selectedForm?.civilite}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Nom : {selectedForm?.name}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Prenome : {selectedForm?.name}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Ville : {selectedForm?.ville}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Telephone : {selectedForm?.telephone_portable}</p>
+                        
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 1 : {selectedForm?.matiere_1}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 2 : {selectedForm?.matiere_2}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 3 : {selectedForm?.matiere_3}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 4 : {selectedForm?.matiere_4}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 5 : {selectedForm?.matiere_5}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 6 : {selectedForm?.matiere_6}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">La Note Totale : {selectedForm?.finalTotal}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
                             </div>
 
 

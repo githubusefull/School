@@ -130,8 +130,10 @@ const AdmissionsList: React.FC = () => {
   
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
- 
-                </th>
+                 Les 
+                <span className='inline mr-1'></span>cours<span className='inline  ml-1 mr-1'>sont</span>  
+                 pour
+                    </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Niveau
                 </th>
@@ -197,7 +199,7 @@ const AdmissionsList: React.FC = () => {
               </th>
               <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 
-                <span className='inline ml-1'>Details</span>
+                <span className='inline ml-1 px-9'>Details</span>
               </th>
               
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -243,26 +245,26 @@ const AdmissionsList: React.FC = () => {
                   </td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prof_percentage}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.profPercentage}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.details}</td>
+                  <td className="py-2 text-center border-b border-gray-700 text-[12px]">{form.details}</td>
 
                 
 
 
-                  <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
-                  {!form.date_interview ? (  
+                    <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
+                      {!form.date_interview ? (
 
-                    <Link href={`/admissionformdateclient/${form._id}`}>
-                  <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
-                  </Link>
-                    ):(
-                      <p className='text-gray-300 font-[400] flex'>
-                      <span>
-                         {format(new Date(form.date_interview), 'dd-MM-yyyy')}
-                      </span>
-                    <span className='ml-1 text-blue-500'>{form.time_interview}</span>
-                    
-                    </p>
-                    )}
+                        <Link href={`/admissionformdateclient/${form._id}`}>
+                          <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
+                        </Link>
+                      ) : (
+                        <p className='text-gray-300 font-[400] flex'>
+                          <span>
+                            {format(new Date(form.date_interview), 'dd-MM-yyyy')}
+                          </span>
+                          <span className='ml-[2px] text-blue-500'>{form.time_interview}</span>
+
+                        </p>
+                      )}
                   
 
                   </td>

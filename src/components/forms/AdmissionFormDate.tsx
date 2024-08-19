@@ -269,7 +269,7 @@ useEffect(() => {
 
   fetchForms();
 }, []);
- console.log(form._id)
+ console.log(form.name)
 
  
   return (
