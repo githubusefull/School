@@ -148,11 +148,9 @@ const AdmissionClient: React.FC = () => {
          
         });
         setMessage(data.message);
-        toast.success(data.message);
+        toast.success(message);
         router.push('/clientadmissions');
-        setTimeout(() => {
           window.location.href = '/clientadmissions';
-        }, 100);
 
       } else {
         throw new Error(data.message || 'Form submission failed');
@@ -258,7 +256,6 @@ const AdmissionClient: React.FC = () => {
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE CLIENT</p>
-      {message && (<p className='text-yellow-600'>{message}</p>)}
 
 
       <p className='text-gray-300 font-sans text-[15px] mb-4'>

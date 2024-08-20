@@ -4,7 +4,6 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Mynavbar from "@/components/Mynavbar";
 import Mysidbare from "@/components/Mysidbare";
-import withAuth from '@/hoc/withAuth';
 
 const inter = Inter({ subsets: ["latin"] });
 

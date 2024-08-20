@@ -228,10 +228,7 @@ const AdmissionFormProf: React.FC = () => {
           date_de_naissance: '',
         });
         toast.success(data.message);
-        setTimeout(() => {
-              window.location.href = '/professeuradmissions';
-          }, 100);
-         
+        window.location.href = '/professeuradmissions';
       } else {
         throw new Error(data.message || 'Form submission failed');
       }
