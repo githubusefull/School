@@ -123,7 +123,7 @@ const AdmissionsList: React.FC = () => {
           <table className="min-w-full border-collapse font-light">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                <th className="py-2 px-9 border-b border-gray-700 font-semibold text-sm">
                 <span className='inline mr-1 capitalize'>Vous</span>
 
                 ètes
@@ -225,7 +225,7 @@ const AdmissionsList: React.FC = () => {
                 <tr key={form._id} className="hover:bg-gray-900">
 
 
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.vous_etes}</td>
+                  <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.vous_etes}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Les_cours_sont_pour}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Niveau}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Matière_souhaitée}</td>
