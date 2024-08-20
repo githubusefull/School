@@ -8,64 +8,30 @@ import { format } from 'date-fns';  // or import moment from 'moment';
 
 
 interface FormData {
-    _id: string;
-    name: string;
-    prenome: string;
-    email: string;
-    password: string;
-    ville: string;
-    quartiers_Rabat: string;
-    quartiers_Casablanca: string;
-    situation_professionelle: string;
-    niveau_atteint_dans_les_etudes: string;
-    experiences_dans_l_enseignement: string;
-    cursus_economique_Commercial: string;
-    specialte: string;
-    motorise: string;
-    telephone_portable: string;
-    matiere_1: string;
-    niveau_1: string;
-    niveau_1_note: number;
-    matiere_2: string;
-    niveau_2: string;
-    niveau_2_note: number;
-    matiere_3: string;
-    niveau_3: string;
-    niveau_3_note: number;
-    matiere_4: string;
-    niveau_4: string;
-    niveau_4_note: number;
-    matiere_5: string;
-    niveau_5: string;
-    niveau_5_note: number;
-    matiere_6: string;
-    niveau_6: string;
-    niveau_6_note: number;
-    note_de_Francaise: number;
-    note_de_CV: number;
-    motivation: string;
-    civilite: string;
-    telephone_fixe: string;
-    annee_obtention_du_Bac: string;
-    date_de_naissance: string;
-    date_interview: number;
-    finalTotal: number;
-    counter: number;
-    pay: string;
-    details: string;
-    price_total: number;
-    price_ticket: number;
-    ticket_number: number;
-    prof_percentage: number;
-    prof_price: number;
-    profPercentage:number,
-    ticketNumber:number,
-    isConfirmed: boolean;
-    userIdConfirmClient: string;
-    IsSelected: boolean;
-    date_proposition: string;
-    time_proposition: string;
-    userIdProposition: string;
+  _id: string;
+  name: string;
+  prenome: string;
+  email: string;
+  password: string;
+  ville: string;
+  vous_etes: string;
+  Les_cours_sont_pour: string;
+  Niveau: string;
+  Matière_souhaitée: string;
+  autres_détails: string;
+  comment_vous_nous_avez: string;
+  telephone_portable: string;
+  date_interview: Date;
+  time_interview: string;
+  isConfirmed: boolean;
+  pay: string;
+  price_total: number;
+  price_ticket: number;
+  prof_percentage: number;
+  details: string;
+  profPercentage: number,
+  ticketNumber: number,
+  counter: number,
     //cv_Photo: File | null;
   }
 interface IAdmissionFormProf {
@@ -120,10 +86,10 @@ interface IAdmissionFormProf {
 
 const AdmissionListProfAffectation: React.FC = () => {
 
-  const [admissions, setAdmissions] = useState<IAdmissionFormProf[]>([]);
+  const [admissions, setAdmissions] = useState<FormData[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormProf[]>([]);
+  //const [filteredAdmissions, setFilteredAdmissions] = useState<FormData[]>([]);
 
 
 
@@ -134,7 +100,7 @@ const AdmissionListProfAffectation: React.FC = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormProf');
+        const response = await fetch('/api/submitFormClient');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -147,6 +113,7 @@ const AdmissionListProfAffectation: React.FC = () => {
     fetchForms();
   }, []);
 
+  {/*   
   useEffect(() => {
     if (searchTerm === '') {
       setFilteredAdmissions(admissions);
@@ -162,7 +129,7 @@ const AdmissionListProfAffectation: React.FC = () => {
       );
     }
   }, [searchTerm, admissions]);
-  
+  */}
 
 
 
@@ -203,27 +170,36 @@ const AdmissionListProfAffectation: React.FC = () => {
         <div className='overflow-scroll'>
           
           <table className="min-w-full border-collapse font-light">
-            <thead>
+          <thead>
               <tr>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Civilité
+                <span className='inline mr-1 capitalize'>Vous</span>
+
+                ètes
+  
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Nom
+                 Les 
+                <span className='inline mr-1'></span>cours<span className='inline  ml-1 mr-1'>sont</span>  
+                 pour
+                    </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Niveau
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Prènome
+                <span className='inline mr-1'>Matière</span>
+                    Souhaitée
+  
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Ville
+                  
+                  <span className='inline ml-1'>Name</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Quartiers
-                  <span className='inline ml-1'>Rabat</span>
+                  <span className='inline ml-1'>Prénome</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Quartiers
-                  <span className='inline ml-1'>Casablanca</span>
+                  <span className='inline ml-1'>Ville</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Téléphone
@@ -231,95 +207,21 @@ const AdmissionListProfAffectation: React.FC = () => {
 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Téléphone
-                  <span className='inline ml-1'>fix</span>
-
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Email
                 </th>
-                <th className="py-2 px-4 border-b  border-gray-700 font-semibold text-sm">
-                  CV<span className='inline ml-1'>avec</span> photo
-                </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Date de <span className='inline ml-1'>naissance</span>
-                </th>
+                
+                  <span className='inline mr-1'></span>Autes<span className='inline  ml-1'>Détails</span>  
+                  
+                      </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <p className='inline mr-1'>Anne</p>d'obtention<span className='inline ml-1'>  </span>du Bac
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Situation <span className='inline ml-1'>professionelle</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <p className='inline mr-1'>Niveau</p>
-                  atteint
-                  <p className='inline mr-1'>dans les</p>
-                  ètudes
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <span className='inline mr-1'>Experiences  dans</span>l'<span className='inline  ml-1'>enseignement</span>      </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <span className='mr-1'>---Cursus</span>èconomique/<span className='inline  ml-1'>Commercial---</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Spécialté
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Motorisé
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Matière
-                  <span className='inline ml-1'>1</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-                  <span className='inline ml-1'>1</span>
-                </th>
+                Comment
+                  <span className='inline mr-1'></span>Vous<span className='inline  ml-1 mr-1'>Nous</span>  
+                  avez
+                      </th>
+            
               
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Matière
-                  <span className='inline ml-1'>2</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-                  <span className='inline ml-1'>2</span>
-                </th>
-              
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Matière
-                  <span className='inline ml-1'>3</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-                  <span className='inline ml-1'>3</span>
-                </th>
-               
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Matière
-                  <span className='inline ml-1'>4</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-                  <span className='inline ml-1'>4</span>
-                </th>
-               
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Matière
-                  <span className='inline ml-1'>5</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-                  <span className='inline ml-1'>5</span>
-                </th>
-              
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Matière
-                  <span className='inline ml-1'>6</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-                  <span className='inline ml-1'>6</span>
-                </th>
+             
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 
                   <span className='inline ml-1'> Payment</span>
@@ -346,12 +248,10 @@ const AdmissionListProfAffectation: React.FC = () => {
               </th>
               <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 
-                <span className='inline ml-1'>Details</span>
+                <span className='inline ml-1 px-9'>Details</span>
               </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Motivation
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              
+                <th className="py-2 px-9 border-b border-gray-700 font-semibold text-sm">
                   Interview/Refus
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -363,63 +263,48 @@ const AdmissionListProfAffectation: React.FC = () => {
                     Relance 
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                <span className='inline m-1'>Affectation</span>
+                  Proposition
                      
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  Affectation
                 </th>
               </tr>
             </thead>
-
 
             <tbody>
 
               
         
-                {filteredAdmissions.map((form) => (
-                <tr key={form._id} className="hover:bg-gray-900">
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.civilite}</td>
+                {admissions.map((form) => (
+                  <tr key={form._id} className="hover:bg-gray-900">
+           <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.vous_etes}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Les_cours_sont_pour}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Niveau}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Matière_souhaitée}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.name}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prenome}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.ville}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.quartiers_Rabat}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.quartiers_Casablanca}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.telephone_portable}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.telephone_fixe}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.email}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">CV/photo</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.date_de_naissance}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.annee_obtention_du_Bac}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.situation_professionelle}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_atteint_dans_les_etudes}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.experiences_dans_l_enseignement}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.cursus_economique_Commercial}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.specialte}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motorise}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_1}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_1_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_2}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_2}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_2_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_3}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_3}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_3_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_4}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_4}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_4_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_5}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_5}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_5_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_6}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_6}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.niveau_6_note}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.note_de_CV}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.note_de_Francaise}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.autres_détails}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.comment_vous_nous_avez}</td>
+                 
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.pay}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_total}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_ticket}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">
+                    {form.ticketNumber}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prof_percentage}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.profPercentage}</td>
+                  <td className="py-2 text-center border-b border-gray-700 text-[12px]">{form.details}</td>
 
                 
 
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motivation}</td>
 
-                  <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
+
+                    <td className="py-2 px-8 gap-[2px]  border-b border-gray-700 text-[12px]">
                   {!form.date_interview ? (  
 
                     <Link href={`/admissionformdateclient/${form._id}`}>
@@ -430,7 +315,7 @@ const AdmissionListProfAffectation: React.FC = () => {
                       <span>
                          {format(new Date(form.date_interview), 'dd-MM-yyyy')}
                       </span>
-                    <span className='ml-1 text-blue-500'>{form.time_interview}</span>
+                    <span className='ml-[3px] text-blue-500'>{form.time_interview}</span>
                     
                     </p>
                     )}
@@ -478,7 +363,18 @@ const AdmissionListProfAffectation: React.FC = () => {
                           <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Proposition</button>
                       </Link>
                         </p>
+                    
                     </td>
+
+                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+                      <p className='flex'> 
+                      <Link href={`/admissionformproposition/${form._id}`}>
+
+                          <button className='bg-yellow-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Affectation</button>
+                      </Link>
+                        </p>
+                    </td>
+                 
                   </tr>
               ))
            

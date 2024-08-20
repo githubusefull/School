@@ -274,10 +274,10 @@ const AdmissionClient: React.FC = () => {
           id="vous_etes"
           name="vous_etes">
           <option value="" className="">Vous êtes ?</option>
-          <option value="parents">Parents d'eleves</option>
-          <option value="ecolire/collegien/lyceen/etudiant">Ecolire, collégien, lycéen ou étudiant</option>
-          <option value="adulte/souhaitant/une/formation">Adulte souhaitant une formation</option>
-          <option value="entreprise">Entreprise</option>
+          <option value="Parents d'eleves">Parents d'eleves</option>
+          <option value="Ecolire collégien lyceen étudiant">Ecolire, collégien, lycéen ou étudiant</option>
+          <option value="Adulte souhaitant une formation">Adulte souhaitant une formation</option>
+          <option value="Entreprise">Entreprise</option>
 
         </select>
       </div>
@@ -290,9 +290,9 @@ const AdmissionClient: React.FC = () => {
           value={formData.Les_cours_sont_pour}
           >
           <option value="" className="">Les cours sont pour</option>
-          <option value="Vous/meme">Vous même</option>
-          <option value="Votre/fils">Votre fils</option>
-          <option value="Votre/fille">Votre fille</option>
+          <option value="Vous meme">Vous même</option>
+          <option value="Votre fils">Votre fils</option>
+          <option value="Votre fille">Votre fille</option>
           <option value="Autre">Autre</option>
           <option value="Entreprise">Entreprise</option>
 

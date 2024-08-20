@@ -293,7 +293,7 @@ const AdmissionsListProfe: React.FC = () => {
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Total
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                <th className="py-2 px-9 border-b border-gray-700 font-semibold text-sm">
                   Motivation
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -359,7 +359,7 @@ const AdmissionsListProfe: React.FC = () => {
                     {form.finalTotal}
                   </td>
 
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motivation}</td>
+                  <td className="py-2 w-full border-b border-gray-700 text-[12px]">{form.motivation}</td>
 
                   <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
                   {!form.date_interview ? (  

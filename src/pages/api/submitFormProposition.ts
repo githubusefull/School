@@ -17,13 +17,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
 
       const {
-        date_proposition,
-        time_proposition,
+        monday_proposition,
+        tuesday_proposition,
+        wednesday_proposition,
+        thursday_proposition,
+        friday_proposition,
+        saturday_proposition,
+        sunday_proposition,
+        monday_time,
+        tuesday_time,
+        wednesday_time,
+        thursday_time,
+        friday_time,
+        saturday_time,
+        sunday_time,
         userIdProposition,
         userIdClient,
+        userIdProfesseur,
         finalTotal,
         matiere_1,
         niveau_1,
+        matiere_2,
+        niveau_2,
+        matiere_3,
+        niveau_3,
+        matiere_4,
+        niveau_4,
+        matiere_5,
+        niveau_5,
+        matiere_6,
+        niveau_6,
+
+
       } = req.body;
 
     
@@ -32,13 +57,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
       const newForm: IAdmissionFormProposition = new AdmissionFormProposition({
-        date_proposition,
-        time_proposition,
+        monday_proposition,
+        tuesday_proposition,
+        wednesday_proposition,
+        thursday_proposition,
+        friday_proposition,
+        saturday_proposition,
+        sunday_proposition,
+        monday_time,
+        tuesday_time,
+        wednesday_time,
+        thursday_time,
+        friday_time,
+        saturday_time,
+        sunday_time,
         userIdProposition,
         userIdClient,
         finalTotal,
         matiere_1,
         niveau_1,
+        userIdProfesseur,
+        matiere_2,
+        niveau_2,
+        matiere_3,
+        niveau_3,
+        matiere_4,
+        niveau_4,
+        matiere_5,
+        niveau_5,
+        matiere_6,
+        niveau_6,
       });
     
       await newForm.save();

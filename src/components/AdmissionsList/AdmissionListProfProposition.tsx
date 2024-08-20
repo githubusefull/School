@@ -16,9 +16,6 @@ interface FormPropositionSelect {
   IsSelected: boolean;
   name: string;
   userIdClient: string;
-
-
-
 }
 interface FormDataInfoProposition {
   id: string;
@@ -39,8 +36,9 @@ interface FormDataInfoProposition {
   userIdProposition: string;
   userIdClient: string;
   finalTotal: number;
-  matiere_1: string | undefined;
-  niveau_1: string | undefined;
+  matiere_1: string | undefined;  // Add matiere_1 here
+  niveau_1: string | undefined; 
+
 }
 interface FormData {
   _id: string;
@@ -50,6 +48,12 @@ interface FormData {
   password: string;
   ville: string;
   vous_etes: string;
+  Les_cours_sont_pour: string;
+  Niveau: string;
+  Matière_souhaitée: string;
+  autres_détails: string;
+  comment_vous_nous_avez: string;
+
   quartiers_Rabat: string;
   quartiers_Casablanca: string;
   situation_professionelle: string;
@@ -114,30 +118,51 @@ interface FormData {
   userIdConfirmClient: string;
   userIdClient: string;
   IsSelected: boolean;
-  date_proposition: string;
-  time_proposition: string;
   userIdProposition: string;
+  userIdProfesseur: string;
   //cv_Photo: File | null;
 }
 interface IAdmissionFormProposition {
-  date_proposition: Date;
-  time_proposition: string;
+  id: string;
+  monday_proposition: string;
+  tuesday_proposition: string;
+  wednesday_proposition: string;
+  thursday_proposition: string;
+  friday_proposition: string;
+  saturday_proposition: string;
+  sunday_proposition: string;
+  monday_time: string;
+  tuesday_time: string;
+  wednesday_time: string;
+  thursday_time: string;
+  friday_time: string;
+  saturday_time: string;
+  sunday_time: string;
   userIdProposition: string;
   userIdClient: string;
-  finalTotal: number;
-  matiere_1: string | undefined;
-  niveau_1: string | undefined;
   isAcceptedProf: boolean;
-  //cv_Photo?: string; // Optional field
 }
 interface AdmissionFormProposition {
-  date_proposition: Date;
-  time_proposition: string;
+  id: string;
+  monday_proposition: string;
+  tuesday_proposition: string;
+  wednesday_proposition: string;
+  thursday_proposition: string;
+  friday_proposition: string;
+  saturday_proposition: string;
+  sunday_proposition: string;
+  monday_time: string;
+  tuesday_time: string;
+  wednesday_time: string;
+  thursday_time: string;
+  friday_time: string;
+  saturday_time: string;
+  sunday_time: string;
   userIdProposition: string;
   userIdClient: string;
   finalTotal: number;
-  matiere_1: string | undefined;
-  niveau_1: string | undefined;
+  matiere_1?: string;
+  niveau_1?: string;
   isAcceptedProf: boolean;
   //cv_Photo?: string; // Optional field
 }
@@ -191,6 +216,8 @@ interface IAdmissionFormProf {
   isConfirmed: boolean;
   IsSelected: boolean;
   counter: number;
+  isAcceptedProf: boolean;
+
 }
 
 interface PropositionDataProps {
@@ -200,14 +227,14 @@ interface PropositionDataProps {
 }
 
 
-const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formProposition, id }) => {
+const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formProposition }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState<FormData | null>(null);
   //const [message, setMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormPropositionSelect>({
     id: formProposition._id,
     name: formProposition.name,
-    userIdClient: formProposition._id,
+    userIdClient: formProposition._id,  
     IsSelected: true,
 
 
@@ -227,6 +254,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
       console.error('Error fetching form data:', error);
     }
   };
+
 
   const handleConfirm = async () => {
 
@@ -292,7 +320,6 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
         IsSelected: true,
         userIdClient: formProposition._id,
 
-
       });
 
       //toast.success(data.message);
@@ -315,7 +342,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
   //const [filteredPropositions, setFilteredPropositions] = useState<FormData>(formProposition);
 
-  
+
 
 
 
@@ -376,7 +403,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
 
 
-  const [formDataPropo, setFormDataPropo] = useState<FormDataInfoProposition>({
+
+  const [formDataPropo, setFormDataPropo] = useState<IAdmissionFormProposition>({
     id: formProposition._id,
     monday_proposition: formProposition.monday_proposition,
     tuesday_proposition: formProposition.tuesday_proposition,
@@ -393,12 +421,14 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     saturday_time: formProposition.saturday_time,
     sunday_time: formProposition.sunday_time,
     userIdProposition: formProposition.userIdProposition,
-    finalTotal: formProposition.finalTotal,
-    matiere_1: formProposition.matiere_1,
-    niveau_1: formProposition.niveau_1,
     userIdClient: formProposition._id,
+    isAcceptedProf: false
+
+    
 
   });
+
+  
 
 
   const handleChangeProposition = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -419,7 +449,24 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formDataPropo),
+        body: JSON.stringify(
+          {
+          ...formDataPropo,
+          userIdProfesseur: selectedForm?._id,
+          finalTotal: selectedForm?.finalTotal,
+           matiere_1:selectedForm?.matiere_1,
+           niveau_1:selectedForm?.niveau_1,
+           matiere_2:selectedForm?.matiere_2,
+           niveau_2:selectedForm?.niveau_2,
+           matiere_3:selectedForm?.matiere_3,
+           niveau_3:selectedForm?.niveau_3 ,
+           matiere_4:selectedForm?.matiere_4,
+           niveau_4:selectedForm?.niveau_4,
+           matiere_5:selectedForm?.matiere_5,
+           niveau_5:selectedForm?.niveau_5 ,
+           matiere_6:selectedForm?.matiere_6,
+           niveau_6:selectedForm?.niveau_6   
+      }),
       });
 
       const data = await response.json();
@@ -428,7 +475,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           id: '',
           monday_proposition: '',
           tuesday_proposition: '',
-          wednesday_proposition : '',
+          wednesday_proposition: '',
           thursday_proposition: '',
           friday_proposition: '',
           saturday_proposition: '',
@@ -438,13 +485,11 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           wednesday_time: '',
           thursday_time: '',
           friday_time: '',
-          saturday_time:'',
-          sunday_time:'',
+          saturday_time: '',
+          sunday_time: '',
           userIdProposition: '',
-          finalTotal: 0,
-          matiere_1: '',
-          niveau_1: '',
-          userIdClient: ''
+          userIdClient: '',
+          isAcceptedProf: false
         });
         //toast.success(data.message);
 
@@ -459,7 +504,6 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
   };
 
 
-
   const [ville, setVille] = useState(''); // Default selector
   const [matiere, setMatier] = useState(''); // Default selector
   const [niveau, setNiveau] = useState(''); // Default selector
@@ -468,7 +512,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
   const [mission, setMission] = useState(''); // Default selector
 
   useEffect(() => {
-    if (ville === '' && matiere === '' && niveau === '' && civilite === '' && motorise === ''&& mission === '') {
+    if (ville === '' && matiere === '' && niveau === '' && civilite === '' && motorise === '' && mission === '') {
       setFilteredAdmissions(admissions);
     } else {
       setFilteredAdmissions(
@@ -482,16 +526,16 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           return (
             (admission.ville && admission.ville.toLowerCase() === villeLower) &&
             (matiereLower === '' || (admission.matiere_1 && admission.matiere_1.toLowerCase() === matiereLower)) &&
-            (niveauLower === '' || (admission.niveau_1 && admission.niveau_1.toLowerCase() === niveauLower))     &&
+            (niveauLower === '' || (admission.niveau_1 && admission.niveau_1.toLowerCase() === niveauLower)) &&
             (civiliteLower === '' || (admission.civilite && admission.civilite.toLowerCase() === civiliteLower)) &&
             (motoriseLower === '' || (admission.motorise && admission.motorise.toLowerCase() === motoriseLower)) &&
-            (missionLower === '' || (admission.mission && admission.mission.toLowerCase() === missionLower)) 
+            (missionLower === '' || (admission.mission && admission.mission.toLowerCase() === missionLower))
           );
         })
       );
     }
   }, [ville, matiere, niveau, civilite, motorise, mission, admissions]);
-  
+
 
 
 
@@ -824,7 +868,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                     Total
                   </th>
-                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  <th className="py-2 px-9 border-b border-gray-700 font-semibold text-sm">
                     Motivation
                   </th>
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -898,7 +942,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                       {form.finalTotal}
                     </td>
 
-                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.motivation}</td>
+                    <td className="py-2 w-full border-b border-gray-700 text-[12px]">{form.motivation}</td>
 
                     <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
                       {!form.date_interview ? (
@@ -958,11 +1002,12 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                     </td>
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
                       <p>
-                        
-                      {form.userIdClient === formProposition._id ? (
+
+                        {form.userIdClient === formProposition._id ? (
                           <button
+                          onClick={() => handleButtonClick(form._id)}
                             className='bg-green-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Selected </button>
-                      ) : (
+                        ) : (
 
                           <button onClick={() => handleButtonClick(form._id)}
                             className='bg-cyan-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Select</button>
@@ -982,162 +1027,184 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                                 <div className='overflow-x-auto h-72'>
 
 
-                                <form onSubmit={handleSubmitProposition} className='p-3'>
+                                  <form onSubmit={handleSubmitProposition} className='p-3'>
 
                                     <div className="mb-4 mt-4 flex gap-1">
                                       <label className='text-gray-700'>Mon</label>
 
-                                        <input
-                                          type="date"
-                                          id="monday_proposition"
-                                          name="monday_proposition"
-                                          placeholder='Date Proposition'
-                                          className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300  py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                          value={formDataPropo.monday_proposition}
-                                          onChange={handleChangeProposition}
-                                        />
+                                      <input
+                                        type="date"
+                                        id="monday_proposition"
+                                        name="monday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300  py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.monday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
 
-                                        <input
-                                          type="time"
-                                          id="monday_time"
-                                          name="monday_time"
-                                          placeholder='Time Proposition'
-                                          className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300  py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                          value={formDataPropo.monday_time}
-                                          onChange={handleChangeProposition}
-                                        />
-
-                                      
-                                    
-                                   
-                                  </div>
-                                  <div className="mb-4 mt-4 flex gap-1">
-                                  <label className='text-gray-700'>Tue</label>
-
-                                    <input
-                                      type="date"
-                                      id="tuesday_proposition"
-                                      name="tuesday_proposition"
-                                      placeholder='Date Proposition'
-                                      className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300 py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.tuesday_proposition}
-                                      onChange={handleChangeProposition}
-                                    />
-                                    <input
-                                      type="time"
-                                      id="tuesday_time"
-                                      name="tuesday_time"
-                                      placeholder='Time Proposition'
-                                      className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300 py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.tuesday_time}
-                                      onChange={handleChangeProposition}
-                                    />
-                                  </div>
-                                  <div className="mb-4 mt-4 flex gap-1">
-                                  <label className='text-gray-700'>Wed</label>
-
-                                    <input
-                                      type="date"
-                                      id="wednesday_proposition"
-                                      name="wednesday_proposition"
-                                      placeholder='Date Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.wednesday_proposition}
-                                      onChange={handleChangeProposition}
-                                    />
-                                    <input
-                                      type="time"
-                                      id="wednesday_time"
-                                      name="wednesday_time"
-                                      placeholder='Time Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.wednesday_time}
-                                      onChange={handleChangeProposition}
-                                    />
-                                  </div>
-                                        
+                                      <input
+                                        type="time"
+                                        id="monday_time"
+                                        name="monday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300  py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.monday_time}
+                                        onChange={handleChangeProposition}
+                                      />
 
 
-                                  <div className="mb-4 mt-4 flex gap-1">
-                                  <label className='text-gray-700'>Thu</label>
-
-                                    <input
-                                      type="date"
-                                      id="thursday_time"
-                                      name="thursday_time"
-                                      placeholder='Date Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.thursday_time}
-                                      onChange={handleChangeProposition}
-                                    />
-                                    <input
-                                      type="time"
-                                      id="thursday_time"
-                                      name="thursday_time"
-                                      placeholder='Time Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.thursday_time}
-                                      onChange={handleChangeProposition}
-                                    />
-                                  </div>
-                                  <div className="mb-4 mt-4 flex gap-1">
-                                  <label className='text-gray-700'>Fri</label>
-
-                                    <input
-                                      type="date"
-                                      id="friday_proposition"
-                                      name="friday_proposition"
-                                      placeholder='Date Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.friday_proposition}
-                                      onChange={handleChangeProposition}
-                                    />
-                                    <input
-                                      type="time"
-                                      id="friday_time"
-                                      name="friday_time"
-                                      placeholder='Time Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.friday_time}
-                                      onChange={handleChangeProposition}
-                                    />
-                                  </div>
-                                  <div className="mb-4 mt-4 flex gap-1">
-                                  <label className='text-gray-700 '>Sat</label>
-
-                                    <input
-                                      type="date"
-                                      id="saturday_proposition"
-                                      name="saturday_proposition"
-                                      placeholder='Date Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.saturday_proposition}
-                                      onChange={handleChangeProposition}
-                                    />
-                                    <input
-                                      type="time"
-                                      id="sunday_time"
-                                      name="sunday_time"
-                                      placeholder='Time Proposition'
-                                      className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                      value={formDataPropo.sunday_time}
-                                      onChange={handleChangeProposition}
-                                    />
-                                  </div>
-
-                                  <button
-
-                                    type='submit'
-                                    onClick={handleConfirm}
-                                    className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
 
 
-                                  <button
-                                    onClick={handleCancel}
-                                    className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+                                    </div>
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700'>Tue</label>
+
+                                      <input
+                                        type="date"
+                                        id="tuesday_proposition"
+                                        name="tuesday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300 py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.tuesday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
+                                      <input
+                                        type="time"
+                                        id="tuesday_time"
+                                        name="tuesday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] w-full border rounded-[4px] bg-gray-300 py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.tuesday_time}
+                                        onChange={handleChangeProposition}
+                                      />
+                                    </div>
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700'>Wed</label>
+
+                                      <input
+                                        type="date"
+                                        id="wednesday_proposition"
+                                        name="wednesday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.wednesday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
+                                      <input
+                                        type="time"
+                                        id="wednesday_time"
+                                        name="wednesday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.wednesday_time}
+                                        onChange={handleChangeProposition}
+                                      />
+                                    </div>
 
 
-                                </form>
+
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700'>Thu</label>
+
+                                      <input
+                                        type="date"
+                                        id="thursday_proposition"
+                                        name="thursday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.thursday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
+                                      <input
+                                        type="time"
+                                        id="thursday_time"
+                                        name="thursday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.thursday_time}
+                                        onChange={handleChangeProposition}
+                                      />
+                                    </div>
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700'>Fri</label>
+
+                                      <input
+                                        type="date"
+                                        id="friday_proposition"
+                                        name="friday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.friday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
+                                      <input
+                                        type="time"
+                                        id="friday_time"
+                                        name="friday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.friday_time}
+                                        onChange={handleChangeProposition}
+                                      />
+                                    </div>
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700 '>Sat</label>
+
+                                      <input
+                                        type="date"
+                                        id="saturday_proposition"
+                                        name="saturday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.saturday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
+                                      <input
+                                        type="time"
+                                        id="saturday_time"
+                                        name="saturday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.saturday_time}
+                                        onChange={handleChangeProposition}
+                                      />
+                                    </div>
+                                    <div className="mb-4 mt-4 flex gap-1">
+                                      <label className='text-gray-700 '>Sun</label>
+
+                                      <input
+                                        type="date"
+                                        id="sunday_proposition"
+                                        name="sunday_proposition"
+                                        placeholder='Date Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.sunday_proposition}
+                                        onChange={handleChangeProposition}
+                                      />
+                                      <input
+                                        type="time"
+                                        id="sunday_time"
+                                        name="sunday_time"
+                                        placeholder='Time Proposition'
+                                        className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        value={formDataPropo.sunday_time}
+                                        onChange={handleChangeProposition}
+                                      />
+                                    </div>
+
+                                    <button
+
+                                      type='submit'
+                                      onClick={handleConfirm}
+                                      className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
+
+
+                                    <button
+                                      onClick={handleCancel}
+                                      className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+
+
+                                  </form>
                                 </div>
                               </div>
 
@@ -1149,7 +1216,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                                 <div className="overflow-x-auto h-72 flex text-gray-800">
                                   <div className="border-collapse font-light text-[9px]">
 
-                                      <div className='mt-2 text-[12px]'>
+                                    <div className='mt-2 text-[12px]'>
 
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name: {formProposition.name}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email: {formProposition.email}</p>
@@ -1163,7 +1230,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Percentge Professeur: {formProposition.prof_percentage}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Number Ticket: {formProposition.ticketNumber}</p>
 
-                                    
+
                                     </div>
                                   </div>
                                 </div>
@@ -1176,14 +1243,13 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
                                 <div className="overflow-x-auto h-72 flex text-gray-800">
                                   <div className="border-collapse font-light text-[9px]">
 
-                                      <div className='mt-2 text-[12px]'>
-
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Civilite : {selectedForm?.civilite}</p>
+                                    <div className='mt-2 text-[12px]'>
+                                    <p className="py-2 px-4 border-b border-gray-700 font-semibold">Civilite : {selectedForm?.civilite}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Nom : {selectedForm?.name}</p>
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Prenome : {selectedForm?.name}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Prenome : {selectedForm?.prenome}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Ville : {selectedForm?.ville}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Telephone : {selectedForm?.telephone_portable}</p>
-                        
+
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 1 : {selectedForm?.matiere_1}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 2 : {selectedForm?.matiere_2}</p>
                                       <p className="py-2 px-4 border-b border-gray-700 font-semibold">Matiere 3 : {selectedForm?.matiere_3}</p>
@@ -1217,7 +1283,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
 
         <div className="grid grid-cols-2 mt-4 px-8 gap-4">
-   {/*            
+          {/*            
           <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
             <span>Form Professeur Proposition</span>
 
@@ -1251,62 +1317,19 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
               <div className="border-collapse font-light text-[9px]">
                 <div>
                   <div className=' mt-2 text-[12px]'>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold">Civilité : {formProposition.civilite}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name : {formProposition.name}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Prénome : {formProposition.prenome}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Ville : {formProposition.ville}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Quartiers<span className="inline ml-1">Rabat : </span> {formProposition.quartiers_Rabat}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Quartiers<span className="inline ml-1">Casablanca : </span> {formProposition.quartiers_Casablanca}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
                       Téléphone portable : {formProposition.telephone_portable}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Téléphone fix : {formProposition.telephone_fixe}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Situation Professionelle : {formProposition.situation_professionelle}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau Atteint Dans Les Etudes : {formProposition.niveau_atteint_dans_les_etudes}</p>
-
-
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Experiences Dans L'enseignement : {formProposition.experiences_dans_l_enseignement}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Cursus Economique Commercial : {formProposition.cursus_economique_Commercial}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Specialte : {formProposition.specialte}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Motorise : {formProposition.motorise}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Matiere 1 : {formProposition.matiere_1}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau 1 : {formProposition.niveau_1}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Matiere 2 : {formProposition.matiere_2}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau 2 : {formProposition.niveau_2}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Matiere 3 : {formProposition.matiere_3}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau 3 : {formProposition.niveau_3}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Matiere 4 : {formProposition.matiere_4}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau 4 : {formProposition.niveau_4}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Matiere 5 : {formProposition.matiere_5}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau 5 : {formProposition.niveau_5}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Matiere 6 : {formProposition.matiere_6}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Niveau 6 : {formProposition.niveau_6}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Motivation : {formProposition.motivation}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Annee Obtention du Bac : {formProposition.annee_obtention_du_Bac}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Date De Naissance : {formProposition.date_de_naissance}</p>
+                      Email : {formProposition.email}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Ville : {formProposition.ville}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Vous ètes : {formProposition.vous_etes}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Les cours sont pour : {formProposition.Les_cours_sont_pour}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Niveau : {formProposition.Niveau}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Matière Souhaitée : {formProposition.Matière_souhaitée}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Autes Détails : {formProposition.autres_détails}</p>
+                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Comment Vous Nous avez : {formProposition.comment_vous_nous_avez}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
                       Price Total : {formProposition.price_total}</p>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
