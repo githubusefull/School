@@ -171,25 +171,24 @@ const AdmissionsListUser: React.FC = () => {
 
       <div className="">
 
-      <div className="flex justify-center">
-          <div className="flex justify-center w-80">
-       
+      <div className="flex justify-between px-14">
+
+          <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1'>Users</span></span>
+
+          <div className="w-80">
+
+            <input
+              type="text"
+              placeholder="Search by name and mobile"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
+            />
+
+          </div>
+          </div>
 
 
-       <input
-        type="text"
-        placeholder="Search by name and mobile"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
-      />
-          
-     </div>
-            
-          
-
-       
-        </div>
         <div className='p-8 flex justify-center'>
 
      

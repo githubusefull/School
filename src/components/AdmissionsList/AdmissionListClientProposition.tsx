@@ -93,13 +93,13 @@ const AdmissionsListClientProposition: React.FC = () => {
   return (
 
     <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
+        <div className="">
 
-      <div className="">
+        <div className="flex justify-between px-14">
 
-        <div className="flex justify-center">
-          <div className="flex justify-center w-80">
-       
+        <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1'>Clients Proposition</span></span>
 
+          <div className="w-80">
 
        <input
         type="text"

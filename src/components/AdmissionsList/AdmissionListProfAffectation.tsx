@@ -144,21 +144,21 @@ const AdmissionListProfAffectation: React.FC = () => {
     <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
 
       <div className="">
+        <div className="flex justify-between px-14">
 
-        <div className="flex justify-center">
-          <div className="flex justify-center w-80">
-       
+          <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1'>Affectation</span></span>
 
+          <div className="w-80">
 
-       <input
-        type="text"
-        placeholder="Search by name and mobile"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
-      />
-          
-     </div>
+            <input
+              type="text"
+              placeholder="Search by name and mobile"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
+            />
+
+          </div>
             
           
 
