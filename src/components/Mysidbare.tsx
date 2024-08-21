@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 import { useRouter } from 'next/navigation'; // for Next.js 13 and later
 import Link from 'next/link';
+import ChekoutSteps from './ChekoutSteps';
 
 
 interface IAdmissionFormProf {
@@ -193,20 +194,21 @@ const handleLogout = () => {
     <>
    
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-customOrange z-60 text-white transition-transform transform ${
+        className={`fixed top-0 left-0 h-full w-64 mt-9 bg-customOrange z-60 text-white transition-transform transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="mt-4">
-          <button
-            onClick={toggleSidebar}
-            className="mb-4  bg-gray-800 text-white"
-          >
-            Close
-          </button>
-          <ul className='mt-8 p-4 flex justify-center mr-8'>
-            <li className="mb-2 text-[12px]">
-            <div className="text-white mt-4 mb-4 flex justify-center">Profile</div>
+        <div>
+          <ul className='mt-9 p-4 flex justify-center mr-8'>
+       
+            <li className="mt-9 text-[12px]">
+            <span className='text-white flex justify-center'>
+              here
+            </span>
+
+
+            <div className="text-white  flex justify-center">Profile</div>
+
            
               <div className="text-white mt-4 mb-4">Name : <span>{formData.name ? formData.name : 'User name' }</span></div>
               <div className="text-white mt-4 mb-4">Email : <span>{formData.email ?  formData.email : 'User email'}</span></div>
@@ -241,7 +243,8 @@ const handleLogout = () => {
             </li>
           </ul>
         </div>
-      </div>
+        </div>
+    
     </>
   );
 };

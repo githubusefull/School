@@ -4,6 +4,7 @@ import './inputDate.css';
 import toast from 'react-hot-toast';
 import withAuth from '@/hoc/withAuth';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+import CheckoutSteps from '../ChekoutSteps';
 
 interface FormData {
   name: string;
@@ -171,6 +172,7 @@ const AdmissionUser: React.FC = () => {
 
   return (
     <form className="max-w-lg mx-auto p-8 mt-9 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
+
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE USER</p>
       {message && (<p className='text-yellow-600'>{message}</p>)}
 
