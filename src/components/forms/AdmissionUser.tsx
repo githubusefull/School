@@ -83,13 +83,12 @@ const AdmissionUser: React.FC = () => {
         if (result.token) {
           localStorage.setItem('token', result.token);
         }
-        setMessage(result.message)
+        //setMessage(result.message)
         toast.success(result.message);
-        setTimeout(() => {
+
+        
               window.location.href = '/useradmissions';
-          }, 100);  
-        
-        
+
         } else {
         console.error('Registration failed:', result.message);
         toast.error(result.message);
@@ -174,7 +173,6 @@ const AdmissionUser: React.FC = () => {
     <form className="max-w-lg mx-auto p-8 mt-9 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
 
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: ESPACE USER</p>
-      {message && (<p className='text-yellow-600'>{message}</p>)}
 
 
       

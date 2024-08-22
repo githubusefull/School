@@ -1005,7 +1005,6 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
                         {form.userIdClient === formProposition._id ? (
                           <button
-                          onClick={() => handleButtonClick(form._id)}
                             className='bg-green-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Selected </button>
                         ) : (
 

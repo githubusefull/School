@@ -147,8 +147,8 @@ const AdmissionClient: React.FC = () => {
 
          
         });
-        setMessage(data.message);
-        toast.success(message);
+        //setMessage(data.message);
+        toast.success(data.message);
         router.push('/clientadmissions');
           window.location.href = '/clientadmissions';
 
@@ -208,7 +208,6 @@ const AdmissionClient: React.FC = () => {
 
   const [formDataUpdateUser, setFormDataUpdateUser] = useState<FormDataUpdateUser>({
     id: '',
-
     numberOfUserIdsClient: 0,
 
   });
@@ -252,6 +251,9 @@ const AdmissionClient: React.FC = () => {
       console.error('Error updating user:', error);
     }
   };
+
+  
+ 
 
   return (
     <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>

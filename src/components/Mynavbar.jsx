@@ -153,7 +153,12 @@ const Mynavbar = () => {
                     Afficher
                   </p>
                 </Link>
-
+                <Link href="/useradmissionsoriginal">
+                  <p className="block  py-2   font-[500] mt-0 ">
+                    All_Users
+                  </p>
+                </Link>
+                
               
               </div>
             )}

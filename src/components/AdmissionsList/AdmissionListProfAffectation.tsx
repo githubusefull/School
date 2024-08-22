@@ -85,7 +85,8 @@ interface IAdmissionFormProf {
 
 
 const AdmissionListProfAffectation: React.FC = () => {
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedForm, setSelectedForm] = useState<FormData | null>(null)
   const [admissions, setAdmissions] = useState<FormData[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -100,7 +101,7 @@ const AdmissionListProfAffectation: React.FC = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormClient');
+        const response = await fetch('/api/submitFormProposition');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -132,6 +133,20 @@ const AdmissionListProfAffectation: React.FC = () => {
   */}
 
 
+
+  const handleButtonClick = async (formId: string) => {
+    try {
+      // Fetch the form data by ID
+      const response = await fetch(`/api/admissionformpropositionselect/${formId}`);
+
+      const data = await response.json();
+
+      setSelectedForm(data);
+      setIsDialogOpen(true);
+    } catch (error) {
+      console.error('Error fetching form data:', error);
+    }
+  };
 
 
   if (loading) {
@@ -172,56 +187,41 @@ const AdmissionListProfAffectation: React.FC = () => {
           <table className="min-w-full border-collapse font-light">
           <thead>
               <tr>
-                <th className="py-2 px-9 border-b border-gray-700 font-semibold text-sm">
-                <span className='inline mr-1 capitalize'>Vous</span>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Client
+              <span className='inline mr-1 ml-1 capitalize'>Name</span>
 
-                ètes
+                
   
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                 Les 
-                <span className='inline mr-1'></span>cours<span className='inline  ml-1 mr-1'>sont</span>  
-                 pour
-                    </th>
+              Client
+              <span className='inline mr-1 ml-1 capitalize'>Email</span>
+
+                
+  
+                </th>
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Client
+              <span className='inline mr-1 ml-1 capitalize'>Telephone</span>
+
+                
+  
+                </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Niveau
-                </th>
+</th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 <span className='inline mr-1'>Matière</span>
                     Souhaitée
   
                 </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  
-                  <span className='inline ml-1'>Name</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <span className='inline ml-1'>Prénome</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <span className='inline ml-1'>Ville</span>
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Téléphone
-                  <span className='inline ml-1'>portable</span>
-
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Email
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                
-                  <span className='inline mr-1'></span>Autes<span className='inline  ml-1'>Détails</span>  
-                  
-                      </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                Comment
-                  <span className='inline mr-1'></span>Vous<span className='inline  ml-1 mr-1'>Nous</span>  
-                  avez
-                      </th>
             
-              
-             
+                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Client
+              <span className='inline mr-1 ml-1 capitalize'>Ville</span>
+                </th>
+       
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 
                   <span className='inline ml-1'> Payment</span>
@@ -251,6 +251,51 @@ const AdmissionListProfAffectation: React.FC = () => {
                 <span className='inline ml-1 px-9'>Details</span>
               </th>
               
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                
+                <span className='inline mr-1'>Professor</span>Name
+              </th>
+
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                
+                <span className='inline mr-1'>Professor</span>Email
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                
+                <span className='inline mr-1'>Professor</span>Telehpone
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                
+                <span className='inline mr-1'>Professor</span>Ville
+              </th>
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Matiere
+                <span className='inline ml-1'>1</span>
+              </th> 
+              <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Matiere
+                <span className='inline ml-1'>2</span>
+              </th>    <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Matiere
+                <span className='inline ml-1'>3</span>
+              </th>    <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Matiere
+                <span className='inline ml-1'>4</span>
+              </th>    <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Matiere
+                <span className='inline ml-1'>5</span>
+              </th>    <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+              Matiere
+                <span className='inline ml-1'>6</span>
+              </th>   
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    La
+                    <span className='inline ml-1'>
+                      note
+                    </span>
+                    <span className='inline ml-1'>totale</span>
+                  </th> 
+
                 <th className="py-2 px-9 border-b border-gray-700 font-semibold text-sm">
                   Interview/Refus
                 </th>
@@ -374,7 +419,138 @@ const AdmissionListProfAffectation: React.FC = () => {
                       </Link>
                         </p>
                     </td>
+
+                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+                      <p className='flex'> 
+
+
+                      <button onClick={() => handleButtonClick(form._id)}
+                            className='bg-cyan-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Select</button>                        </p>
+                    </td>
                  
+
+                 
+                    {isDialogOpen && selectedForm && (
+
+<div className="fixed inset-0 flex items-center justify-center bg-customOrange text-gray-500 bg-opacity-75 z-50">
+
+  <div className="bg-white p-6 rounded-[4px] shadow-lg">
+
+
+    <div className="grid grid-cols-3 mt-4 gap-4 text-start">
+      <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
+        <span className='text-start text-gray-800'>Form Proposition</span>
+        <div className='overflow-x-auto h-72'>
+
+
+          <form className='p-3'>
+
+            
+            <div className="mb-4 mt-4 flex gap-1">
+              <label className='text-gray-700 '>Sat</label>
+
+              <input
+                type="date"
+                id="saturday_proposition"
+                name="saturday_proposition"
+                placeholder='Date Proposition'
+                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                
+              />
+              <input
+                type="time"
+                id="saturday_time"
+                name="saturday_time"
+                placeholder='Time Proposition'
+                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              
+              />
+            </div>
+            <div className="mb-4 mt-4 flex gap-1">
+              <label className='text-gray-700 '>Sun</label>
+
+              <input
+                type="date"
+                id="sunday_proposition"
+                name="sunday_proposition"
+                placeholder='Date Proposition'
+                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              
+              />
+              <input
+                type="time"
+                id="sunday_time"
+                name="sunday_time"
+                placeholder='Time Proposition'
+                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          
+              />
+            </div>
+
+            <button
+
+              type='submit'
+             // onClick={handleConfirm}
+              className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
+
+
+            <button
+              //onClick={handleCancel}
+              className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+
+
+          </form>
+        </div>
+      </div>
+
+
+
+      <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
+        <span className='text-start text-gray-800'>Form Client</span>
+
+        <div className="overflow-x-auto h-72 flex text-gray-800">
+          <div className="border-collapse font-light text-[9px]">
+
+            <div className='mt-2 text-[12px]'>
+
+              <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name: {form.name}</p>
+              <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email: {form.email}</p>
+              
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
+        <span className='text-start text-gray-800'>Form Professeur</span>
+
+        <div className="overflow-x-auto h-72 flex text-gray-800">
+          <div className="border-collapse font-light text-[9px]">
+
+          <p>here</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+)}
+
+
+
+
+
+
+
+
+
+
+
                   </tr>
               ))
            

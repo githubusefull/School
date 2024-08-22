@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+import { format } from 'date-fns';  // or import moment from 'moment';
+import { create } from 'domain';
 
 //import { format } from 'date-fns';  // or import moment from 'moment';
 
@@ -26,10 +28,10 @@ interface IAdmissionFormUser {
   percentage: string;
   prima: string;
   salary_net: string;
-
+  createdAt: string;
   numberOfUserIdsConfirmClient: number;
   percentage_affectation: string;
- 
+  
 }
 interface IAdmissionFormClient {
   userId: string;
@@ -43,11 +45,13 @@ interface IAdmissionFormProf {
 }
 
 
-const AdmissionsListUser: React.FC = () => {
+const AdmissionsListUserOriginal: React.FC = () => {
 
   const [admissions, setAdmissions] = useState<IAdmissionFormUser[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchDate, setSearchDate] = useState<string>('');
+
   const [filteredAdmissions, setFilteredAdmissions] = useState<IAdmissionFormUser[]>([]);
 
 
@@ -58,7 +62,7 @@ const AdmissionsListUser: React.FC = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormUser');
+        const response = await fetch('/api/submitFormUserOriginal');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -71,10 +75,13 @@ const AdmissionsListUser: React.FC = () => {
     fetchForms();
   }, []);
 
+
+
+  {/*   
   useEffect(() => {
     if (searchTerm === '') {
       setFilteredAdmissions(admissions);
-    } else {
+    }  else {
       setFilteredAdmissions(
         admissions.filter((admission) =>
           admission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -84,13 +91,59 @@ const AdmissionsListUser: React.FC = () => {
       );
     }
   }, [searchTerm, admissions]);
+
+
+   
+  
+  useEffect(() => {
+    if (searchDate === '') {
+      setFilteredAdmissions(admissions);
+    } else {
+      setFilteredAdmissions(
+        admissions.filter((admission) =>
+          new Date(admission.createdAt).toISOString().split('T')[0] === searchDate
+        )
+      );
+    }
+  }, [searchDate, admissions]);
+*/}
+
+
+ //anumbers 
+ 
+ useEffect(() => {
+    if (searchTerm === '' && searchDate === '') {
+      setFilteredAdmissions(admissions);
+    } else {
+      setFilteredAdmissions(
+        admissions.filter((admission) => {
+          const termLower = searchTerm.toLowerCase();
+          const dateLower = searchDate.toLowerCase();
+  
+          const matchesName = admission.name
+            ? admission.name.toLowerCase().includes(termLower)
+            : true;
+  
+          const matchesDate = admission.createdAt
+            ? admission.createdAt.toLowerCase().includes(dateLower)
+            : true;
+  
+          return matchesName && matchesDate;
+        })
+      );
+    }
+  }, [searchTerm, searchDate, admissions]);
   
 
 
 
 
- //anumbers 
- 
+
+
+
+
+
+
 
  const [userIdL, setUserIdL] = useState<string | null>(null);
 
@@ -171,25 +224,40 @@ const AdmissionsListUser: React.FC = () => {
 
   return (
 
-    <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
+      <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
 
-      <div className="">
+          <div className="">
 
-      <div className="flex justify-between px-14">
+              <div className="flex justify-between px-14">
 
-          <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1'>Users</span></span>
+                  <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1 mr-1'>Users</span>Original</span>
 
-          <div className="w-80">
+                  <div className="w-80">
+                      <input
+                          type="text"
+                          placeholder="Search by name and mobile"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="mb-3 p-[7px] text-sm  min-w-full font-[600]  placeholder:p-2 h-10 bg-gray-300 w-full py-2 px-3 text-gray-700 focus:shadow-outline outline-none rounded"
+                      />
+                  </div>
 
-            <input
-              type="text"
-              placeholder="Search by name and mobile"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="mb-3 p-[7px] text-sm  min-w-full placeholder:p-2 h-10 bg-gray-950 text-gray-300 outline-none rounded"
-            />
+                  <div className="w-80">
 
-          </div>
+                      <input
+                          type="month"
+                          id="searchDate"
+                          name="searchDate"
+                          className="shadow appearance-none font-[600] text-sm border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          value={searchDate}
+                          onChange={(e) => setSearchDate(e.target.value)}
+                      />
+
+
+                  </div>
+              
+             
+
           </div>
 
 
@@ -281,7 +349,11 @@ const AdmissionsListUser: React.FC = () => {
                   <span className='inline ml-1'>Notification</span>
 
                 </th>
-              
+                <th className="py-2 px-8 border-b border-gray-700 font-semibold text-sm">
+                     
+                     <span className='inline ml-1'>Date</span>
+   
+                   </th>
            
               </tr>
             </thead>
@@ -308,6 +380,7 @@ const AdmissionsListUser: React.FC = () => {
                   <span className='inline ml-1'>{form.salary_month}</span>
                   </td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px] text-center">
+                  
                   <span className='inline ml-1'>{form.percentage_affectation}</span>
 
                   </td>
@@ -338,7 +411,14 @@ const AdmissionsListUser: React.FC = () => {
                           <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Relance</button>
                         </Link>
                         </p>
-                    </td>
+                        </td>
+                        <td className="py-2 w-full gap-[2px] text-center border-b border-gray-700 text-[12px]">
+                            <p className='text-gray-300  w-full font-[600] inline'>
+                               
+                                    {format(new Date(form.createdAt), 'dd-MM-yyyy')}
+                               
+                            </p>
+                        </td>
                   </tr>
               ))
            
@@ -355,4 +435,4 @@ const AdmissionsListUser: React.FC = () => {
   )
 }
 
-export default withAuth(AdmissionsListUser);
+export default withAuth(AdmissionsListUserOriginal);

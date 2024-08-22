@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react';
 import './inputDate.css';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,9 @@ import Link from 'next/link';
 interface FormDataUser {
   id: string;
   name: string;
+  prenome: string;
+  post:string;
+  email:string;
   numberOfUserIds: number;
   numberOfInterviews: number;
   numberOfUserNote: number;
@@ -65,7 +68,6 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
 
 
 
-  const [message, setMessage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -79,6 +81,9 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
   const [formData, setFormData] = useState<FormDataUser>({
     id: form._id,
     name: form.name,
+    prenome: form.prenome,
+    post: form.post,
+    email: form.email,
     percentage: form.percentage,
     salary_net: form.salary_net,
     salary_month: form.salary_month,
@@ -148,13 +153,22 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
         body: JSON.stringify({
         id: formData.id,
           updateData: {
-            name:formData.name,
-            numberOfUserIds:formData.numberOfUserIds,
-            salary_month:formData.salary_month,
+            name: formData.name,
+            prenome: formData.prenome,
+            email: formData.email,
+            post: formData.post,
             percentage: formData.percentage,
-            salary_net:formData.salary_net,
+            salary_net: formData.salary_net,
+            salary_month: formData.salary_month,
             percentage_affectation: formData.percentage_affectation,
-            prima:formData.prima
+            prima: formData.prima,
+            numberOfUserIds: formData.numberOfUserIds,
+            numberOfInterviews: formData.numberOfInterviews,
+            numberOfUserNote: formData.numberOfUserNote,
+            numberOfUserIdsClient: formData.numberOfUserIdsClient,
+            numberOfUserIdsInterClient: formData.numberOfUserIdsInterClient,
+            numberOfUserIdsNoteClient: formData.numberOfUserIdsNoteClient,
+            numberOfUserIdsConfirmClient: formData.numberOfUserIdsConfirmClient,
 
           },
         }),
@@ -169,6 +183,9 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
       setFormData({
         id: '',
         name:'',
+        prenome:'',
+        post:'',
+        email:'',
         percentage: '',
         salary_net:'',
         salary_month:'',
@@ -185,11 +202,10 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
     
 
       router.push('/useradmissions');
-      setTimeout(() => {
+  
         window.location.href = '/useradmissions';
-      }, 100);
-      setMessage(data.message);
-      toast.success('Edited Successfully');
+      
+      toast.success(data.message);
     } catch (error) {
       console.error('Error:', error);
       toast.error('Failed to update document');
@@ -199,6 +215,77 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
   
 
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+
+  const handleSubmitProposition = async ( ) => {
+  
+
+
+    try {
+      const response = await fetch('/api/submitFormUserOriginal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            id: form._id,
+            name: form.name,
+            prenome: form.prenome,
+            email: form.email,
+            post: form.post,
+            percentage: form.percentage,
+            salary_net: form.salary_net,
+            salary_month: form.salary_month,
+            percentage_affectation: form.percentage_affectation,
+            prima: form.prima,
+            numberOfUserIds: form.numberOfUserIds,
+            numberOfInterviews: form.numberOfInterviews,
+            numberOfUserNote: form.numberOfUserNote,
+            numberOfUserIdsClient: form.numberOfUserIdsClient,
+            numberOfUserIdsInterClient: form.numberOfUserIdsInterClient,
+            numberOfUserIdsNoteClient: form.numberOfUserIdsNoteClient,
+            numberOfUserIdsConfirmClient: form.numberOfUserIdsConfirmClient,
+          }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setFormData({
+          id: '',
+          name:'',
+          prenome:'',
+          post:'',
+          email:'',
+          percentage: '',
+          salary_net:'',
+          salary_month:'',
+          percentage_affectation: '',
+          prima: '',
+          numberOfUserIds: 0,
+          numberOfInterviews: 0,
+          numberOfUserNote: 0,
+          numberOfUserIdsClient: 0,
+          numberOfUserIdsInterClient: 0,
+          numberOfUserIdsNoteClient: 0,
+          numberOfUserIdsConfirmClient: 0   
+        });
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+        //toast.success(data.message);
+        //setMessage(data.message);
+        toast.success(data.message);
+
+      } else {
+        throw new Error(data.message || 'Form submission failed');
+      }
+    } catch (error: any) {
+      console.error('Error submitting form:', error); // Log error details
+      toast.error(`Error: ${error.message}`);
+    }
+  };
 
  
  
@@ -217,11 +304,9 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
     <div>
 
   
-    <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" onSubmit={handleSubmit}>
+    <form className="max-w-lg mx-auto p-8 rounded-[5px] outline  outline-1" ref={formRef} onSubmit={handleSubmit}>
       <p className='text-2xl font-[500] mb-4 text-gray-300'>MYSCHOOL: USER DETAILS</p>
-      {message && (<p className='text-yellow-600'>{message}</p>)}
-   
-
+  
 
       <div className="mt-4 mb-4">
         
@@ -247,7 +332,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
           name="prenome"
           placeholder="Prènome"
           className="shadow appearance-none border font-[600]  rounded-[4px] w-full py-2 px-3 bg-gray-300 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.prenome}
+          value={formData.prenome}
           onChange={handleChange}
         />
       </div>
@@ -259,8 +344,9 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
         <input
           id="post"
           name="post"
+          placeholder='Post'
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.post}
+          value={formData.post}
           onChange={handleChange}
         />
           
@@ -274,7 +360,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
           name="email"
           placeholder="Email"
           className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={form.email}
+          value={formData.email}
           onChange={handleChange}
         />
       </div>
@@ -294,74 +380,77 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
       </div>
       */}
         <div className="mb-4">
+          <label className=''>Professeurs</label>
           <input
             type="number"
             id="numberOfUserIds"
             name="numberOfUserIds"
-            placeholder={`Professeurs: ${form.numberOfUserIds ?  form.numberOfUserIds : '0'}`}
             className="shadow appearance-none font-[600] border placeholder:text-gray-600 rounded-[4px] bg-gray-300 w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            //value={formData?.numberOfUserIds || ''}
+            value={formData.numberOfUserIds}
             onChange={handleChange}
           />
         </div>
 
       <div className="mb-4">
+      <label className=''>Professeurs Accepted</label>
+
         <input
           type="text"
           id="numberOfUserNote"
           name="numberOfUserNote"
-          placeholder={`Professeurs Accepted: ${form.numberOfUserNote ? form.numberOfUserNote : '0' }`}
           className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          //value={`Professeurs Accepted: ${form.numberOfUserNote}`}
+          value={formData.numberOfUserNote}
 
           onChange={handleChange}
         />
       </div>
 
       <div className="mb-4">
+      <label className=''>Professeurs Interview</label>
 
         <input
           id="numberOfInterviews"
           name="numberOfInterviews"
-          placeholder={`Professeurs Interview: ${form.numberOfInterviews ? form.numberOfInterviews : '0' }`}
           className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          //value={`Professeurs Accepted: ${form.numberOfUserNote}`}
+          value={formData.numberOfInterviews}
           onChange={handleChange}
         />
       </div>
 
       <div className="mb-4">
+      <label className=''>Clients</label>
 
         <input
           id="numberOfUserIdsClient"
           name="numberOfUserIdsClient"
           placeholder={`Clients: ${form.numberOfUserIdsClient ? form.numberOfUserIdsClient : '0' }`}
           className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          //value={`Professeurs Accepted: ${form.numberOfUserNote}`}
+          value={formData.numberOfUserIdsClient}
           onChange={handleChange}
          />
          
 
       </div>
-      <div className="mb-4">
+        <div className="mb-4">
 
-      <input
-          id="numberOfUserIdsInterClient"
-          name="numberOfUserIdsInterClient"
-          className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border placeholder:text-gray-600  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder={`Clients Interview: ${!form.numberOfUserIdsInterClient ? '0': form.numberOfUserIdsInterClient}`}
+          <label className=''>Clients Interview</label>
 
-          onChange={handleChange}
-         />
-      </div>
+          <input
+            id="numberOfUserIdsInterClient"
+            name="numberOfUserIdsInterClient"
+            className="shadow appearance-none font-[600] border rounded-[4px] placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={formData.numberOfUserIdsInterClient}
+            onChange={handleChange}
+          />
+        </div>
       <div className="mb-4">
+      <label className=''>Clients Confirmed</label>
 
       <input
           id="numberOfUserIdsConfirmClient"
           name="numberOfUserIdsConfirmClient"
           className="shadow rounded-[4px] font-[600] bg-gray-300 appearance-none border  w-full py-2 px-3 placeholder:text-gray-600 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder={`Clients Confirmed: ${!form.numberOfUserIdsConfirmClient ? '0': form.numberOfUserIdsConfirmClient}`}
-
+          value={formData.numberOfUserIdsConfirmClient}
           onChange={handleChange}
          />
       </div>
@@ -370,6 +459,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
      <>
      
      <div className="mb-4">
+     <label className=''>Salary Month</label>
+
         <input
           type="text"
           id="salary_month"
@@ -381,6 +472,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
         />
       </div>
       <div className="mb-4">
+      <label className=''>Percentage</label>
+
         <input
           type="text"
           id="percentage"
@@ -392,6 +485,8 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
         />
       </div>
       <div className="mb-4">
+      <label className=''>Percentage Affectation</label>
+
         <input
           type="text"
           id="percentage_affectation"
@@ -403,6 +498,7 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
         />
       </div>
       <div className="mb-4">
+      <label className=''>Prima</label>
         <input
           type="text"
           id="prima"
@@ -440,17 +536,26 @@ const AdmissionUsersDetail: React.FC<AdmissionFormNoteProps> = ({  form }) => {
                       Accepted
                   </button>
 
-                    <Link href="/">
-                     <button
-                      //onClick={handleUpdateUnaccepted}
-                     
-                      type="button"
-                      className="bg-red-600 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  >
+              <Link href="/">
+                <button
+                  //onClick={handleUpdateUnaccepted}
 
-                      Back
-                  </button>
-                    </Link>
+                  type="button"
+                  className="bg-red-600 ml-2 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+
+                  Back
+                </button>
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleSubmitProposition}
+                className="bg-yellow-600 ml-2 cursor-pointer text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Add Data
+              </button>
+                   
                  
                   </>
                      : 
