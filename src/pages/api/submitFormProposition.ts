@@ -47,7 +47,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         niveau_5,
         matiere_6,
         niveau_6,
-
+        nameClient,
+        nameProf,
+        price_total,
+        ticketNumber,
+        price_prof,
+        price_ticket,
 
       } = req.body;
 
@@ -87,6 +92,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         niveau_5,
         matiere_6,
         niveau_6,
+        nameClient,
+        nameProf,
+        price_total,
+        ticketNumber,
+        price_prof,
+        price_ticket,
       });
     
       await newForm.save();

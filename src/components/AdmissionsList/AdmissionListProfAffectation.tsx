@@ -437,102 +437,156 @@ const AdmissionListProfAffectation: React.FC = () => {
   <div className="bg-white p-6 rounded-[4px] shadow-lg">
 
 
-    <div className="grid grid-cols-3 mt-4 gap-4 text-start">
+    <div className="grid grid-cols-2 mt-4 gap-4 text-start">
       <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
-        <span className='text-start text-gray-800'>Form Proposition</span>
+        <span className='text-start text-gray-800'>Form Affectation</span>
         <div className='overflow-x-auto h-72'>
 
+        <form className='p-3'>
+                                 
+                                 <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Price Total</label>
 
-          <form className='p-3'>
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+                             <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Price Ticket</label>
 
-            
-            <div className="mb-4 mt-4 flex gap-1">
-              <label className='text-gray-700 '>Sat</label>
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+                             <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Price Professeur</label>
 
-              <input
-                type="date"
-                id="saturday_proposition"
-                name="saturday_proposition"
-                placeholder='Date Proposition'
-                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                
-              />
-              <input
-                type="time"
-                id="saturday_time"
-                name="saturday_time"
-                placeholder='Time Proposition'
-                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              
-              />
-            </div>
-            <div className="mb-4 mt-4 flex gap-1">
-              <label className='text-gray-700 '>Sun</label>
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+                             <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Pochette Professeur</label>
 
-              <input
-                type="date"
-                id="sunday_proposition"
-                name="sunday_proposition"
-                placeholder='Date Proposition'
-                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              
-              />
-              <input
-                type="time"
-                id="sunday_time"
-                name="sunday_time"
-                placeholder='Time Proposition'
-                className="shadow appearance-none font-[600] border rounded-[4px] bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          
-              />
-            </div>
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
 
-            <button
+                             <button
 
-              type='submit'
-             // onClick={handleConfirm}
-              className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
-
-
-            <button
-              //onClick={handleCancel}
-              className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+                               type='submit'
+                               // onClick={handleConfirm}
+                               className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
 
 
-          </form>
+                             <button
+                               //onClick={handleCancel}
+                               className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+
+
+                           </form>
+                               
         </div>
       </div>
 
 
 
       <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
-        <span className='text-start text-gray-800'>Form Client</span>
+      <span className='text-start text-gray-800'>Form Affectation</span>
+        <div className='overflow-x-auto h-72'>
 
-        <div className="overflow-x-auto h-72 flex text-gray-800">
-          <div className="border-collapse font-light text-[9px]">
+        <form className='p-3'>
+                                 
+                                 <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Number Ticket consummation </label>
 
-            <div className='mt-2 text-[12px]'>
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+                             <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Number Ticket Professeur</label>
 
-              <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name: {form.name}</p>
-              <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email: {form.email}</p>
-              
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+                            
+                             <div className="mb-5">
+                                 <label className='text-gray-600 text-[14px]'>Payement Acceptation</label>
 
-            </div>
-          </div>
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+                             <div className="mb-5">
+                             <label className='text-gray-600 text-[14px]'>Number Ticket Total</label>
+
+                                 <input
+                                   type="text"
+                                   id="numberOfUserNote"
+                                   name="numberOfUserNote"
+                                   className="shadow appearance-none font-[600] border rounded-[4px] mt-1 placeholder:text-gray-600 bg-gray-300 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                 //value={formData.numberOfUserNote}
+                                 //onChange={handleChange}
+                                 />
+                             </div>
+
+                             <button
+
+                               type='submit'
+                               // onClick={handleConfirm}
+                               className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
+
+
+                             <button
+                               //onClick={handleCancel}
+                               className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+
+
+                           </form>
+                                
         </div>
       </div>
 
 
-      <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
-        <span className='text-start text-gray-800'>Form Professeur</span>
-
-        <div className="overflow-x-auto h-72 flex text-gray-800">
-          <div className="border-collapse font-light text-[9px]">
-
-          <p>here</p>
-          </div>
-        </div>
-      </div>
+    
 
     </div>
 
