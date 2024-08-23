@@ -53,7 +53,7 @@ interface FormData {
   Matière_souhaitée: string;
   autres_détails: string;
   comment_vous_nous_avez: string;
-
+  prof_telephone: string;
   quartiers_Rabat: string;
   quartiers_Casablanca: string;
   situation_professionelle: string;
@@ -150,6 +150,8 @@ interface IAdmissionFormProposition {
   isAcceptedProf: boolean;
   emailClient: string;
   emailProf: string;
+  client_telephone: string;
+  prof_telephone: string;
 
 }
 interface AdmissionFormProposition {
@@ -439,6 +441,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     userIdProposition: formProposition.userIdProposition,
     userIdClient: formProposition._id,
     emailClient: formProposition.email,
+    client_telephone: formProposition.telephone_portable,
+    prof_telephone: formProposition.prof_telephone,
     isAcceptedProf: false
 
     
@@ -485,7 +489,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
            niveau_5:selectedForm?.niveau_5 ,
            matiere_6:selectedForm?.matiere_6,
            niveau_6:selectedForm?.niveau_6,
-            
+           prof_telephone: selectedForm?.telephone_portable,
+
       }),
       });
 
@@ -495,6 +500,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           id: '',
           nameClient:'',
           emailClient:'',
+          client_telephone:'',
+          prof_telephone:'',
           emailProf:'',
           monday_proposition: '',
           tuesday_proposition: '',
