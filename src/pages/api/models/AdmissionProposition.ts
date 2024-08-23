@@ -17,16 +17,12 @@ export interface IAdmissionFormProposition extends Document {
   sunday_time: string;
   userIdProposition: string;
   userIdClient: string;
-
   nameClient:string;
   nameProf: string | undefined;
   price_total: number;
   ticketNumber: number;
   price_prof: number;
   price_ticket: number;
-
-
-
   userIdProfesseur: string | undefined;
   finalTotal: number | undefined;
   matiere_1: string | undefined;

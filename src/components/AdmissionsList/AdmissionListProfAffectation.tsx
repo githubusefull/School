@@ -30,8 +30,11 @@ interface FormData {
   prof_percentage: number;
   details: string;
   profPercentage: number,
-  ticketNumber: number,
   counter: number,
+  nameClient:string;
+  nameProf:string;
+  ticketNumber: number;
+  price_prof: number;
     //cv_Photo: File | null;
   }
 interface IAdmissionFormProf {
@@ -59,6 +62,7 @@ interface IAdmissionFormProf {
   matiere_3: string;
   niveau_3: string;
   niveau_3_note: number;
+  nameProf: string;
   matiere_4: string;
   niveau_4: string;
   niveau_4_note: number;
@@ -206,16 +210,16 @@ const AdmissionListProfAffectation: React.FC = () => {
               <span className='inline mr-1 ml-1 capitalize'>Telephone</span>
 
                 
-  
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Niveau
-</th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                <span className='inline mr-1'>Matière</span>
+
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Niveau
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    <span className='inline mr-1'>Matière</span>
                     Souhaitée
-  
-                </th>
+
+                  </th>
             
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
               Client
@@ -323,6 +327,14 @@ const AdmissionListProfAffectation: React.FC = () => {
         
                 {admissions.map((form) => (
                   <tr key={form._id} className="hover:bg-gray-900">
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.nameClient}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.email}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.telephone_portable}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.ville}</td>
+
+
+
+
            <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.vous_etes}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Les_cours_sont_pour}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Niveau}</td>

@@ -117,6 +117,8 @@ interface FormData {
   isConfirmed: boolean;
   userIdConfirmClient: string;
   userIdClient: string;
+  emailClient: string;
+  emailProf: string;
   IsSelected: boolean;
   userIdProposition: string;
   userIdProfesseur: string;
@@ -146,6 +148,9 @@ interface IAdmissionFormProposition {
   price_prof: number;
   price_ticket: number;
   isAcceptedProf: boolean;
+  emailClient: string;
+  emailProf: string;
+
 }
 interface AdmissionFormProposition {
   id: string;
@@ -414,6 +419,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     price_total:formProposition.price_total,
     ticketNumber: formProposition.ticketNumber,
     price_prof: formProposition.profPercentage,
+    emailProf: formProposition.emailProf,
     price_ticket:formProposition.price_ticket,
     nameClient: formProposition.name,
     monday_proposition: formProposition.monday_proposition,
@@ -432,6 +438,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     sunday_time: formProposition.sunday_time,
     userIdProposition: formProposition.userIdProposition,
     userIdClient: formProposition._id,
+    emailClient: formProposition.email,
     isAcceptedProf: false
 
     
@@ -463,6 +470,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           {
           ...formDataPropo,
           userIdProfesseur: selectedForm?._id,
+          emailProf: selectedForm?.email,
           nameProf: selectedForm?.name,
           finalTotal: selectedForm?.finalTotal,
            matiere_1:selectedForm?.matiere_1,
@@ -486,6 +494,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
         setFormDataPropo({
           id: '',
           nameClient:'',
+          emailClient:'',
+          emailProf:'',
           monday_proposition: '',
           tuesday_proposition: '',
           wednesday_proposition: '',
