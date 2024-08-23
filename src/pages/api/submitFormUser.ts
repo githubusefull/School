@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import { generateToken } from "./lib/jwt";
 import { verify } from "jsonwebtoken";
 import acceptingLoginTemplate from '../templates/acceptingLogin';
+import { query } from '../api/lib/mysql'; // Path to your MySQL query function
 
 connectDB();
 
@@ -21,7 +22,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const decoded = verify(authToken, process.env.JWT_SECRET as string) as { id: string };
       const userId = decoded.id;
 
-      const { name, prenome, email, password, post,
+      const {
+        name, prenome, email, password, post,
         numberOfUserIds,
         numberOfInterviews,
         numberOfUserNote,
@@ -34,14 +36,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         salary_net,
         salary_month,
         prima,
+      } = req.body;
 
-       } = req.body;
+      // Check if user already exists in MongoDB
       const user = await AdmissionFormUser.findOne({ email });
       if (user) {
         return res.status(400).json({ message: "User already exists" });
       }
+
+      // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // Create new MongoDB user document
       const newForm: IAdmissionFormUser = new AdmissionFormUser({
         userId,
         name,
@@ -64,6 +70,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       await newForm.save();
+
+      // Insert user data into MySQL
+      await query(
+        `INSERT INTO formusers (userId, name, prenome, email, password, post) VALUES (?, ?, ?, ?, ?, ?)`,
+        [userId, name, prenome, email, hashedPassword, post]
+      );
+
       const userToken = generateToken(newForm._id.toString());
 
       // Set up Nodemailer
@@ -75,10 +88,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
-      // Send email
+      // Send confirmation email
       await transporter.sendMail({
         from: process.env.EMAIL_USER as string,
-        to: email, // sending to the user's email
+        to: email,
         subject: "Admission Form Submission Confirmation",
         html: acceptingLoginTemplate({ name, email, password }),
       });
@@ -112,7 +125,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(200).json(forms);
       }
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch forms" });    }
+      res.status(500).json({ message: "Failed to fetch forms" });
+    }
   } else {
     res.setHeader("Allow", ["POST", "GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
