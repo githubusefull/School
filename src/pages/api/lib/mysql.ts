@@ -5,6 +5,8 @@ const pool = mysql.createPool({
   user: process.env.MYSQL_USER || 'myschool_benbar',
   password: process.env.MYSQL_PASSWORD || '1932ANAred@',
   database: process.env.MYSQL_DATABASE || 'myschool_testapp',
+ 
+
 });
 
 export async function query(sql: string, params?: any[]) {
