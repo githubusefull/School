@@ -122,6 +122,9 @@ interface FormData {
   IsSelected: boolean;
   userIdProposition: string;
   userIdProfesseur: string;
+  client_ville: string;
+  prof_ville: string;
+
   //cv_Photo: File | null;
 }
 interface IAdmissionFormProposition {
@@ -152,6 +155,8 @@ interface IAdmissionFormProposition {
   emailProf: string;
   client_telephone: string;
   prof_telephone: string;
+  client_ville: string;
+  prof_ville: string;
 
 }
 interface AdmissionFormProposition {
@@ -229,7 +234,8 @@ interface IAdmissionFormProf {
   IsSelected: boolean;
   counter: number;
   isAcceptedProf: boolean;
-
+  client_ville: string;
+  prof_ville: string;
 }
 
 interface PropositionDataProps {
@@ -443,6 +449,9 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     emailClient: formProposition.email,
     client_telephone: formProposition.telephone_portable,
     prof_telephone: formProposition.prof_telephone,
+    client_ville: formProposition.ville,
+    prof_ville: formProposition.prof_ville,
+
     isAcceptedProf: false
 
     
@@ -490,6 +499,7 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
            matiere_6:selectedForm?.matiere_6,
            niveau_6:selectedForm?.niveau_6,
            prof_telephone: selectedForm?.telephone_portable,
+           prof_ville: selectedForm?.ville
 
       }),
       });
@@ -502,6 +512,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
           emailClient:'',
           client_telephone:'',
           prof_telephone:'',
+          client_ville:'',
+          prof_ville:'',
           emailProf:'',
           monday_proposition: '',
           tuesday_proposition: '',

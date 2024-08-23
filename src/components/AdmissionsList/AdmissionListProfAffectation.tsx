@@ -35,6 +35,18 @@ interface FormData {
   nameProf:string;
   ticketNumber: number;
   price_prof: number;
+  matiere_1: string;
+  matiere_2: string;
+  matiere_3: string;
+  matiere_4: string;
+  matiere_5: string;
+  matiere_6: string;
+  finalTotal: number;
+  client_telephone: string;
+  client_ville: string;
+  emailProf: string;
+  prof_ville: string;
+  prof_telephone: string;
     //cv_Photo: File | null;
   }
 interface IAdmissionFormProf {
@@ -329,26 +341,12 @@ const AdmissionListProfAffectation: React.FC = () => {
                   <tr key={form._id} className="hover:bg-gray-900">
                                <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.nameClient}</td>
                                <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.email}</td>
-                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.telephone_portable}</td>
-                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.ville}</td>
-
-
-
-
-           <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.vous_etes}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Les_cours_sont_pour}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Niveau}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.Matière_souhaitée}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.name}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prenome}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.ville}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.telephone_portable}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.email}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.autres_détails}</td>
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.comment_vous_nous_avez}</td>
-                 
-                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.pay}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.client_telephone}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.Niveau}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.client_ville}</td>
+                               <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.pay}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_total}</td>
+
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_ticket}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">
                     {form.ticketNumber}
@@ -357,10 +355,19 @@ const AdmissionListProfAffectation: React.FC = () => {
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.profPercentage}</td>
                   <td className="py-2 text-center border-b border-gray-700 text-[12px]">{form.details}</td>
 
-                
+           <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.nameProf}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.emailProf}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prof_telephone}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.prof_ville}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_1}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_2}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_3}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_4}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_5}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.matiere_6}</td>
+                  <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.finalTotal}</td>
 
-
-
+              
                     <td className="py-2 px-8 gap-[2px]  border-b border-gray-700 text-[12px]">
                   {!form.date_interview ? (  
 

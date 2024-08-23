@@ -23,6 +23,8 @@ export interface IAdmissionFormProposition extends Document {
   emailProf: string | undefined;
   price_total: number;
   ticketNumber: number;
+  prof_telephone: string | undefined;
+  client_telephone: string;
   price_prof: number;
   price_ticket: number;
   userIdProfesseur: string | undefined;
@@ -75,14 +77,16 @@ const AdmissionFormPropositionSchema: Schema<IAdmissionFormProposition> =
     niveau_5: { type: String },
     matiere_6: { type: String },
     niveau_6: { type: String },
-    nameClient: {type: String},
-    nameProf:   {type: String},
-    emailClient:{type: String},
-    emailProf: {type: String},
-    price_total: {type: Number},
-    ticketNumber: {type: Number},
-    price_prof: {type: Number},
-    price_ticket: {type: Number},
+    nameClient: { type: String },
+    nameProf: { type: String },
+    emailClient: { type: String },
+    emailProf: { type: String },
+    price_total: { type: Number },
+    ticketNumber: { type: Number },
+    price_prof: { type: Number },
+    price_ticket: { type: Number },
+    prof_telephone: { type: String },
+    client_telephone: { type: String },
     isAcceptedProf: { type: Boolean, default: false },
   });
 
