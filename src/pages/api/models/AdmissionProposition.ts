@@ -27,6 +27,8 @@ export interface IAdmissionFormProposition extends Document {
   client_telephone: string;
   price_prof: number;
   price_ticket: number;
+  client_ville: string,
+    prof_ville: string | undefined;
   userIdProfesseur: string | undefined;
   finalTotal: number | undefined;
   matiere_1: string | undefined;
@@ -86,6 +88,8 @@ const AdmissionFormPropositionSchema: Schema<IAdmissionFormProposition> =
     price_prof: { type: Number },
     price_ticket: { type: Number },
     prof_telephone: { type: String },
+    client_ville:{ type: String },
+    prof_ville:{ type: String },
     client_telephone: { type: String },
     isAcceptedProf: { type: Boolean, default: false },
   });

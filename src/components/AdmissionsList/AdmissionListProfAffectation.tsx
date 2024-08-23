@@ -47,6 +47,7 @@ interface FormData {
   emailProf: string;
   prof_ville: string;
   prof_telephone: string;
+  emailClient:  string;
     //cv_Photo: File | null;
   }
 interface IAdmissionFormProf {
@@ -207,41 +208,25 @@ const AdmissionListProfAffectation: React.FC = () => {
               Client
               <span className='inline mr-1 ml-1 capitalize'>Name</span>
 
-                
-  
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
               Client
               <span className='inline mr-1 ml-1 capitalize'>Email</span>
-
-                
-  
-                </th>
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-              Client
-              <span className='inline mr-1 ml-1 capitalize'>Telephone</span>
-
-                
-
                   </th>
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    Niveau
-                  </th>
-                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    <span className='inline mr-1'>Matière</span>
-                    Souhaitée
+                    Client
+                    <span className='inline mr-1 ml-1 capitalize'>Telephone</span>
+
 
                   </th>
-            
+
+
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
               Client
               <span className='inline mr-1 ml-1 capitalize'>Ville</span>
                 </th>
        
-                <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 
-                  <span className='inline ml-1'> Payment</span>
-                </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                 Price  
                 <span className='inline ml-1'>Total</span>
@@ -340,11 +325,10 @@ const AdmissionListProfAffectation: React.FC = () => {
                 {admissions.map((form) => (
                   <tr key={form._id} className="hover:bg-gray-900">
                                <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.nameClient}</td>
-                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.email}</td>
+                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.emailClient}</td>
                                <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.client_telephone}</td>
-                               <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.Niveau}</td>
+
                                <td className="py-2 w-full text-center border-b border-gray-700 text-[12px]">{form.client_ville}</td>
-                               <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.pay}</td>
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_total}</td>
 
                   <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_ticket}</td>
