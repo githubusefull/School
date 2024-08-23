@@ -416,8 +416,6 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     price_prof: formProposition.profPercentage,
     price_ticket:formProposition.price_ticket,
     nameClient: formProposition.name,
-
-
     monday_proposition: formProposition.monday_proposition,
     tuesday_proposition: formProposition.tuesday_proposition,
     wednesday_proposition: formProposition.wednesday_proposition,
@@ -478,7 +476,8 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
            matiere_5:selectedForm?.matiere_5,
            niveau_5:selectedForm?.niveau_5 ,
            matiere_6:selectedForm?.matiere_6,
-           niveau_6:selectedForm?.niveau_6   
+           niveau_6:selectedForm?.niveau_6,
+            
       }),
       });
 
