@@ -451,7 +451,6 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
     prof_telephone: formProposition.prof_telephone,
     client_ville: formProposition.ville,
     prof_ville: formProposition.prof_ville,
-
     isAcceptedProf: false
 
     
