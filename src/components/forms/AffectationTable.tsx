@@ -69,18 +69,18 @@ interface AffectationDataProps {
   id: string;
 }
 interface AffectationDataProps {
-  formSelect: FormData;
+  formAfSelect: FormData;
 }
 
 
-  const AffectationTable: React.FC<AffectationDataProps> = ({ formAffectation, formSelect, id }) => {
+  const AffectationTable: React.FC<AffectationDataProps> = ({ formAffectation, formAfSelect, id }) => {
 
   return (
      <div className="justify-center mt-2 w-[170vh]">
     <div className='text-gray-300  text-2xl font-700 justify-center flex'>
       <p className=''>Affectation</p>
     </div>
-     <AdmissionListProfAffectation formAffectation={formAffectation} id={id} formSelect={formSelect}/>
+     <AdmissionListProfAffectation formAffectation={formAffectation} id={id} formAfSelect={formAfSelect}/>
   </div>
   )
 }

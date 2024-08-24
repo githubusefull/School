@@ -319,7 +319,7 @@ const AdmissionListProfAffectation:  React.FC<AffecationDataProps> = ({ formAffe
     }
   };
 
-  console.log(selectedForm?.nameClient)
+  console.log(selectedForm?.name)
 
   const [formDataPropo, setFormDataPropo] = useState<IAdmissionFormProposition>({
     id: formAffectation._id,

@@ -143,11 +143,11 @@ export default async function FormID({ params }: FormIDProps) {
   //const form = await getFormById(params.id);
 
 
-    const formSelect = await getFormById(params.id);
+    const formAfSelect = await getFormById(params.id);
    
 
 
-  if (!formSelect) {
+  if (!formAfSelect) {
     return (
       <div>
         <p>Failed to load form details for ID: {params.id}</p>
@@ -159,7 +159,7 @@ export default async function FormID({ params }: FormIDProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
     <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">
-    <AffectationTable formSelect={formSelect}/>
+    <AffectationTable formAfSelect={formAfSelect}/>
     
     </div>
   </div>
