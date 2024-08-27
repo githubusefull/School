@@ -17,8 +17,8 @@ export interface IAdmissionFormProposition extends Document {
   sunday_time: string;
   userIdProposition: string;
   userIdClient: string;
-  nameClient:string;
-  emailClient:string;
+  nameClient: string;
+  emailClient: string;
   nameProf: string | undefined;
   emailProf: string | undefined;
   price_total: number;
@@ -27,8 +27,8 @@ export interface IAdmissionFormProposition extends Document {
   client_telephone: string;
   price_prof: number;
   price_ticket: number;
-  client_ville: string,
-    prof_ville: string | undefined;
+  client_ville: string;
+  prof_ville: string | undefined;
   userIdProfesseur: string | undefined;
   finalTotal: number | undefined;
   matiere_1: string | undefined;
@@ -43,7 +43,11 @@ export interface IAdmissionFormProposition extends Document {
   niveau_5: string | undefined;
   matiere_6: string | undefined;
   niveau_6: string | undefined;
+  pochette_prof: number;
+  price_ticket_default: number;
   isAcceptedProf: boolean;
+  IsAffected: boolean;
+  userIdAffecation: string;
   //cv_Photo?: string; // Optional field
 }
 
@@ -88,10 +92,14 @@ const AdmissionFormPropositionSchema: Schema<IAdmissionFormProposition> =
     price_prof: { type: Number },
     price_ticket: { type: Number },
     prof_telephone: { type: String },
-    client_ville:{ type: String },
-    prof_ville:{ type: String },
+    client_ville: { type: String },
+    prof_ville: { type: String },
+    pochette_prof: {type: Number},
+    price_ticket_default: {type: Number},
     client_telephone: { type: String },
     isAcceptedProf: { type: Boolean, default: false },
+    IsAffected:{type: Boolean},
+    userIdAffecation: {type: String},
   });
 
 const AdmissionFormProposition: Model<IAdmissionFormProposition> =
@@ -102,3 +110,44 @@ const AdmissionFormProposition: Model<IAdmissionFormProposition> =
   );
 
 export default AdmissionFormProposition;
+
+
+// Usage
+const updateAdmissionFormById = async (
+  id: string,
+  updateData: Partial<IAdmissionFormProposition>
+) => {
+  try {
+    const updatedDocument = await AdmissionFormProposition.findByIdAndUpdate(
+      id,
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    console.log("Updated Document:", updatedDocument);
+    return updatedDocument;
+  } catch (error) {
+    console.error("Error updating document:", error);
+    throw error;
+  }
+};
+
+// Example usage
+const documentId = "60d5ec49cfa1e72c4cba0c52"; // Replace with the actual ID
+const newValues: Partial<IAdmissionFormProposition> = {
+  pochette_prof: 0,
+  price_ticket_default: 0,
+  IsAffected: false,
+  userIdAffecation:'',
+  
+};
+
+updateAdmissionFormById(documentId, newValues)
+  .then((updatedDocument) => {
+    console.log("Successfully updated document:", updatedDocument);
+  })
+  .catch((error) => {
+    console.error("Failed to update document:", error);
+  });

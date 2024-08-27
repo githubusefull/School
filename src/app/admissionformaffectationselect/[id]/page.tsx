@@ -1,120 +1,51 @@
 import AffectationTable from "@/components/forms/AffectationTable";
-import Proposition from "@/components/forms/Proposition";
-//import PropositionSelect from "@/components/forms/PropositionSelect";
-//import Modal from '@/components/forms/Modal';
+
+
 
 interface FormData {
   _id: string;
-  name: string;
-  prenome: string;
-  email: string;
-  password: string;
-  ville: string;
-  quartiers_Rabat: string;
-  quartiers_Casablanca: string;
-  situation_professionelle: string;
-  niveau_atteint_dans_les_etudes: string;
-  experiences_dans_l_enseignement: string;
-  cursus_economique_Commercial: string;
-  specialte: string;
-  motorise: string;
-  telephone_portable: string;
-  matiere_1: string;
-  niveau_1: string;
-  niveau_1_note: number;
-  matiere_2: string;
-  niveau_2: string;
-  niveau_2_note: number;
-  matiere_3: string;
-  niveau_3: string;
-  niveau_3_note: number;
-  matiere_4: string;
-  niveau_4: string;
-  niveau_4_note: number;
-  matiere_5: string;
-  niveau_5: string;
-  niveau_5_note: number;
-  matiere_6: string;
-  niveau_6: string;
-  niveau_6_note: number;
-  note_de_Francaise: number;
-  note_de_CV: number;
-  motivation: string;
-  civilite: string;
-  telephone_fixe: string;
-  annee_obtention_du_Bac: string;
-  date_de_naissance: string;
-  date_interview: number;
-  finalTotal: number;
-  counter: number;
-  pay: string;
-  details: string;
-  price_total: number;
-  price_ticket: number;
-  ticket_number: number;
-  prof_percentage: number;
-  prof_price: number;
-  profPercentage:number,
-  ticketNumber:number,
-  isConfirmed: boolean;
-  userIdConfirmClient: string;
+  monday_proposition: string;
+  tuesday_proposition: string;
+  wednesday_proposition: string;
+  thursday_proposition: string;
+  friday_proposition: string;
+  saturday_proposition: string;
+  sunday_proposition: string;
+  monday_time: string;
+  tuesday_time: string;
+  wednesday_time: string;
+  thursday_time: string;
+  friday_time: string;
+  saturday_time: string;
+  sunday_time: string;
+  userIdProposition: string;
+  userIdClient: string;
+  nameClient:string;
+  emailClient:string;
+ 
   //cv_Photo: File | null;
 }
 const defaultFormData: FormData = {
   _id: '',
-  name: '',
-  prenome: '',
-  email: '',
-  password: '',
-  ville: '',
-  quartiers_Rabat: '',
-  quartiers_Casablanca: '',
-  situation_professionelle: '',
-  niveau_atteint_dans_les_etudes: '',
-  experiences_dans_l_enseignement: '',
-  cursus_economique_Commercial: '',
-  specialte: '',
-  motorise: '',
-  telephone_portable: '',
-  matiere_1: '',
-  niveau_1: '',
-  niveau_1_note: 0,
-  matiere_2: '',
-  niveau_2: '',
-  niveau_2_note: 0,
-  matiere_3: '',
-  niveau_3: '',
-  niveau_3_note: 0,
-  matiere_4: '',
-  niveau_4: '',
-  niveau_4_note: 0,
-  matiere_5: '',
-  niveau_5: '',
-  niveau_5_note: 0,
-  matiere_6: '',
-  niveau_6: '',
-  niveau_6_note: 0,
-  note_de_Francaise: 0,
-  note_de_CV: 0,
-  motivation: '',
-  civilite: '',
-  telephone_fixe: '',
-  annee_obtention_du_Bac: '',
-  date_de_naissance: '',
-  date_interview: 0,
-  finalTotal: 0,
-  counter:0,
-  pay: '',
-  details: '',
-  price_total: 0,
-  price_ticket: 0,
-  ticket_number: 0,
-  prof_percentage: 0,
-  prof_price: 0,
-  profPercentage:0,
-  ticketNumber:0,
-  isConfirmed: false, // Add boolean field
-  userIdConfirmClient:''
+  monday_proposition: '',
+  tuesday_proposition: '',
+  wednesday_proposition: '',
+  thursday_proposition: '',
+  friday_proposition: '',
+  saturday_proposition: '',
+  sunday_proposition: '',
+  monday_time: '',
+  tuesday_time: '',
+  wednesday_time: '',
+  thursday_time: '',
+  friday_time: '',
+  saturday_time: '',
+  sunday_time: '',
+  userIdProposition: '',
+  userIdClient: '',
+  nameClient: '',
+  emailClient: '',
+
 
 };
 async function getFormById(id: string): Promise<FormData> {
@@ -145,7 +76,6 @@ export default async function FormID({ params }: FormIDProps) {
 
     const formAfSelect = await getFormById(params.id);
    
-
 
   if (!formAfSelect) {
     return (

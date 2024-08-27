@@ -59,6 +59,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         client_telephone,
         prof_ville,
         client_ville,
+        price_ticket_default,
+        pochette_prof,
       } = req.body;
 
     
@@ -109,6 +111,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         price_ticket,
         prof_ville,
         client_ville,
+        price_ticket_default,
+        pochette_prof,
       });
     
       await newForm.save();

@@ -119,7 +119,7 @@ async function getFormById(id: string): Promise<FormData> {
   const timestamp = new Date().getTime(); // Add timestamp
 
   try {
-    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformproposition/${id}?t=${timestamp}`, { method: 'GET' });
+    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformaffectation/${id}?t=${timestamp}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -138,7 +138,7 @@ interface FormIDProps   {
  
 export default async function FormID({ params }: FormIDProps) {
   const formAffectation = await getFormById(params.id);
-
+   
   if (!formAffectation) {
     return (
       <div>
