@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from './lib/db';
-import AdmissionFormProposition, { IAdmissionFormProposition } from "./models/AdmissionProposition";
+import AdmissionFormAffectation, { IAdmissionFormAffectation } from "./models/AdmissionFormAffectation";
 //import bcrypt from "bcrypt";
 //import nodemailer from "nodemailer";
 //import acceptingTemplate from '../templates/acceptingTemplate';
@@ -60,9 +60,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         prof_ville,
         client_ville,
         price_ticket_default,
+        total_pocheet,
+        price_Ticket,
+        price_Total,
+        price_Prof,
+        number_ticket_Comsum,
+        number_ticket_Prof,
+        acceptation_Payement,
+        number_ticket_Total,
         pochette_prof,
         userIdAffecation,
-        total_pocheet
 
       } = req.body;
 
@@ -71,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
  
 
 
-      const newForm: IAdmissionFormProposition = new AdmissionFormProposition({
+      const newForm: IAdmissionFormAffectation = new AdmissionFormAffectation({
         monday_proposition,
         tuesday_proposition,
         wednesday_proposition,
@@ -115,9 +122,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         prof_ville,
         client_ville,
         price_ticket_default,
+        total_pocheet,
+        price_Ticket,
+        price_Total,
+        price_Prof,
+        number_ticket_Comsum,
+        number_ticket_Prof,
+        acceptation_Payement,
+        number_ticket_Total,
         pochette_prof,
         userIdAffecation,
-        total_pocheet
 
       });
     
@@ -154,7 +168,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } else if (req.method === "GET") {
     
     try {
-      const forms = await AdmissionFormProposition.find();
+      const forms = await AdmissionFormAffectation.find();
       res.setHeader('Cache-Control', 'no-store'); // Disable caching
       res.status(200).json(forms);
     } catch (error: unknown) {

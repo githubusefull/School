@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import AdmissionFormProposition, { IAdmissionFormProposition } from './models/AdmissionProposition'; // Adjust the import path as needed
+import AdmissionFormAffectation, { IAdmissionFormAffectation } from './models/AdmissionFormAffectation'; // Adjust the import path as needed
 //import nodemailer from 'nodemailer';
 //import interviewTemplate from '../templates/InterviewTemplate';
 //import { format } from 'date-fns';
@@ -22,9 +22,9 @@ const transporter = nodemailer.createTransport({
 });  */}
 
 // Update admission form by ID
-const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionFormProposition>) => {
+const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionFormAffectation>) => {
   try {
-    const updatedDocument = await AdmissionFormProposition.findByIdAndUpdate(
+    const updatedDocument = await AdmissionFormAffectation.findByIdAndUpdate(
       id,
       updateData,
       {
@@ -53,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log('Received ID:', id);
       console.log('Received updateData:', updateData);
 
-      const document = await AdmissionFormProposition.findById(id);
+      const document = await AdmissionFormAffectation.findById(id);
 
       if (!document) {
         return res.status(404).json({ message: 'Document not found' });
