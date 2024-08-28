@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import AdmissionFormProposition, { IAdmissionFormProposition} from './models/AdmissionProposition'; // Adjust the import path as needed
-import nodemailer from 'nodemailer';
+import AdmissionFormProposition, { IAdmissionFormProposition } from './models/AdmissionProposition'; // Adjust the import path as needed
+//import nodemailer from 'nodemailer';
 //import interviewTemplate from '../templates/InterviewTemplate';
 //import { format } from 'date-fns';
 
@@ -12,13 +12,14 @@ const connectDb = async () => {
 };
 
 // Set up Nodemailer transporter
+{/*               
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER as string, // Ensure EMAIL_USER is set in your environment variables
     pass: process.env.EMAIL_PASS as string, // Ensure EMAIL_PASS is set in your environment variables
   },
-});
+});  */}
 
 // Update admission form by ID
 const updateAdmissionFormById = async (id: string, updateData: Partial<IAdmissionFormProposition>) => {
@@ -58,9 +59,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ message: 'Document not found' });
       }
 
+      //const email = document.email;
+      //const name = document.name;
 
       // Check and update the counter
-     
+      
 
       // Update the document with new data
       const updatedDocument = await updateAdmissionFormById(id, updateData);
@@ -71,24 +74,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       //const date_interview = updatedDocument.date_interview;
 
-      //if (date_interview) {
-        //const formattedDate = format(new Date(date_interview), 'dd-MM-yyyy');
-
-
+    
+{/*                 
         // Send email
-       
-
-      res.status(200).json({ message: 'Successfully updated document',  });
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER as string,
+          to: email, // sending to the user's email
+          subject: 'Admission Form Submission Confirmation',
+          html: interviewTemplate({ name, email, date_interview: formattedDate }),
+        });
+      }
+*/}
+      res.status(200).json({ message: 'Successfully updated affectation', data: updatedDocument });
     } catch (error) {
       console.error('Error updating document:', error);
 
       // Type assertion for error handling
       if (error instanceof Error) {
+
+
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
-        console.error('Error uppdate user:', error.message);
+        console.error('Error updating document:', error.message);
 
       } else {
         res.status(500).json({ message: 'Internal Server Error', error: 'Unknown error' });
+        console.error('Error updating document:', error);
 
       }
     }
@@ -97,3 +107,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+

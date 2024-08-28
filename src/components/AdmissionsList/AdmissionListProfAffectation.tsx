@@ -11,12 +11,16 @@ import { jwtDecode } from 'jwt-decode'; // Ensure you import the correct jwt-dec
 
 interface FormPropositionSelect {
   id: string;
-  IsAffected: boolean;
+  //IsAffected: boolean;
   userIdAffectation: string;
   price_ticket_default: number;
   pochette_prof: number;
+  ticketNumber: number;
+  price_prof: number;
+  total_pocheet: number;
 }
 interface FormData {
+  id:string;
   _id: string;
   name: string;
   prenome: string;
@@ -81,82 +85,102 @@ interface FormData {
   userIdProposition: string;
   pochette_prof: number;
   price_ticket_default: number;
+  userIdAffectation: string;
   IsAffected:boolean;
   isAcceptedProf: boolean;
+  total_pocheet: number;
+  userIdProfesseur: string;
+  userIdClient: string;
     //cv_Photo: File | null;
+    
+  id_affectation: string;
+  prof_id: string;
+  client_id : string;
+  prix_total: number;
+  prix_ticket: number;
+  nombre_total_tickets: number;
+  prix_ticket_prof: number;
+  nombre_tickets_prof: number;
+  prix_prof: number;
+  nombre_tickets_demandes: number;
+  acceptation_paiement: boolean;
+  nombre_tickets_stable: number;
+  planning: string;
+  reclamation: string;
+  paiement_agence: string;
+  etat_affectation: string;
   }
 
  
   
-  interface IAdmissionFormProposition {
+  interface IAdmissionFormAffectation {
     id: string;
-    name: string;
-    userIdProfesseur:string;
-    userIdClient: string;
-    prenome: string;
-    email: string;
-    password: string;
-    ville: string;
-    vous_etes: string;
-    Les_cours_sont_pour: string;
-    Niveau: string;
-    Matière_souhaitée: string;
-    autres_détails: string;
-    comment_vous_nous_avez: string;
-    telephone_portable: string;
-    date_interview: Date;
-    time_interview: string;
-    isConfirmed: boolean;
-    pay: string;
-    civilite: string;
-    price_total: number;
-    price_ticket: number;
-    prof_percentage: number;
-    details: string;
-    profPercentage: number,
-    counter: number,
-    nameClient:string;
-    nameProf:string;
-    ticketNumber: number;
-    price_prof: number;
-    matiere_1: string;
-    niveau_1: string;
-    matiere_2: string;
-    niveau_2: string;
-    matiere_3: string;
-    niveau_3: string;
-    matiere_4: string;
-    niveau_4: string;
-    matiere_5: string;
-    niveau_5: string;
-    matiere_6: string;
-    niveau_6: string;
-    finalTotal: number;
-    client_telephone: string;
-    client_ville: string;
-    emailProf: string;
-    prof_ville: string;
-    prof_telephone: string;
-    emailClient:  string;
     monday_proposition: string;
-    tuesday_proposition: string;
-    wednesday_proposition: string;
-    thursday_proposition: string;
-    friday_proposition: string;
-    saturday_proposition: string;
-    sunday_proposition: string;
-    monday_time: string;
-    tuesday_time: string;
-    wednesday_time: string;
-    thursday_time: string;
-    friday_time: string;
-    saturday_time: string;
-    sunday_time: string;
-    userIdProposition: string;
-    pochette_prof: number;
-    price_ticket_default: number;
-    IsAffected:boolean;
-    isAcceptedProf: boolean;
+  tuesday_proposition: string;
+  wednesday_proposition: string;
+  thursday_proposition: string;
+  friday_proposition: string;
+  saturday_proposition: string;
+  sunday_proposition: string;
+  monday_time: string;
+  tuesday_time: string;
+  wednesday_time: string;
+  thursday_time: string;
+  friday_time: string;
+  saturday_time: string;
+  sunday_time: string;
+  userIdProposition: string;
+  userIdClient: string;
+  nameClient: string;
+  emailClient: string;
+  nameProf: string | undefined;
+  emailProf: string | undefined;
+  price_total: number;
+  ticketNumber: number;
+  prof_telephone: string | undefined;
+  client_telephone: string;
+  price_prof: number;
+  price_ticket: number;
+  client_ville: string;
+  prof_ville: string | undefined;
+  userIdProfesseur: string | undefined;
+  finalTotal: number | undefined;
+  matiere_1: string | undefined;
+  niveau_1: string | undefined;
+  matiere_2: string | undefined;
+  niveau_2: string | undefined;
+  matiere_3: string | undefined;
+  niveau_3: string | undefined;
+  matiere_4: string | undefined;
+  niveau_4: string | undefined;
+  matiere_5: string | undefined;
+  niveau_5: string | undefined;
+  matiere_6: string | undefined;
+  niveau_6: string | undefined;
+  pochette_prof: number;
+  price_ticket_default: number;
+  isAcceptedProf: boolean;
+  IsAffected: boolean;
+  total_pocheet: number;
+  userIdAffectation: string;
+
+
+  id_affectation: string;
+  prof_id: string;
+  client_id : string;
+  prix_total: number;
+  prix_ticket: number;
+  nombre_total_tickets: number;
+  prix_ticket_prof: number;
+  nombre_tickets_prof: number;
+  prix_prof: number;
+  nombre_tickets_demandes: number;
+  acceptation_paiement: boolean;
+  nombre_tickets_stable: number;
+  planning: string;
+  reclamation: string;
+  paiement_agence: string;
+  etat_affectation: string;
 
   }
 
@@ -177,13 +201,17 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
   //const [message, setMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormPropositionSelect>({
-    id: formAffectation._id,  
-    userIdAffectation: formAffectation._id,  
-    IsAffected: true,
-    price_ticket_default: formAffectation.price_ticket_default || 0,
-    pochette_prof: formAffectation.pochette_prof || 0
-
+    id: '',
+    userIdAffectation: formAffectation.userIdAffectation,
+    price_ticket_default: 0,
+    pochette_prof: 0,
+    ticketNumber: 0,
+    price_prof: 0,
+    total_pocheet: formAffectation.total_pocheet
   });
+
+
+  
 
 
   const handleButtonClick = async (formId: string) => {
@@ -205,8 +233,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
     if (!selectedForm) return;
     try {
-      //await handleSubmit(selectedForm._id);
-      toast.success('Selected Successfully');
+      await handleSubmit(selectedForm._id);
       setIsDialogOpen(false);
 
 
@@ -226,24 +253,57 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: parseFloat(value), // Convert to number if necessary
-    });
+ 
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name,  value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
 
-  const handleSubmitAffectation = async (e: React.FormEvent<HTMLFormElement>) => {
 
 
-    e.preventDefault();    const token = localStorage.getItem('token');
+  // form proposition
+  const [userIdAffectation, setUserId] = useState<string | null>(null);
+
+  const getUserIdFromTokenTow = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userIdAffectation = getUserIdFromTokenTow(token);
+      console.log('User ID:', userIdAffectation);
+      setUserId(userIdAffectation);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userIdAffectation) {
+      setFormData(prev => ({ ...prev, userIdAffectation }));
+    }
+  }, [userIdAffectation]);
+
+ 
+
+  
+
+  const handleSubmit = async (id: string) => {
+    const total_pocheet: number =
+    Number(selectedForm?.ticketNumber) *
+    Number(selectedForm?.price_prof);
+
+
+    const token = localStorage.getItem('token');
     if (!token) {
       toast.error('No token found');
       return;
-    }
-
+    }  
     try {
       const response = await fetch('/api/proposition_update', {
         method: 'PUT',
@@ -252,12 +312,13 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-         
+          id: id,
           updateData: {
-            IsAffected: formData.IsAffected,
+            //IsAffected: formData.IsAffected,
             price_ticket_default: formData.price_ticket_default,
             pochette_prof: formData.pochette_prof,
-            userIdAffectation: formAffectation._id,
+            userIdAffectation,
+            total_pocheet,
 
           },
         }),
@@ -273,11 +334,16 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
       setFormData({
+        //IsAffected: false,
         id: formAffectation._id,
-        IsAffected: true,
-        userIdAffectation: formAffectation._id,
-        price_ticket_default: formAffectation.price_ticket_default,
-        pochette_prof: formAffectation.pochette_prof
+        userIdAffectation: formAffectation.userIdAffectation,
+        price_ticket_default: formAffectation.price_ticket_default ,
+        pochette_prof: formAffectation.pochette_prof,
+        ticketNumber: formAffectation.ticketNumber,
+        price_prof: formAffectation.ticketNumber,
+        total_pocheet: formAffectation.total_pocheet
+
+
       });
 
       toast.success(data.message);
@@ -291,7 +357,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-
+  
 
   const [admissions, setAdmissions] = useState<FormData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -329,36 +395,192 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-  // form proposition
-  const [userIdAffectation, setUserId] = useState<string | null>(null);
 
-  const getUserIdFromTokenTow = (token: string): string | null => {
-    try {
-      const decoded: any = jwtDecode(token);
-      return decoded.id || null;
-    } catch (error) {
-      console.error('Failed to decode token:', error);
-      return null;
-    }
-  };
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const userIdAffectation = getUserIdFromTokenTow(token);
-      console.log('User ID:', userIdAffectation);
-      setUserId(userIdAffectation);
-    }
-  }, []);
 
-  useEffect(() => {
-    if (userIdAffectation) {
-      //setFormDataPropo(prev => ({ ...prev, userIdProposition }));
-    }
-  }, [userIdAffectation]);
+  const [formDataAffectation, setFormDataAffectation] = useState<IAdmissionFormAffectation>({
+    id: formAffectation._id,
+    monday_proposition: formAffectation.monday_proposition,
+    tuesday_proposition: formAffectation.tuesday_proposition,
+    wednesday_proposition: formAffectation.wednesday_proposition,
+    thursday_proposition: formAffectation.thursday_proposition,
+    friday_proposition: formAffectation.friday_proposition,
+    saturday_proposition: formAffectation.saturday_proposition,
+    sunday_proposition: formAffectation.sunday_proposition,
+    monday_time: formAffectation.monday_time,
+    tuesday_time: formAffectation.tuesday_time,
+    wednesday_time: formAffectation.wednesday_time,
+    thursday_time: formAffectation.thursday_time,
+    friday_time: formAffectation.friday_time,
+    saturday_time: formAffectation.saturday_time,
+    sunday_time: formAffectation.sunday_time,
+    userIdProposition: formAffectation.userIdProposition,
+    userIdClient: formAffectation.userIdClient,
+    nameClient: formAffectation.nameClient,
+    emailClient: formAffectation.emailClient,
+    nameProf: formAffectation.nameProf,
+    emailProf: formAffectation.emailProf,
+    price_total: formAffectation.price_total,
+    ticketNumber: formAffectation.ticketNumber,
+    prof_telephone: formAffectation.prof_telephone,
+    client_telephone: formAffectation.client_telephone,
+    price_prof: formAffectation.price_prof,
+    price_ticket: formAffectation.price_ticket,
+    client_ville: formAffectation.client_ville,
+    prof_ville: formAffectation.prof_ville,
+    userIdProfesseur: formAffectation.userIdProfesseur,
+    finalTotal: formAffectation.finalTotal,
+    matiere_1: formAffectation.matiere_1,
+    niveau_1: formAffectation.niveau_1,
+    matiere_2: formAffectation.matiere_2,
+    niveau_2: formAffectation.niveau_2,
+    matiere_3: formAffectation.matiere_3,
+    niveau_3: formAffectation.niveau_3,
+    matiere_4: formAffectation.matiere_4,
+    niveau_4: formAffectation.niveau_4,
+    matiere_5: formAffectation.matiere_5,
+    niveau_5: formAffectation.niveau_5,
+    matiere_6: formAffectation.matiere_6,
+    niveau_6: formAffectation.niveau_6,
+    pochette_prof: formAffectation.pochette_prof,
+    price_ticket_default: formAffectation.price_ticket_default,
+    isAcceptedProf: formAffectation.isAcceptedProf,
+    IsAffected: formAffectation.IsAffected,
+    total_pocheet: formAffectation.total_pocheet,
+    userIdAffectation: formAffectation.userIdAffectation,
+    id_affectation: formAffectation.id_affectation,
+    prof_id: formAffectation.prof_id,
+    client_id: formAffectation.client_id,
+    prix_total: formAffectation.prix_total,
+    prix_ticket: formAffectation.prix_ticket,
+    nombre_total_tickets: formAffectation.nombre_total_tickets,
+    prix_ticket_prof: formAffectation.prix_ticket_prof,
+    nombre_tickets_prof: formAffectation.nombre_tickets_prof,
+    prix_prof: formAffectation.prix_prof,
+    nombre_tickets_demandes: formAffectation.nombre_tickets_demandes,
+    acceptation_paiement: formAffectation.acceptation_paiement,
+    nombre_tickets_stable: formAffectation.nombre_tickets_stable,
+    planning: formAffectation.planning,
+    reclamation: formAffectation.reclamation,
+    paiement_agence: formAffectation.paiement_agence,
+    etat_affectation: formAffectation.etat_affectation,
+  });
+  
+
+
+
+
 
 
  
+  const handleChangeProposition = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormDataAffectation(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
+  const handleSubmitProposition = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    //const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch('/api/submitFormAffectation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+          ...formDataAffectation,
+         
+
+      }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setFormDataAffectation({
+          id: '',
+          monday_proposition: '',
+          tuesday_proposition: '',
+          wednesday_proposition: '',
+          thursday_proposition: '',
+          friday_proposition: '',
+          saturday_proposition: '',
+          sunday_proposition: '',
+          monday_time: '',
+          tuesday_time: '',
+          wednesday_time: '',
+          thursday_time: '',
+          friday_time: '',
+          saturday_time: '',
+          sunday_time: '',
+          userIdProposition: '',
+          userIdClient: '',
+          nameClient: '',
+          emailClient: '',
+          nameProf: '',
+          emailProf: '',
+          price_total: 0,
+          ticketNumber: 0,
+          prof_telephone: '',
+          client_telephone: '',
+          price_prof: 0,
+          price_ticket: 0,
+          client_ville: '',
+          prof_ville: '',
+          userIdProfesseur: '',
+          finalTotal: 0,
+          matiere_1: '',
+          niveau_1: '',
+          matiere_2: '',
+          niveau_2: '',
+          matiere_3: '',
+          niveau_3: '',
+          matiere_4: '',
+          niveau_4: '',
+          matiere_5: '',
+          niveau_5: '',
+          matiere_6: '',
+          niveau_6: '',
+          pochette_prof: 0,
+          price_ticket_default: 0,
+          isAcceptedProf: false,
+          IsAffected: false,
+          total_pocheet: 0,
+          userIdAffectation: '',
+          id_affectation: '',
+          prof_id: '',
+          client_id: '',
+          prix_total: 0,
+          prix_ticket: 0,
+          nombre_total_tickets: 0,
+          prix_ticket_prof: 0,
+          nombre_tickets_prof: 0,
+          prix_prof: 0,
+          nombre_tickets_demandes: 0,
+          acceptation_paiement: false,
+          nombre_tickets_stable: 0,
+          planning: '',
+          reclamation: '',
+          paiement_agence: '',
+          etat_affectation: '',
+
+
+
+        });
+        //toast.success(data.message);
+
+
+      } else {
+        throw new Error(data.message || 'Form submission failed');
+      }
+    } catch (error: any) {
+      console.error('Error submitting form:', error); // Log error details
+      toast.error(`Error: ${error.message}`);
+    }
+  };
 
 
  
@@ -459,7 +681,9 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    Client Name
+                    Client 
+                    <span className='inline ml-1'>Name</span>
+
                   </th>
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Client
@@ -560,12 +784,62 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                     Note<span className='inline m-1'>de</span>Francaise
                   </th>
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    La Note Totale
+                    La<span className='inline ml-1 mr-1'>Note</span>
+                     Totale
                   </th>
                
+
+               {/*           
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    Select
+                  id_affectation  
                   </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  prof_id  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  client_id  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  prix_total	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  prix_ticket	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  nombre_total_tickets	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  prix_ticket_prof	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  nombre_tickets_prof	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  prix_prof	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  nombre_tickets_demandes	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  acceptation_paiement	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  nombre_tickets_stable	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  planning	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  reclamation	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  paiement_agence	  
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                  etat_affectation	  
+                  </th> 
+
+                   */}
                 </tr>
               </thead>
 
@@ -703,17 +977,19 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                         <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Total: {selectedForm?.price_total}</p>
                                         <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Ticket: {selectedForm?.price_ticket}</p>
                                         <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Professeur:{selectedForm?.price_prof}</p>
+                                        <p className="py-2 px-4 border-b border-gray-700 font-semibold">Number Ticket Professeur:{selectedForm?.price_ticket_default}</p>
+                                        <p className="py-2 px-4 border-b border-gray-700 font-semibold">Pochette Professeur:{selectedForm?.pochette_prof}</p>
 
-                                      <form onSubmit={handleSubmitAffectation}>
+                                      <form>
                                         <p className="py-2 px-4 border-b  border-gray-700 font-semibold">Number Ticket Professeur:
                                           
                                             <input
                                             
                                               name="price_ticket_default"
                                               value={formData.price_ticket_default}
-                                              onChange={handleInputChange}
+                                               onChange={handleChange}
                                               type='number'
-                                             className='bg-black rounded-[3px] p-[5px] focus:outline-none text-gray-200'/>
+                                             className='bg-gray-600 rounded-[3px] p-[5px] focus:outline-none text-gray-200'/>
                                             
                                             </p>
 
@@ -725,9 +1001,9 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                            <input
                                              name="pochette_prof"
                                              value={formData.pochette_prof}
-                                             onChange={handleInputChange}
+                                             onChange={handleChange}
                                              type='number'
-                                             className='bg-black rounded-[3px] p-[5px] focus:border-none focus:outline-none text-gray-200'/>
+                                             className='bg-gray-600 rounded-[3px] p-[5px] focus:border-none focus:outline-none text-gray-200'/>
 
                                            </p>
 
@@ -735,7 +1011,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                           <button
 
                                             type='submit'
-                                            //onClick={handleConfirm}
+                                            onClick={handleConfirm}
                                             className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
 
 

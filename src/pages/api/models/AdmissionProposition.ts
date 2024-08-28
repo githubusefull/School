@@ -47,7 +47,26 @@ export interface IAdmissionFormProposition extends Document {
   price_ticket_default: number;
   isAcceptedProf: boolean;
   IsAffected: boolean;
-  userIdAffecation: string;
+  total_pocheet: number;
+  userIdAffectation: string;
+
+
+  id_affectation: string;
+  prof_id: string;
+  client_id : string;
+  prix_total: number;
+  prix_ticket: number;
+  nombre_total_tickets: number;
+  prix_ticket_prof: number;
+  nombre_tickets_prof: number;
+  prix_prof: number;
+  nombre_tickets_demandes: number;
+  acceptation_paiement: number;
+  nombre_tickets_stable: number;
+  planning: string;
+  reclamation: string;
+  paiement_agence: string;
+  etat_affectation: string;
   //cv_Photo?: string; // Optional field
 }
 
@@ -95,11 +114,30 @@ const AdmissionFormPropositionSchema: Schema<IAdmissionFormProposition> =
     client_ville: { type: String },
     prof_ville: { type: String },
     pochette_prof: {type: Number},
+    total_pocheet: {type: Number},
     price_ticket_default: {type: Number},
     client_telephone: { type: String },
     isAcceptedProf: { type: Boolean, default: false },
     IsAffected:{type: Boolean},
-    userIdAffecation: {type: String},
+    userIdAffectation: {type: String},
+
+
+    id_affectation: {type: String},
+    prof_id: {type: String},
+    client_id : {type: String},
+    prix_total: {type: Number},
+    prix_ticket: {type: Number},
+    nombre_total_tickets: {type: Number},
+    prix_ticket_prof: {type: Number},
+    nombre_tickets_prof: {type: Number},
+    prix_prof: {type: Number},
+    nombre_tickets_demandes: {type: Number},
+    acceptation_paiement:{type: Number},
+    nombre_tickets_stable: {type: Number},
+    planning: {type: String},
+    reclamation:{type: String},
+    paiement_agence: {type: String},
+    etat_affectation: {type: String},
   });
 
 const AdmissionFormProposition: Model<IAdmissionFormProposition> =
@@ -139,9 +177,8 @@ const documentId = "60d5ec49cfa1e72c4cba0c52"; // Replace with the actual ID
 const newValues: Partial<IAdmissionFormProposition> = {
   pochette_prof: 0,
   price_ticket_default: 0,
-  IsAffected: false,
-  userIdAffecation:'',
-  
+  userIdAffectation:'',
+  total_pocheet:0
 };
 
 updateAdmissionFormById(documentId, newValues)
