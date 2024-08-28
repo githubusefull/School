@@ -18,6 +18,8 @@ const Mynavbar = () => {
   const [isDropdownOpenClient, setIsDropdownOpenClient] = useState(false);
   const [isDropdownOpenPro, setIsDropdownOpenPro] = useState(false);
   const [isDropdownOpenUser, setIsDropdownOpenUser] = useState(false);
+  const [isDropdownOpenReglement, setIsDropdownOpenReglement] = useState(false);
+
   const [userIdlocal, setUserIdlocal] = useState(null);
 
 
@@ -26,6 +28,11 @@ const Mynavbar = () => {
 
   const toggleDropdownPro = () => {
     setIsDropdownOpenPro(!isDropdownOpenPro);
+
+  };
+
+  const toggleDropdownReglment = () => {
+    setIsDropdownOpenReglement(!isDropdownOpenReglement);
 
   };
 
@@ -40,7 +47,9 @@ const Mynavbar = () => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsDropdownOpenPro(false);
       setIsDropdownOpenUser(false);
-      setIsDropdownOpenClient(false)
+      setIsDropdownOpenClient(false);
+      setIsDropdownOpenReglement(false)
+
     }
   };
 
@@ -76,11 +85,13 @@ const Mynavbar = () => {
               Affectation
             </p>
           </Link>
+          {/*        
           <Link href="/payement">
             <p className="mt-1  scale-110 transition-all duration-300 hover:scale-100">
               Payement
             </p>
           </Link>
+          */}
           <div className="relative">
             <button
               onClick={toggleDropdownClient}
@@ -158,6 +169,41 @@ const Mynavbar = () => {
                     All_Users
                   </p>
                 </Link>
+                
+              
+              </div>
+            )}
+
+           
+          </div>
+
+
+
+          <div className="relative">
+            <button
+              onClick={toggleDropdownReglment}
+              className="mt-1 font-[600]"
+            >
+             Règlement
+
+            </button>
+            {isDropdownOpenReglement && (
+              <div
+                ref={dropdownRef}
+                className="bg-white  text-gray-500 text-[14px] font-[600]    absolute right-0 mt-5 w-38 px-8 rounded-[3px] outline  outline-0  shadow-lg  py-1 z-50"
+              >
+                {/*  
+                <Link href="/payement">
+                  <p className="block  py-2  font-[500] mt-1">
+                    Payement
+                  </p>
+                </Link>*/}
+                <Link href="/renouveler">
+                  <p className="block  py-2   font-[500] mt-0 ">
+                    Reglement
+                  </p>
+                </Link>
+             
                 
               
               </div>

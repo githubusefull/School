@@ -210,13 +210,15 @@ interface AffecationDataProps {
 
 
 
-const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffectation ,  }) => {
+const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffectation  }) => {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState<FormData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   //const [message, setMessage] = useState<string | null>(null);
+
+  {/*         
   const [formData, setFormData] = useState<FormPropositionSelect>({
     id: formAffectation._id,
     userIdAffectation: formAffectation.userIdAffectation,
@@ -232,7 +234,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
     number_ticket_Prof: formAffectation.number_ticket_Prof,
     acceptation_Payement: formAffectation.acceptation_Payement,
     number_ticket_Total: formAffectation.number_ticket_Total,
-  });
+  }); */}
 
 
 
@@ -275,11 +277,14 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   };
 
 
+  const handleDeletet = () => {
+    toast.success('Supprimer Successfully');
 
+  };
  
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name,  value } = e.target;
-    setFormData({ ...formData, [name]: value });
+   // setFormData({ ...formData, [name]: value });
   };
 
 
@@ -308,7 +313,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
   useEffect(() => {
     if (userIdAffectation) {
-      setFormData(prev => ({ ...prev, userIdAffectation }));
+      //setFormData(prev => ({ ...prev, userIdAffectation }));
     }
   }, [userIdAffectation]);
 
@@ -336,17 +341,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
         body: JSON.stringify({
           id:  id,
           updateData: {
-            //IsAffected: formData.IsAffected,
-            price_ticket_default: formData.price_ticket_default,
-            pochette_prof: formData.pochette_prof,
-            price_Ticket: formData.price_Ticket,
-            price_Total: formData.price_Total,
-            price_Prof: formData.price_Prof,
-            number_ticket_Comsum: formData.number_ticket_Comsum,
-            number_ticket_Prof: formData.number_ticket_Prof,
-            acceptation_Payement: formData.acceptation_Payement,
-            number_ticket_Total: formData.number_ticket_Total,
-            userIdAffectation: formData.userIdAffectation,
+            
+           
             //total_pocheet,
 
             //...formData,
@@ -639,7 +635,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       <div className="">
         <div className="flex justify-between px-14">
 
-          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='ml-1'>Affectation</span></span>
+          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='ml-1'>Reglement</span></span>
 
 
 
@@ -927,7 +923,38 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                         <p className="py-2 px-4 border-b  font-semibold">Price Professeur:{selectedForm?.price_prof}</p>
                                         <p className="py-2 px-4 border-b font-semibold">Number Ticket Professeur:{selectedForm?.price_ticket_default}</p>
                                         <p className="py-2 px-4 border-b  font-semibold">Pochette Professeur:{selectedForm?.pochette_prof}</p>
+                       <div>
+                                        <button
 
+                                        //type='submit'
+                                        onClick={handleConfirm}
+                                        className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
+
+
+                                      <button
+                                        onClick={handleCancel}
+                                        className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+
+                                        <button
+
+                                        
+                                          className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Payer </button>
+
+
+                                        <button
+                                          
+                                          className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Archiver</button>
+
+
+<button
+                                          
+                                          className='bg-yellow-400 text-gray-700 ml-1 mt-4 p-1 px-[10px] rounded-sm  font-[600]'>Renouvler</button>
+                                                <button
+                                          onClick={handleDeletet}
+                                          className='bg-red-500 text-gray-700 ml-1 p-1 mt-4 px-[10px] rounded-sm  font-[600]'>Supprimer</button>
+
+                                    </div>
+                                        {/*   
                                       <form >
                                         <div className='mt-3 ml-2'>
                                           <label className="py-2   border-gray-700 font-semibold">Number Ticket Professeur Default: </label>
@@ -1062,6 +1089,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                          className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>submit all data</button>
 
                                       </form>
+                                       */} 
                                     </div>
                                   </div>
                                 </div>
@@ -1258,26 +1286,6 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-                              <div className="text-customOrange font-[500] p-2 rounded-[2px] outline  outline-1">
-                                <span className='text-start text-gray-800'>Form Client</span>
-
-                                <div className="overflow-x-auto h-72 flex text-gray-800">
-                                  <div className="border-collapse font-light text-[9px]">
-
-                                    <div className='mt-2 text-[12px]'>
-
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name: {selectedForm?.nameClient}</p>
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email: {selectedForm?.emailClient}</p>
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Telephone: {selectedForm?.client_telephone}</p>
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Ville: {selectedForm?.client_ville}</p>
-                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Details: </p>
-                                 
-
-
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
 
 
                             
@@ -1330,10 +1338,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-          <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
-            <span>Form Client</span>
-            <div className="overflow-x-auto h-64">
-              <div className="border-collapse font-light text-[9px]">
+           
+                {/*           
                 <div>
                   <div className=' mt-2 text-[12px]'>
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name : {formAffectation.name}</p>
@@ -1360,7 +1366,6 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                     <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
                       Number Ticket : {formAffectation.ticketNumber}</p>
 
-
                     
 
                   </div>
@@ -1368,6 +1373,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
                 </div>
+  */}
                 <tbody>
                 </tbody>
               </div>
@@ -1377,10 +1383,9 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
           </div>
 
-        </div>
-      </div>
+      
 
-    </div>
+   
 
 
   )
