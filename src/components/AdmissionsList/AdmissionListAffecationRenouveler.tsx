@@ -782,7 +782,10 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                     
                     Select
                  </th>
-              
+                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    
+                    Delete
+                 </th>
                 </tr>
               </thead>
 
@@ -869,6 +872,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                       )}
 
                     </td>
+          
+                      
 
                     {/*     
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
@@ -1320,6 +1325,13 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                         </div>
                       )}
                     </td>
+
+                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
+
+<Link href={`/admissionformdetail/${form._id}`}>
+  <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Delete</button>
+</Link>
+</td>
                   </tr>
                 ))
 
