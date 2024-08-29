@@ -77,6 +77,10 @@ export interface IAdmissionFormAffectation extends Document {
   acceptation_Payement: number,
   number_ticket_Total: number,
   //cv_Photo?: string; // Optional field
+
+
+
+  
 }
 
 const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
@@ -122,43 +126,42 @@ const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
     prof_telephone: { type: String },
     client_ville: { type: String },
     prof_ville: { type: String },
-    pochette_prof: {type: Number},
-    price_ticket_default: {type: Number},
+    pochette_prof: { type: Number },
+    price_ticket_default: { type: Number },
     client_telephone: { type: String },
     isAcceptedProf: { type: Boolean, default: false },
-    IsAffected:{type: Boolean},
+    IsAffected: { type: Boolean },
     userIdAffectation: {
-        type: String,
-      },
-      total_pocheet: {
-        type: Number,
-      },
+      type: String,
+    },
+    total_pocheet: {
+      type: Number,
+    },
 
-    id_affectation: {type: String},
-    prof_id: {type: String},
-    client_id : {type: String},
-    prix_total: {type: Number},
-    prix_ticket: {type: Number},
-    nombre_total_tickets: {type: Number},
-    prix_ticket_prof: {type: Number},
-    nombre_tickets_prof: {type: Number},
-    prix_prof: {type: Number},
-    nombre_tickets_demandes: {type: Number},
-    acceptation_paiement:{type: Number},
-    nombre_tickets_stable: {type: Number},
-    planning: {type: String},
-    reclamation:{type: String},
-    paiement_agence: {type: String},
-    etat_affectation: {type: String},
+    id_affectation: { type: String },
+    prof_id: { type: String },
+    client_id: { type: String },
+    prix_total: { type: Number },
+    prix_ticket: { type: Number },
+    nombre_total_tickets: { type: Number },
+    prix_ticket_prof: { type: Number },
+    nombre_tickets_prof: { type: Number },
+    prix_prof: { type: Number },
+    nombre_tickets_demandes: { type: Number },
+    acceptation_paiement: { type: Number },
+    nombre_tickets_stable: { type: Number },
+    planning: { type: String },
+    reclamation: { type: String },
+    paiement_agence: { type: String },
+    etat_affectation: { type: String },
 
-    price_Ticket: {type: Number},
-    price_Total: {type: Number},
-    price_Prof: {type: Number},
-    number_ticket_Comsum: {type: Number},
-    number_ticket_Prof: {type: Number},
-    acceptation_Payement: {type: Number},
-    number_ticket_Total: {type: Number},
-
+    price_Ticket: { type: Number },
+    price_Total: { type: Number },
+    price_Prof: { type: Number },
+    number_ticket_Comsum: { type: Number },
+    number_ticket_Prof: { type: Number },
+    acceptation_Payement: { type: Number },
+    number_ticket_Total: { type: Number },
   });
 
 const AdmissionFormAffectation: Model<IAdmissionFormAffectation> =
@@ -199,7 +202,6 @@ const newValues: Partial<IAdmissionFormAffectation> = {
   pochette_prof: 0,
   price_ticket_default: 0,
   userIdAffectation: "",
-  total_pocheet: 0,
   price_Ticket: 0,
   price_Total: 0,
   price_Prof: 0,
@@ -207,7 +209,7 @@ const newValues: Partial<IAdmissionFormAffectation> = {
   number_ticket_Prof: 0,
   acceptation_Payement: 0,
   number_ticket_Total: 0,
- 
+  
 };
 
 updateAdmissionFormById(documentId, newValues)

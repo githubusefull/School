@@ -1,5 +1,5 @@
-//import AffectationEdite from "@/components/forms/AffectationEdite";
-import AffectationTable from "@/components/forms/AffectationTable";
+import AffectationEdite from "@/components/forms/AffectationEdite";
+//import AffectationTable from "@/components/forms/AffectationTable";
 //import Proposition from "@/components/forms/Proposition";
 
 interface FormData {
@@ -120,7 +120,7 @@ async function getFormById(id: string): Promise<FormData> {
   const timestamp = new Date().getTime(); // Add timestamp
 
   try {
-    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformaffectation/${id}?t=${timestamp}`, { method: 'GET' });
+    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformaffectationedite/${id}?t=${timestamp}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -152,7 +152,7 @@ export default async function FormID({ params }: FormIDProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
     <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">
-      <AffectationTable formAffectation={formAffectation}/>
+      <AffectationEdite formAffectation={formAffectation}/>
     </div>
   </div>
   );

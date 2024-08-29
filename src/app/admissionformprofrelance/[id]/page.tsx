@@ -1,6 +1,5 @@
-//import AffectationEdite from "@/components/forms/AffectationEdite";
-import AffectationTable from "@/components/forms/AffectationTable";
-//import Proposition from "@/components/forms/Proposition";
+//import AdmissionForm from "@/pages/models/AdmissionsForm";
+import AdmissionFormRelance from "@/components/forms/AdmissionFormRelance";
 
 interface FormData {
   _id: string;
@@ -56,11 +55,13 @@ interface FormData {
   profPercentage:number,
   ticketNumber:number,
   isConfirmed: boolean;
-  userIdConfirmClient: string;
+  userIdRelance: string;
+
   //cv_Photo: File | null;
 }
 const defaultFormData: FormData = {
   _id: '',
+  userIdRelance: '',
   name: '',
   prenome: '',
   email: '',
@@ -113,14 +114,13 @@ const defaultFormData: FormData = {
   profPercentage:0,
   ticketNumber:0,
   isConfirmed: false, // Add boolean field
-  userIdConfirmClient:''
 
 };
 async function getFormById(id: string): Promise<FormData> {
   const timestamp = new Date().getTime(); // Add timestamp
 
   try {
-    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformaffectation/${id}?t=${timestamp}`, { method: 'GET' });
+    const response = await fetch(`https://school-iota-three.vercel.app/api/admissionformprofrelance/${id}?t=${timestamp}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -138,9 +138,9 @@ interface FormIDProps   {
 }
  
 export default async function FormID({ params }: FormIDProps) {
-  const formAffectation = await getFormById(params.id);
-   
-  if (!formAffectation) {
+  const form = await getFormById(params.id);
+  //console.log(form)
+  if (!form) {
     return (
       <div>
         <p>Failed to load form details for ID: {params.id}</p>
@@ -152,7 +152,7 @@ export default async function FormID({ params }: FormIDProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
     <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">
-      <AffectationTable formAffectation={formAffectation}/>
+      <AdmissionFormRelance form={form}/>
     </div>
   </div>
   );

@@ -10,19 +10,18 @@ import { jwtDecode } from 'jwt-decode'; // Ensure you import the correct jwt-dec
 
 
 interface FormPropositionSelect {
-  id: string;
-  userIdAffectation: string;
+  id: string | undefined;
+  userIdAffectation: string | undefined;
 
-
-  price_ticket_default: number;
-  pochette_prof: number;
-  price_Ticket: number;
-  price_Total: number;
-  price_Prof: number;
-  number_ticket_Comsum: number;
-  number_ticket_Prof: number;
-  acceptation_Payement: number;
-  number_ticket_Total: number;
+  price_ticket_default: number| undefined;
+  pochette_prof: number | undefined;
+  price_Ticket: number | undefined;
+  price_Total: number | undefined;
+  price_Prof: number | undefined;
+  number_ticket_Comsum: number | undefined;
+  number_ticket_Prof: number | undefined;
+  acceptation_Payement: number | undefined;
+  number_ticket_Total: number | undefined;
 
 
 
@@ -101,7 +100,7 @@ interface FormData {
   userIdProfesseur: string;
   userIdClient: string;
   //cv_Photo: File | null;
-
+  number_ticket_Total: number;
   id_affectation: string;
   prof_id: string;
   client_id: string;
@@ -126,13 +125,14 @@ interface FormData {
   number_ticket_Comsum: number,
   number_ticket_Prof: number,
   acceptation_Payement: number,
-  number_ticket_Total: number,
 }
 
 
 
 interface IAdmissionFormAffectation {
   id: string;
+  number_ticket_Total: number,
+
   monday_proposition: string;
   tuesday_proposition: string;
   wednesday_proposition: string;
@@ -210,7 +210,9 @@ interface AffecationDataProps {
 
 
 
-const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffectation }) => {
+const AdmissionListAffectationEdite: React.FC<AffecationDataProps> = ({ formAffectation }) => {
+
+
 
 
 
@@ -218,22 +220,24 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   const [selectedForm, setSelectedForm] = useState<FormData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  //const [message, setMessage] = useState<string | null>(null);
-  const [formData, setFormData] = useState<FormPropositionSelect>({
-    id: formAffectation._id,
 
-    userIdAffectation: formAffectation._id,
-    price_ticket_default: formAffectation.price_ticket_default,
-    pochette_prof: formAffectation.pochette_prof,
-    price_Ticket: formAffectation.price_Ticket,
-    price_Total: formAffectation.price_Total,
-    price_Prof: formAffectation.price_Prof,
-    number_ticket_Comsum: formAffectation.number_ticket_Comsum,
-    number_ticket_Prof: formAffectation.number_ticket_Prof,
-    acceptation_Payement: formAffectation.acceptation_Payement,
-    number_ticket_Total: formAffectation.number_ticket_Total,
-    
-  });
+  const [formData, setFormData] = useState<FormPropositionSelect>({
+    id: selectedForm?._id,
+    userIdAffectation: selectedForm?._id,
+    price_ticket_default: selectedForm?.price_ticket_default,
+    pochette_prof: selectedForm?.pochette_prof,
+    price_Ticket: selectedForm?.price_Ticket,
+    price_Total: searchTerm?.price_Total,
+    price_Prof: selectedForm?.price_Prof,
+    number_ticket_Comsum: selectedForm?.number_ticket_Comsum,
+    number_ticket_Prof: selectedForm?.number_ticket_Prof,
+    acceptation_Payement: selectedForm?.acceptation_Payement,
+    number_ticket_Total: searchTerm?.number_ticket_Total
+
+
+  });        
+ 
+ 
 
 
 
@@ -282,7 +286,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   const handleButtonClick = async (formId: string) => {
     try {
       // Fetch the form data by ID
-      const response = await fetch(`/api/admissionformaffectationselect/${formId}`);
+      const response = await fetch(`/api/admissionformaffectationselectedite/${formId}`);
 
       const data = await response.json();
 
@@ -292,6 +296,10 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       console.error('Error fetching form data:', error);
     }
   };
+
+
+
+
 
 
   const handleConfirm = async () => {
@@ -320,6 +328,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
+
   const handleSubmit = async (id: string) => {
     
     const token = localStorage.getItem('token');
@@ -339,20 +348,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
         body: JSON.stringify({
           id: id,
           updateData: {
-            //IsAffected: formData.IsAffected,
-            price_ticket_default: formData.price_ticket_default,
-            pochette_prof: formData.pochette_prof,
-            price_Ticket: formData.price_Ticket,
-            price_Total: formData.price_Total,
-            price_Prof: formData.price_Prof,
-            number_ticket_Comsum: formData.number_ticket_Comsum,
-            number_ticket_Prof: formData.number_ticket_Prof,
-            acceptation_Payement: formData.acceptation_Payement,
-            number_ticket_Total: formData.number_ticket_Total,
-            userIdAffectation: formAffectation._id,
-            //total_pocheet,
-
-            //...formData,
+            ...formData,
+            userIdAffectation
            
           },
         }),
@@ -365,27 +362,10 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       const data = await response.json();
       console.log('Updated Document:', data);
       window.location.reload();
-
-             
-      setFormData({
-        //IsAffected: false,
-        id: formAffectation._id,
-        userIdAffectation: formAffectation._id,
-        price_ticket_default: formAffectation.price_ticket_default ,
-        pochette_prof: formAffectation.pochette_prof,
-        //ticketNumber: formAffectation.ticketNumber,
-        //price_prof: formAffectation.ticketNumber,
-        //total_pocheet: formAffectation.total_pocheet,
-        price_Ticket: formAffectation.price_Ticket,
-        price_Total: formAffectation.price_Total,
-        price_Prof: formAffectation.price_Prof,
-        number_ticket_Comsum: formAffectation.number_ticket_Comsum,
-        number_ticket_Prof: formAffectation.number_ticket_Prof,
-        acceptation_Payement: formAffectation.acceptation_Payement,
-        number_ticket_Total: formAffectation.number_ticket_Total,
-      });
+    
+           
      
-
+ 
       toast.success(data.message);
       //toast.success('Edited Successfully');
     } catch (error) {
@@ -411,12 +391,11 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-  let ToTal = 10;
 
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormProposition');
+        const response = await fetch('/api/submitFormAffectation');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -433,90 +412,14 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-{/*           
 
-
-  const [formDataAffectation, setFormDataAffectation] = useState<IAdmissionFormAffectation>({
-    id: formAffectation._id,
-    monday_proposition: formAffectation.monday_proposition,
-    tuesday_proposition: formAffectation.tuesday_proposition,
-    wednesday_proposition: formAffectation.wednesday_proposition,
-    thursday_proposition: formAffectation.thursday_proposition,
-    friday_proposition: formAffectation.friday_proposition,
-    saturday_proposition: formAffectation.saturday_proposition,
-    sunday_proposition: formAffectation.sunday_proposition,
-    monday_time: formAffectation.monday_time,
-    tuesday_time: formAffectation.tuesday_time,
-    wednesday_time: formAffectation.wednesday_time,
-    thursday_time: formAffectation.thursday_time,
-    friday_time: formAffectation.friday_time,
-    saturday_time: formAffectation.saturday_time,
-    sunday_time: formAffectation.sunday_time,
-    userIdProposition: formAffectation.userIdProposition,
-    userIdClient: formAffectation.userIdClient,
-    nameClient: formAffectation.nameClient,
-    emailClient: formAffectation.emailClient,
-    nameProf: formAffectation.nameProf,
-    emailProf: formAffectation.emailProf,
-    price_total: formAffectation.price_total,
-    ticketNumber: formAffectation.ticketNumber,
-    prof_telephone: formAffectation.prof_telephone,
-    client_telephone: formAffectation.client_telephone,
-    price_prof: formAffectation.price_prof,
-    price_ticket: formAffectation.price_ticket,
-    client_ville: formAffectation.client_ville,
-    prof_ville: formAffectation.prof_ville,
-    userIdProfesseur: formAffectation.userIdProfesseur,
-    finalTotal: formAffectation.finalTotal,
-    matiere_1: formAffectation.matiere_1,
-    niveau_1: formAffectation.niveau_1,
-    matiere_2: formAffectation.matiere_2,
-    niveau_2: formAffectation.niveau_2,
-    matiere_3: formAffectation.matiere_3,
-    niveau_3: formAffectation.niveau_3,
-    matiere_4: formAffectation.matiere_4,
-    niveau_4: formAffectation.niveau_4,
-    matiere_5: formAffectation.matiere_5,
-    niveau_5: formAffectation.niveau_5,
-    matiere_6: formAffectation.matiere_6,
-    niveau_6: formAffectation.niveau_6,
-    pochette_prof: formAffectation.pochette_prof,
-    price_ticket_default: formAffectation.price_ticket_default,
-    isAcceptedProf: formAffectation.isAcceptedProf,
-    IsAffected: formAffectation.IsAffected,
-    total_pocheet: formAffectation.total_pocheet,
-    userIdAffectation: formAffectation.userIdAffectation,
-    id_affectation: formAffectation.id_affectation,
-    prof_id: formAffectation.prof_id,
-    client_id: formAffectation.client_id,
-    prix_total: formAffectation.prix_total,
-    prix_ticket: formAffectation.prix_ticket,
-    nombre_total_tickets: formAffectation.nombre_total_tickets,
-    prix_ticket_prof: formAffectation.prix_ticket_prof,
-    nombre_tickets_prof: formAffectation.nombre_tickets_prof,
-    prix_prof: formAffectation.prix_prof,
-    nombre_tickets_demandes: formAffectation.nombre_tickets_demandes,
-    acceptation_paiement: formAffectation.acceptation_paiement,
-    nombre_tickets_stable: formAffectation.nombre_tickets_stable,
-    planning: formAffectation.planning,
-    reclamation: formAffectation.reclamation,
-    paiement_agence: formAffectation.paiement_agence,
-    etat_affectation: formAffectation.etat_affectation,
-  });
   
   
 
 
 
  
-  const handleChangeAffectation = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormDataAffectation(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-*/}
+  
 
 
 
@@ -584,6 +487,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   };
 
 
+
  
   
 
@@ -637,12 +541,13 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
+    
     <div className="text-gray-300 p-10 w-full mt-[6px] min-h-screen gap-3">
 
       <div className="">
         <div className="flex justify-between px-14">
 
-          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='ml-1'>Affectation</span></span>
+          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='mr-1'>Affectation</span>Edite</span>
 
 
 
@@ -780,17 +685,9 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                     La<span className='inline ml-1 mr-1'>Note</span>
                      Totale
                   </th>
-                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    
-                     Accepted/NoAccpeted
-                  </th>
-
-                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    
-                    Select
-                 </th>
+                  
                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    Edite<span className='inline ml-1 mr-1'>Affectation</span>
+                    Edite
                      
                   </th>
               
@@ -836,56 +733,13 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-{/*               
-                    <td className="py-2 px-4 gap-[2px]  border-b border-gray-700 text-[12px]">
-                      {!form.date_interview ? (
-
-                        <Link href={`/admissionformdate/${form._id}`}>
-                          <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
-                        </Link>
-                      ) : (
-                        <p className='text-gray-300 font-[400] flex'>
-                          <span>
-                            {format(new Date(form.date_interview), 'dd-MM-yyyy')}
-                          </span>
-                          <span className='ml-[3px] text-blue-500'>{form.time_interview}</span>
-
-                        </p>
-                      )}
-
-
-                    </td>
-                     */}
-                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-
-                      {form.finalTotal > ToTal && (
-                        <Link href={`/admissionformdetail/${form._id}`}>
-                          <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Accepted</button>
-                        </Link>
-                      )}
-                      {form.finalTotal === ToTal && (
-                        <Link href={`/admissionformdetail/${form._id}`}>
-                          <button className='bg-green-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Accepted</button>
-                        </Link>
-                      )}
-                      {form.finalTotal < ToTal && (
-                        <Link href={`/admissionformdetail/${form._id}`}>
-                          <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Refused</button>
-                        </Link>
-                      )}
-                      {!(form.finalTotal === ToTal || form.finalTotal < ToTal || form.finalTotal > ToTal) && (
-                        <Link href={`/admissionformnote/${form._id}`}>
-                          <button className='bg-orange-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'><p className='inline ml-1'>During</p></button>
-                        </Link>
-                      )}
-
-                    </td>
+                  
 
                     
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
                       <p>
                       <button onClick={() => handleButtonClick(form._id)}
-                            className='bg-cyan-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Select</button>
+                            className='bg-cyan-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Edite</button>
                     
                       </p>
 
@@ -912,7 +766,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                         <p className="py-2 px-4 border-b  font-semibold">Pochette Professeur:{selectedForm?.pochette_prof}</p>
 
  
-                                      <form onSubmit={handleSubmitAffectation}>
+                                      <form >
                                         <div className='mt-3 ml-2'>
                                           <label className="py-2   border-gray-700 font-semibold">Number Ticket Professeur Default: </label>
 
@@ -994,7 +848,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                           <input
 
                                             name="pochette_prof"
-                                            value={formData.pochette_prof}
+                                           value={formData.pochette_prof}
                                             onChange={handleChange}
                                             type='number'
                                             className='bg-gray-300 rounded-[3px] px-2 w-full h-7   focus:outline-none text-black' />
@@ -1294,11 +1148,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                       )}
                     </td>
 
-                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                    <Link href={`/affectationedite`}>
-                          <button className='bg-green-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Edite<p className='inline ml-1'>Affectation</p></button>
-                        </Link>
-                      </td>
+                   
 
 
 
@@ -1358,52 +1208,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
 
-          <div className="text-gray-300 p-4 rounded-[2px] outline  outline-1">
-            <span>Form Client</span>
-            <div className="overflow-x-auto h-64">
-              <div className="border-collapse font-light text-[9px]">
-                <div>
-                  <div className=' mt-2 text-[12px]'>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name : {formAffectation.name}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold">Prénome : {formAffectation.prenome}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Téléphone portable : {formAffectation.telephone_portable}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Email : {formAffectation.email}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Ville : {formAffectation.ville}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Vous ètes : {formAffectation.vous_etes}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Les cours sont pour : {formAffectation.Les_cours_sont_pour}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Niveau : {formAffectation.Niveau}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Matière Souhaitée : {formAffectation.Matière_souhaitée}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Autes Détails : {formAffectation.autres_détails}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Comment Vous Nous avez : {formAffectation.comment_vous_nous_avez}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Price Total : {formAffectation.price_total}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Price Ticket : {formAffectation.price_ticket}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Profe Percentage : {formAffectation.profPercentage}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Profe Price : {formAffectation.prof_percentage}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Number Ticket : {formAffectation.ticketNumber}</p>
-
-
-                    
-
-                  </div>
-
-
-
-                </div>
-                <tbody>
-                </tbody>
-              </div>
-            </div>
-
-
-
-          </div>
+        
 
         </div>
       </div>
@@ -1414,4 +1219,5 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   )
 }
 
-export default withAuth(AdmissionListProfAffectation);
+export default withAuth(AdmissionListAffectationEdite);
+

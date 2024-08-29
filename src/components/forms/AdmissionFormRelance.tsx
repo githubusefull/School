@@ -23,6 +23,7 @@ interface FormData {
   name: string;
   prenome: string;
   email: string;
+
   password: string;
   ville: string;
   quartiers_Rabat: string;
@@ -77,7 +78,7 @@ const AdmissionFormRelance: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 // finalTotal is a string
 
-  
+  console.log(form)
 
 
 const [formData, setFormData] = useState<FormDataDate>({
@@ -172,7 +173,6 @@ const handleUpdateConfirmed = async (increment: number) => {
 
   }
   
-
 
  
 
