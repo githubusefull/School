@@ -19,6 +19,7 @@ const Mynavbar = () => {
   const [isDropdownOpenPro, setIsDropdownOpenPro] = useState(false);
   const [isDropdownOpenUser, setIsDropdownOpenUser] = useState(false);
   const [isDropdownOpenReglement, setIsDropdownOpenReglement] = useState(false);
+  const [isDropdownOpenAffectation, setIsDropdownOpenAffectation] = useState(false);
 
   const [userIdlocal, setUserIdlocal] = useState(null);
 
@@ -36,6 +37,10 @@ const Mynavbar = () => {
 
   };
 
+
+  const toggleDropdownAffectatio = () => {
+    setIsDropdownOpenAffectation(!isDropdownOpenAffectation);
+  };
   const toggleDropdownClient = () => {
     setIsDropdownOpenClient(!isDropdownOpenClient);
   };
@@ -49,6 +54,7 @@ const Mynavbar = () => {
       setIsDropdownOpenUser(false);
       setIsDropdownOpenClient(false);
       setIsDropdownOpenReglement(false)
+      setIsDropdownOpenAffectation(false)
 
     }
   };
@@ -80,11 +86,35 @@ const Mynavbar = () => {
               Proposition
             </p>
           </Link>
-          <Link href="/affectation">
-            <p className="mt-1 scale-110 transition-all duration-300 hover:scale-100">
+         
+          <div className="relative">
+            <button
+              onClick={toggleDropdownAffectatio}
+              className="mt-1 font-[600]"
+            >
               Affectation
-            </p>
-          </Link>
+            </button>
+            {isDropdownOpenAffectation && (
+              <div
+                ref={dropdownRef}
+                className="bg-white  text-gray-500 text-[14px] font-[600]  absolute right-0 mt-5 w-38 px-8 rounded-[3px] outline  outline-0  shadow-lg  py-1 z-50"
+              >
+                <Link href="/affectation">
+                  <p className="block  py-2   mt-1 ">
+                  Affectation
+                  </p>
+                </Link>
+                <Link href="/affectationedite">
+                  <p className="block  py-2 mt-1">
+                  <span className='inline mr-1'>All</span>Affectation
+                  </p>
+                </Link>
+              </div>
+            )}
+          </div>
+        
+
+                
           {/*        
           <Link href="/payement">
             <p className="mt-1  scale-110 transition-all duration-300 hover:scale-100">

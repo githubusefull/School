@@ -185,13 +185,13 @@ const AdmissionsListProfe: React.FC = () => {
                   Email
                 </th>
                 <th className="py-2 px-4 border-b  border-gray-700 font-semibold text-sm">
-                  CV<span className='inline ml-1'>avec</span> photo
+                  CV<span className='inline ml-1 mr-1'>avec</span>photo
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  Date de <span className='inline ml-1'>naissance</span>
+                  Date<span className='ml-1'>de</span><span className='inline ml-1'>naissance</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                  <p className='inline mr-1'>Anne</p>d'obtention<span className='inline ml-1'>  </span>du Bac
+                Anne<p className='inline ml-1 mr-1'>d'obtention</p>du<span className='inline ml-1'>bac</span>
                 </th>
                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                   Situation <span className='inline ml-1'>professionelle</span>

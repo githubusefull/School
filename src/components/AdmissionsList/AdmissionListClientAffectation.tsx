@@ -97,7 +97,7 @@ const AdmissionsListClientAffectation: React.FC = () => {
 
         <div className="flex justify-between px-14">
 
-        <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1'>Clients Affectation</span></span>
+        <span className='mr-1 text-[18px] font-[700] mt-[5px]'>Table<span className='ml-1'>Clients Proposition</span></span>
 
           <div className="w-80">
 

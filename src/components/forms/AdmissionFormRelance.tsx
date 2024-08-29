@@ -78,7 +78,6 @@ const AdmissionFormRelance: React.FC<AdmissionFormNoteProps> = ({ form }) => {
 
 // finalTotal is a string
 
-  console.log(form)
 
 
 const [formData, setFormData] = useState<FormDataDate>({
@@ -175,7 +174,7 @@ const handleUpdateConfirmed = async (increment: number) => {
   
 
  
-
+console.log(form.name)
 
  
   return (
@@ -811,7 +810,7 @@ const handleUpdateConfirmed = async (increment: number) => {
 
 
       <div className="mb-4">
-      {form.date_interview ? 
+      {form.finalTotal ? 
       
       <button
           onClick={() => handleUpdateConfirmed(1)}

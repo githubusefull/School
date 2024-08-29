@@ -119,12 +119,12 @@ interface FormData {
   etat_affectation: string;
 
 
-  price_Ticket: number,
-  price_Total: number,
-  price_Prof: number,
-  number_ticket_Comsum: number,
-  number_ticket_Prof: number,
-  acceptation_Payement: number,
+  price_Ticket: number;
+  price_Total: number;
+  price_Prof: number;
+  number_ticket_Comsum: number;
+  number_ticket_Prof: number;
+  acceptation_Payement: number;
 }
 
 
@@ -153,7 +153,9 @@ interface IAdmissionFormAffectation {
   emailClient: string;
   nameProf: string | undefined;
   emailProf: string | undefined;
-  price_total: number;
+  price_total: number | undefined;
+  price_Total: string;
+
   ticketNumber: number;
   prof_telephone: string | undefined;
   client_telephone: string;
@@ -227,12 +229,12 @@ const AdmissionListAffectationEdite: React.FC<AffecationDataProps> = ({ formAffe
     price_ticket_default: selectedForm?.price_ticket_default,
     pochette_prof: selectedForm?.pochette_prof,
     price_Ticket: selectedForm?.price_Ticket,
-    price_Total: searchTerm?.price_Total,
+    price_Total: selectedForm?.price_Total,
     price_Prof: selectedForm?.price_Prof,
     number_ticket_Comsum: selectedForm?.number_ticket_Comsum,
     number_ticket_Prof: selectedForm?.number_ticket_Prof,
     acceptation_Payement: selectedForm?.acceptation_Payement,
-    number_ticket_Total: searchTerm?.number_ticket_Total
+    number_ticket_Total: selectedForm?.number_ticket_Total
 
 
   });        
@@ -547,7 +549,7 @@ const AdmissionListAffectationEdite: React.FC<AffecationDataProps> = ({ formAffe
       <div className="">
         <div className="flex justify-between px-14">
 
-          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='mr-1'>Affectation</span>Edite</span>
+          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='mr-1'>Table</span>Affectation</span>
 
 
 

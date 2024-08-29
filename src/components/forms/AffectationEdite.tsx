@@ -49,6 +49,15 @@ interface FormData {
   finalTotal: number;
   counter: number;
   pay: string;
+  price_ticket_default: number;
+  pochette_prof: number ;
+  price_Ticket: number;
+  price_Total: number;
+  price_Prof: number;
+  number_ticket_Comsum: number;
+  number_ticket_Prof: number;
+  acceptation_Payement: number;
+  number_ticket_Total: number;
   details: string;
   price_total: number;
   price_ticket: number;

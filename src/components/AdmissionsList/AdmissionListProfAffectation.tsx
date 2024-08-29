@@ -789,10 +789,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                     
                     Select
                  </th>
-                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    Edite<span className='inline ml-1 mr-1'>Affectation</span>
-                     
-                  </th>
+                
               
                 </tr>
               </thead>
@@ -1294,11 +1291,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                       )}
                     </td>
 
-                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-                    <Link href={`/affectationedite`}>
-                          <button className='bg-green-400 hover:text-black ml-1 p-1 px-[14px] rounded-sm text-gray-900 font-[600]'>Edite<p className='inline ml-1'>Affectation</p></button>
-                        </Link>
-                      </td>
+         
 
 
 
