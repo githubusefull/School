@@ -10,22 +10,22 @@ import { jwtDecode } from 'jwt-decode'; // Ensure you import the correct jwt-dec
 
 
 interface FormPropositionSelect {
-  id: string;
-  //IsAffected: boolean;
-  userIdAffectation: string;
-  price_ticket_default: number;
-  pochette_prof: number;
-  ticketNumber: number;
-  price_prof: number;
-  //total_pocheet: number;
+  id: string | undefined;
+  userIdArchiver: string | undefined;
+  price_ticket_default: number| undefined;
+  pochette_prof: number | undefined;
+  price_Ticket: number | undefined;
+  price_Total: number | undefined;
+  price_Prof: number | undefined;
+  number_ticket_Comsum: number | undefined;
+  number_ticket_Prof: number | undefined;
+  acceptation_Payement: number | undefined;
+  number_ticket_Total: number | undefined;
 
-  price_Ticket: number,
-  price_Total: number,
-  price_Prof: number,
-  number_ticket_Comsum: number,
-  number_ticket_Prof: number,
-  acceptation_Payement: number,
-  number_ticket_Total: number,
+}
+interface FormDataProf {
+  number_ticket_Prof: number;
+  userIdPayer: string;
 
 }
 interface FormData {
@@ -100,6 +100,7 @@ interface FormData {
   total_pocheet: number;
   userIdProfesseur: string;
   userIdClient: string;
+  userIdPayer: string;
   //cv_Photo: File | null;
 
   id_affectation: string;
@@ -205,36 +206,48 @@ interface IAdmissionFormAffectation {
 interface AffecationDataProps {
   formAffectation: FormData;
   id: string;
+  onDelete: (id: string) => void;
+
 
 }
 
 
 
-const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffectation  }) => {
+const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete   }) => {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState<FormData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  //const [message, setMessage] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  {/*         
+  const [formDataProf, setFormDataProf] = useState<FormDataProf>({
+    number_ticket_Prof: selectedForm?.number_ticket_Prof || 0,
+    userIdPayer: selectedForm?.userIdPayer || ""
+    // Initialize other fields here
+  });
+
+
+
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+
+  };
+          
   const [formData, setFormData] = useState<FormPropositionSelect>({
-    id: formAffectation._id,
-    userIdAffectation: formAffectation.userIdAffectation,
-    price_ticket_default: formAffectation.price_ticket_default,
-    pochette_prof: formAffectation.pochette_prof,
-    ticketNumber: formAffectation.ticketNumber,
-    price_prof: formAffectation.price_prof,
-    //total_pocheet: formAffectation.total_pocheet,
-    price_Ticket: formAffectation.price_Ticket,
-    price_Total: formAffectation.price_Total,
-    price_Prof: formAffectation.price_Prof,
-    number_ticket_Comsum: formAffectation.number_ticket_Comsum,
-    number_ticket_Prof: formAffectation.number_ticket_Prof,
-    acceptation_Payement: formAffectation.acceptation_Payement,
-    number_ticket_Total: formAffectation.number_ticket_Total,
-  }); */}
+    id: selectedForm?._id,
+    userIdArchiver: selectedForm?._id,
+    price_ticket_default: selectedForm?.price_ticket_default,
+    pochette_prof: selectedForm?.pochette_prof,
+    price_Ticket: selectedForm?.price_Ticket,
+    price_Total: selectedForm?.price_Total,
+    price_Prof: selectedForm?.price_Prof,
+    number_ticket_Comsum: selectedForm?.number_ticket_Comsum,
+    number_ticket_Prof: selectedForm?.number_ticket_Prof,
+    acceptation_Payement: selectedForm?.acceptation_Payement,
+    number_ticket_Total: selectedForm?.number_ticket_Total
+  }); 
 
 
 
@@ -242,7 +255,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   const handleButtonClick = async (formId: string) => {
     try {
       // Fetch the form data by ID
-      const response = await fetch(`/api/admissionformaffectationselect/${formId}`);
+      const response = await fetch(`/api/admissionformarchiverselect/${formId}`);
 
       const data = await response.json();
 
@@ -267,7 +280,19 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       toast.error('Failed to select');
     }
   };
+  const handleConfirmProf = async () => {
 
+    if (!selectedForm) return;
+    try {
+      await handleButtonClickProf(selectedForm._id)
+      setIsDialogOpen(false);
+
+
+    } catch (error) {
+      console.error('Error in handleConfirm:', error);
+      toast.error('Failed to select');
+    }
+  };
 
 
 
@@ -277,21 +302,17 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   };
 
 
-  const handleDeletet = () => {
-    toast.success('Supprimer Successfully');
-
-  };
+  
  
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name,  value } = e.target;
-   // setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
 
 
 
-  // form proposition
-  const [userIdAffectation, setUserId] = useState<string | null>(null);
+  const [userIdArchiver, setUserId] = useState<string | null>(null);
 
   const getUserIdFromTokenTow = (token: string): string | null => {
     try {
@@ -305,20 +326,45 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const userIdAffectation = getUserIdFromTokenTow(token);
-      console.log('User ID:', userIdAffectation);
-      setUserId(userIdAffectation);
+      const userIdArchiver = getUserIdFromTokenTow(token);
+      console.log('User ID:', userIdArchiver);
+      setUserId(userIdArchiver);
     }
   }, []);
 
   useEffect(() => {
-    if (userIdAffectation) {
-      //setFormData(prev => ({ ...prev, userIdAffectation }));
+    if (userIdArchiver) {
+      setFormData(prev => ({ ...prev, userIdArchiver }));
     }
-  }, [userIdAffectation]);
+  }, [userIdArchiver]);
 
- 
+ // userIdPayer
 
+ const [userIdPayer, setUserIdPayer] = useState<string | null>(null);
+
+  const getUserIdFromTokenPayer = (token: string): string | null => {
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userIdPayer = getUserIdFromTokenPayer(token);
+      console.log('User ID:', userIdPayer);
+      setUserIdPayer(userIdPayer);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userIdPayer) {
+      setFormDataProf(prev => ({ ...prev, userIdPayer }));
+    }
+  }, [userIdPayer]);
 
   const handleSubmit = async (id: string) => {
     //const total_pocheet: number =
@@ -332,7 +378,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       return;
     }  
     try {
-      const response = await fetch('/api/affectation_update', {
+      const response = await fetch('/api/archiver_update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -342,10 +388,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
           id:  id,
           updateData: {
             
-           
-            //total_pocheet,
-
-            //...formData,
+            ...formData,
+            userIdArchiver
            
           },
         }),
@@ -397,19 +441,10 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   const [filteredAdmissions, setFilteredAdmissions] = useState<FormData[]>([]);
 
 
-
-
-
-
-
-
-
-  let ToTal = 10;
-
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormProposition');
+        const response = await fetch('/api/submitFormAffectation');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -423,102 +458,12 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
   }, []);
 
 
-
-
-
-{/*           
-
-
-  const [formDataAffectation, setFormDataAffectation] = useState<IAdmissionFormAffectation>({
-    id: formAffectation._id,
-    monday_proposition: formAffectation.monday_proposition,
-    tuesday_proposition: formAffectation.tuesday_proposition,
-    wednesday_proposition: formAffectation.wednesday_proposition,
-    thursday_proposition: formAffectation.thursday_proposition,
-    friday_proposition: formAffectation.friday_proposition,
-    saturday_proposition: formAffectation.saturday_proposition,
-    sunday_proposition: formAffectation.sunday_proposition,
-    monday_time: formAffectation.monday_time,
-    tuesday_time: formAffectation.tuesday_time,
-    wednesday_time: formAffectation.wednesday_time,
-    thursday_time: formAffectation.thursday_time,
-    friday_time: formAffectation.friday_time,
-    saturday_time: formAffectation.saturday_time,
-    sunday_time: formAffectation.sunday_time,
-    userIdProposition: formAffectation.userIdProposition,
-    userIdClient: formAffectation.userIdClient,
-    nameClient: formAffectation.nameClient,
-    emailClient: formAffectation.emailClient,
-    nameProf: formAffectation.nameProf,
-    emailProf: formAffectation.emailProf,
-    price_total: formAffectation.price_total,
-    ticketNumber: formAffectation.ticketNumber,
-    prof_telephone: formAffectation.prof_telephone,
-    client_telephone: formAffectation.client_telephone,
-    price_prof: formAffectation.price_prof,
-    price_ticket: formAffectation.price_ticket,
-    client_ville: formAffectation.client_ville,
-    prof_ville: formAffectation.prof_ville,
-    userIdProfesseur: formAffectation.userIdProfesseur,
-    finalTotal: formAffectation.finalTotal,
-    matiere_1: formAffectation.matiere_1,
-    niveau_1: formAffectation.niveau_1,
-    matiere_2: formAffectation.matiere_2,
-    niveau_2: formAffectation.niveau_2,
-    matiere_3: formAffectation.matiere_3,
-    niveau_3: formAffectation.niveau_3,
-    matiere_4: formAffectation.matiere_4,
-    niveau_4: formAffectation.niveau_4,
-    matiere_5: formAffectation.matiere_5,
-    niveau_5: formAffectation.niveau_5,
-    matiere_6: formAffectation.matiere_6,
-    niveau_6: formAffectation.niveau_6,
-    pochette_prof: formAffectation.pochette_prof,
-    price_ticket_default: formAffectation.price_ticket_default,
-    isAcceptedProf: formAffectation.isAcceptedProf,
-    IsAffected: formAffectation.IsAffected,
-    total_pocheet: formAffectation.total_pocheet,
-    userIdAffectation: formAffectation.userIdAffectation,
-    id_affectation: formAffectation.id_affectation,
-    prof_id: formAffectation.prof_id,
-    client_id: formAffectation.client_id,
-    prix_total: formAffectation.prix_total,
-    prix_ticket: formAffectation.prix_ticket,
-    nombre_total_tickets: formAffectation.nombre_total_tickets,
-    prix_ticket_prof: formAffectation.prix_ticket_prof,
-    nombre_tickets_prof: formAffectation.nombre_tickets_prof,
-    prix_prof: formAffectation.prix_prof,
-    nombre_tickets_demandes: formAffectation.nombre_tickets_demandes,
-    acceptation_paiement: formAffectation.acceptation_paiement,
-    nombre_tickets_stable: formAffectation.nombre_tickets_stable,
-    planning: formAffectation.planning,
-    reclamation: formAffectation.reclamation,
-    paiement_agence: formAffectation.paiement_agence,
-    etat_affectation: formAffectation.etat_affectation,
-  });
-  
-  
-
-
-
- 
-  const handleChangeAffectation = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormDataAffectation(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-*/}
-
-
-
-  const handleSubmitAffectation = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitArchiver = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('/api/submitFormAffectation', {
+      const response = await fetch('/api/submitFormArchiver', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -526,6 +471,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
         body: JSON.stringify(
           {  
           ...selectedForm,
+          userIdArchiver
+
   
                 
       }),
@@ -534,36 +481,6 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       const data = await response.json();
       if (response.ok) {
 
-        {/*                  
-        setFormDataAffectation({
-          id: '',
-          price_Total: 0,
-          ticketNumber: 0,
-          price_prof: 0,
-          price_Ticket: 0,
-          pochette_prof: 0,
-          price_ticket_default: 0,
-          total_pocheet: 0,
-          userIdAffectation: '',
-          id_affectation: '',
-          prof_id: '',
-          client_id: '',      
-          prix_total: 0,
-          prix_ticket: 0,
-          nombre_total_tickets: 0,
-           prix_ticket_prof: 0,
-          nombre_tickets_prof: 0,
-          prix_prof: 0,
-          nombre_tickets_demandes: 0,
-          acceptation_paiement: false,
-          nombre_tickets_stable: 0,
-          planning: '',
-          reclamation: '',
-          paiement_agence: '',
-          etat_affectation: '',
-
-
-        });  */}
         toast.success(data.message);
 
 
@@ -580,16 +497,89 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
  
   
 
+  const handleButtonClickProf = async (id: string) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error('No token found');
+      return;
+    }
+
+    // Update number_ticket_Prof to 0
+    setFormDataProf((prevState) => ({
+      ...prevState,
+      number_ticket_Prof: 0,
+    }));
+
+    try {
+      const response = await fetch('/api/archiver_update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: id,
+          updateData: {
+            ...formDataProf,
+            number_ticket_Prof: 0,  // Ensure the value is set to 0 before submission
+            userIdPayer, // Assuming this is set elsewhere in your code
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Updated Document:', data);
+      window.location.reload();
+
+      toast.success(data.message);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to update document');
+    }
+  };
+
 
 
   
 
-
-
+  const handleDeleteClick = async (formId: string) => {
+    const confirmed = window.confirm('Are you sure you want to delete this document?');
+    if (!confirmed) return;
+  
+    try {
+      const response = await fetch(`/api/admissionformarchiverselect/${formId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete the document');
+      }
+  
+      toast.success('Document deleted successfully');
+   
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      toast.error('Failed to delete the document');
+    }
+  };
+  
  
  
 
-
+  const handleDeleteConfirm = async () => {
+    if (!selectedForm) return;
+    try {
+      await handleDeleteClick(selectedForm._id); // This will delete the document
+      setIsDialogOpen(false); // Close the dialog after deletion
+    } catch (error) {
+      console.error('Error in handleDeleteConfirm:', error);
+      toast.error('Failed to delete the document');
+    }
+  };
  
 
 
@@ -773,19 +763,13 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                     La<span className='inline ml-1 mr-1'>Note</span>
                      Totale
                   </th>
-                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    
-                     Accepted/NoAccpeted
-                  </th>
+               
 
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
                     
                     Select
                  </th>
-                 <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    
-                    Delete
-                 </th>
+                
                 </tr>
               </thead>
 
@@ -847,7 +831,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
                     </td>
-                     */}
+                   
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
 
                       {form.finalTotal > ToTal && (
@@ -873,7 +857,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
                     </td>
           
-                      
+                        */}
 
                     {/*     
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
@@ -915,6 +899,11 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
 
                             <div className="grid grid-cols-4 mt-4 gap-4 text-start">
+
+                           
+
+
+
                             <div className="text-customOrange font-[500] p-4 rounded-[2px] outline  outline-1">
                                 <span className='text-start text-gray-800'>Form Affectation</span>
 
@@ -929,38 +918,60 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                         <p className="py-2 px-4 border-b font-semibold">Number Ticket Professeur:{selectedForm?.price_ticket_default}</p>
                                         <p className="py-2 px-4 border-b  font-semibold">Pochette Professeur:{selectedForm?.pochette_prof}</p>
                        <div>
-                                        <button
+                                        
 
-                                        //type='submit'
-                                        onClick={handleConfirm}
-                                        className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
+                                        <form onSubmit={handleSubmitArchiver} className='flex'>
+
+                                          <button
+                                            type='submit'
+                                            //onClick={handleConfirm}
+                                            className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Archiver</button>
+
+
+                                          <div
+                                            onClick={toggleOpen}
+                                            className='bg-green-400 text-gray-700 ml-1 cursor-pointer p-1 px-[10px] w-[80px] rounded-sm  font-[600]'>Renouvler</div>
 
 
                                       <button
                                         onClick={handleCancel}
-                                        className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+                                        className='bg-red-500 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
+
+                                        </form>
+                                        <div className='flex'>
+
+
+                                                        <div
+                                          onClick={handleConfirmProf}
+                                          className='bg-blue-400 mt-2 text-gray-700 ml-1 cursor-pointer p-1 px-[10px] w-[50px] rounded-sm  font-[600]'>Payer</div>
+
 
                                         <button
+                                          onClick={handleDeleteConfirm}
+                                          className='bg-red-400 hover:text-gray-700 mt-2 ml-1 p-1 px-[5px] rounded-sm text-gray-700 font-[600]'>Delete</button>
 
+                                        </div>
+                                       
+                        
+
+                                      </div>
+
+                              
+
+                                    
+                                            
                                         
-                                          className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Payer </button>
+                                    
 
 
-                                        <button
-                                          
-                                          className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Archiver</button>
+                                    
+                                     
+                                      
+                                        
+                                       
+                                    {isOpen && (
 
-
-<button
-                                          
-                                          className='bg-yellow-400 text-gray-700 ml-1 mt-4 p-1 px-[10px] rounded-sm  font-[600]'>Renouvler</button>
-                                                <button
-                                          onClick={handleDeletet}
-                                          className='bg-red-500 text-gray-700 ml-1 p-1 mt-4 px-[10px] rounded-sm  font-[600]'>Supprimer</button>
-
-                                    </div>
-                                        {/*   
-                                      <form >
+                                      <form className='w-[220px]'>
                                         <div className='mt-3 ml-2'>
                                           <label className="py-2   border-gray-700 font-semibold">Number Ticket Professeur Default: </label>
 
@@ -1076,25 +1087,17 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                         <div className='mt-2 m-1'>
                                           <button
 
-                                            //type='submit'
+                                            type='submit'
                                             onClick={handleConfirm}
                                             className='bg-green-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>Submit</button>
 
 
-                                          <button
-                                            onClick={handleCancel}
-                                            className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>No</button>
                                     </div>
                                        
                                       </form>
-
-                                      <form onSubmit={handleSubmitAffectation}>
-                                        <button
-                                        type='submit'
-                                         className='bg-yellow-400 text-gray-700 ml-1 p-1 px-[10px] rounded-sm  font-[600]'>submit all data</button>
-
-                                      </form>
-                                       */} 
+                                            )}
+                                       
+                                       
                                     </div>
                                   </div>
                                 </div>
@@ -1318,20 +1321,58 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
                                   </div>
                                 </div>
                               </div>
+
+
+
+                              <div className="text-customOrange font-[500] p-2 rounded-[2px] outline  outline-1">
+                                <span className='text-start text-gray-800'>Form Client</span>
+
+                                <div className="overflow-x-auto h-72 flex text-gray-800">
+                                  <div className="border-collapse font-light text-[9px]">
+
+                                    <div className='mt-2 text-[12px]'>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Nom : {selectedForm?.nameClient}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Ville : {selectedForm?.client_ville}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Telephone : {selectedForm?.client_telephone}</p>
+
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Email : {selectedForm?.emailClient}</p>
+                                      <p className="py-2 px-4 border-b border-gray-700 font-semibold">Price Total : {selectedForm?.price_total}</p>
+         
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             </div>
                              
 
+                            
+                         
+                          
+
+
+                                  
                           </div>
                         </div>
                       )}
                     </td>
 
-                    <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
-
-<Link href={`/admissionformdetail/${form._id}`}>
-  <button className='bg-red-400 hover:text-black ml-1 p-1 px-[5px] rounded-sm text-gray-900 font-[600]'>Delete</button>
-</Link>
-</td>
+                    
                   </tr>
                 ))
 
@@ -1340,6 +1381,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
 
               </tbody>
             </table>
+          
           </div>
 
 </div>
@@ -1349,43 +1391,9 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
       
 
 
-
-           
-                {/*           
-                <div>
-                  <div className=' mt-2 text-[12px]'>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold">Name : {formAffectation.name}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold">Prénome : {formAffectation.prenome}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Téléphone portable : {formAffectation.telephone_portable}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Email : {formAffectation.email}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Ville : {formAffectation.ville}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Vous ètes : {formAffectation.vous_etes}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Les cours sont pour : {formAffectation.Les_cours_sont_pour}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Niveau : {formAffectation.Niveau}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Matière Souhaitée : {formAffectation.Matière_souhaitée}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Autes Détails : {formAffectation.autres_détails}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">Comment Vous Nous avez : {formAffectation.comment_vous_nous_avez}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Price Total : {formAffectation.price_total}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Price Ticket : {formAffectation.price_ticket}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Profe Percentage : {formAffectation.profPercentage}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Profe Price : {formAffectation.prof_percentage}</p>
-                    <p className="py-2 px-4 border-b border-gray-700 font-semibold ">
-                      Number Ticket : {formAffectation.ticketNumber}</p>
-
-                    
-
-                  </div>
-
-
-
-                </div>
-  */}
+                           
+                             
+ 
                 <tbody>
                 </tbody>
               </div>

@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
-export interface IAdmissionFormAffectation extends Document {
+export interface IAdmissionFormArchiver extends Document {
   monday_proposition: string;
   tuesday_proposition: string;
   wednesday_proposition: string;
@@ -48,9 +48,9 @@ export interface IAdmissionFormAffectation extends Document {
   isAcceptedProf: boolean;
   IsAffected: boolean;
   total_pocheet: number;
-  userIdAffectation: string;
   userIdArchiver: string;
-  userIdPayer: string;
+
+
   id_affectation: string;
   prof_id: string;
   client_id : string;
@@ -83,7 +83,7 @@ export interface IAdmissionFormAffectation extends Document {
   
 }
 
-const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
+const AdmissionFormArchiverSchema: Schema<IAdmissionFormArchiver> =
   new Schema({
     monday_proposition: { type: String },
     tuesday_proposition: { type: String },
@@ -131,11 +131,9 @@ const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
     client_telephone: { type: String },
     isAcceptedProf: { type: Boolean, default: false },
     IsAffected: { type: Boolean },
-    userIdAffectation: {
+    userIdArchiver: {
       type: String,
     },
-    userIdArchiver:{type: String},
-    userIdPayer:{type: String},
     total_pocheet: {
       type: Number,
     },
@@ -166,23 +164,23 @@ const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
     number_ticket_Total: { type: Number },
   });
 
-const AdmissionFormAffectation: Model<IAdmissionFormAffectation> =
-  mongoose.models.AdmissionFormAffectation ||
-  mongoose.model<IAdmissionFormAffectation>(
-    "AdmissionFormAffectation",
-    AdmissionFormAffectationSchema
+const AdmissionFormArchiver: Model<IAdmissionFormArchiver> =
+  mongoose.models.AdmissionFormArchiver ||
+  mongoose.model<IAdmissionFormArchiver>(
+    "AdmissionFormArchiver",
+    AdmissionFormArchiverSchema
   );
 
-export default AdmissionFormAffectation;
+export default AdmissionFormArchiver;
 
 
 // Usage
 const updateAdmissionFormById = async (
   id: string,
-  updateData: Partial<IAdmissionFormAffectation>
+  updateData: Partial<IAdmissionFormArchiver>
 ) => {
   try {
-    const updatedDocument = await AdmissionFormAffectation.findByIdAndUpdate(
+    const updatedDocument = await AdmissionFormArchiver.findByIdAndUpdate(
       id,
       updateData,
       {
@@ -200,11 +198,10 @@ const updateAdmissionFormById = async (
 
 // Example usage
 const documentId = "60d5ec49cfa1e72c4cba0c52"; // Replace with the actual ID
-const newValues: Partial<IAdmissionFormAffectation> = {
+const newValues: Partial<IAdmissionFormArchiver> = {
   pochette_prof: 0,
   price_ticket_default: 0,
-  userIdAffectation: "",
-  userIdArchiver:"",
+  userIdArchiver: "",
   price_Ticket: 0,
   price_Total: 0,
   price_Prof: 0,

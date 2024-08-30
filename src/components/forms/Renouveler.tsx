@@ -66,19 +66,21 @@ interface FormData {
 
 interface AffecationDataProps {
   formAffectation: FormData;
+  id: string;
+
 }
 interface AffecationDataProps {
-  formSelect: FormData;
+  formAfSelect: FormData;
 }
 
 
-  const Renouveler: React.FC<AffecationDataProps> = ({ formAffectation, formSelect }) => {
+  const Renouveler: React.FC<AffecationDataProps> = ({ formAffectation, formAfSelect, id }) => {
 
   return (
      <div className="justify-center mt-2 w-[170vh]">
     <div className='text-gray-300  text-2xl font-700 justify-center flex'>
     </div>
-     <AdmissionListAffecationRenouveler formAffectation={formAffectation} formSelect={formSelect}/>
+     <AdmissionListAffecationRenouveler formAffectation={formAffectation} id={id} formAfSelect={formAfSelect}/>
   </div>
   )
 }

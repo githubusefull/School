@@ -1,12 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from './lib/db';
-import AdmissionFormAffectation from "./models/AdmissionFormAffectation";
+import AdmissionFormArchiver, { IAdmissionFormArchiver } from "./models/AdmissionFormArchiver";
+//import bcrypt from "bcrypt";
+//import nodemailer from "nodemailer";
+//import acceptingTemplate from '../templates/acceptingTemplate';
+//import { generateToken } from "./lib/jwt";
+//import { verify } from "jsonwebtoken";
 
 connectDB();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
+    
+
     try {
+      
+
       const {
         monday_proposition,
         tuesday_proposition,
@@ -50,6 +59,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         client_telephone,
         prof_ville,
         client_ville,
+
+
+        
         price_ticket_default,
         total_pocheet,
         price_Ticket,
@@ -60,12 +72,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         acceptation_Payement,
         number_ticket_Total,
         pochette_prof,
-        userIdAffecation,
         userIdArchiver,
-        userIdPayer
+
       } = req.body;
 
-      const newForm = new AdmissionFormAffectation({
+    
+        //return res.status(400).json({ message: "User already exists" });
+ 
+
+
+      const newForm: IAdmissionFormArchiver = new AdmissionFormArchiver({
         monday_proposition,
         tuesday_proposition,
         wednesday_proposition,
@@ -118,28 +134,47 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         acceptation_Payement,
         number_ticket_Total,
         pochette_prof,
-        userIdAffecation,
         userIdArchiver,
-        userIdPayer
+
       });
     
       await newForm.save();
-      res.status(201).json({ message: "Proposition registered successfully" });
-    } catch (error) {
+    
+      // Set up Nodemailer
+      {/*           
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER as string,
+          pass: process.env.EMAIL_PASS as string,
+        },
+      });
+
+      // Send email
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER as string,
+        to: email,
+        subject: "Admission Form Submission Confirmation",
+        html: acceptingTemplate({ name, email }),
+      });
+*/}
+      res.status(201).json({ message: "Archiver registered successfully" });
+    } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error('Error registering proposition:', error.message);
-        res.status(500).json({ message: "Proposition registering failed", error: error.message });
+        console.error('Error registering archiver:', error.message);
+        res.status(500).json({ message: "Archiver registering failed", error: error.message });
       } else {
         console.error('Unexpected error:', error);
-        res.status(500).json({ message: "Proposition registering failed", error: 'Unexpected error' });
+        res.status(500).json({ message: "Archiver registering failed", error: 'Unexpected error' });
       }
     }
   } else if (req.method === "GET") {
+    
     try {
-      const forms = await AdmissionFormAffectation.find();
+      const forms = await AdmissionFormArchiver.find();
       res.setHeader('Cache-Control', 'no-store'); // Disable caching
       res.status(200).json(forms);
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         console.error('Error fetching forms:', error.message);
         res.status(500).json({ message: "Failed to fetch forms", error: error.message });
@@ -148,32 +183,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json({ message: "Failed to fetch forms", error: 'Unexpected error' });
       }
     }
-  } else if (req.method === "DELETE") {
-    try {
-      const { id } = req.query;
-
-      if (!id) {
-        return res.status(400).json({ message: "Form ID is required" });
-      }
-
-      const deletedForm = await AdmissionFormAffectation.findByIdAndDelete(id);
-
-      if (!deletedForm) {
-        return res.status(404).json({ message: "Form not found" });
-      }
-
-      res.status(200).json({ message: "Form deleted successfully" });
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error deleting form:', error.message);
-        res.status(500).json({ message: "Failed to delete form", error: error.message });
-      } else {
-        console.error('Unexpected error:', error);
-        res.status(500).json({ message: "Failed to delete form", error: 'Unexpected error' });
-      }
-    }
   } else {
-    res.setHeader("Allow", ["POST", "GET", "DELETE"]);
+    res.setHeader("Allow", ["POST", "GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
