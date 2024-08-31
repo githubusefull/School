@@ -62,7 +62,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         pochette_prof,
         userIdAffecation,
         userIdArchiver,
-        userIdPayer
+        userIdPayer,
+        etat_affectation,
+        reclamation,
+        counter
+
       } = req.body;
 
       const newForm = new AdmissionFormAffectation({
@@ -120,7 +124,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         pochette_prof,
         userIdAffecation,
         userIdArchiver,
-        userIdPayer
+        userIdPayer,
+        etat_affectation,
+        reclamation,
+        counter
+
+
+
       });
     
       await newForm.save();

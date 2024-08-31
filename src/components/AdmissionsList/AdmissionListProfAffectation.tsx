@@ -533,7 +533,8 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ formAffec
         body: JSON.stringify(
           {  
           ...selectedForm,
-  
+          etat_affectation: 'en cour',
+          reclamation: '',
                 
       }),
       });

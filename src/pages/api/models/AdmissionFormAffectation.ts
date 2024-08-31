@@ -68,7 +68,6 @@ export interface IAdmissionFormAffectation extends Document {
   paiement_agence: string;
   etat_affectation: string;
 
-
   price_Ticket: number,
   price_Total: number,
   price_Prof: number,
@@ -76,7 +75,9 @@ export interface IAdmissionFormAffectation extends Document {
   number_ticket_Prof: number,
   acceptation_Payement: number,
   number_ticket_Total: number,
-  //cv_Photo?: string; // Optional field
+  Increment: number,
+  counter: number
+
 
 
 
@@ -153,9 +154,9 @@ const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
     acceptation_paiement: { type: Number },
     nombre_tickets_stable: { type: Number },
     planning: { type: String },
-    reclamation: { type: String },
+    reclamation: { type: String, default:'bloque reclamation' },
     paiement_agence: { type: String },
-    etat_affectation: { type: String },
+    etat_affectation: { type: String, default:'bloque' },
 
     price_Ticket: { type: Number },
     price_Total: { type: Number },
@@ -164,6 +165,10 @@ const AdmissionFormAffectationSchema: Schema<IAdmissionFormAffectation> =
     number_ticket_Prof: { type: Number },
     acceptation_Payement: { type: Number },
     number_ticket_Total: { type: Number },
+    Increment:  { type: Number, default: 0  },
+    counter:  { type: Number, default: 0  },
+
+
   });
 
 const AdmissionFormAffectation: Model<IAdmissionFormAffectation> =
@@ -202,8 +207,10 @@ const updateAdmissionFormById = async (
 const documentId = "60d5ec49cfa1e72c4cba0c52"; // Replace with the actual ID
 const newValues: Partial<IAdmissionFormAffectation> = {
   pochette_prof: 0,
+  counter: 0,
   price_ticket_default: 0,
   userIdAffectation: "",
+  etat_affectation: "",
   userIdArchiver:"",
   price_Ticket: 0,
   price_Total: 0,
@@ -212,6 +219,7 @@ const newValues: Partial<IAdmissionFormAffectation> = {
   number_ticket_Prof: 0,
   acceptation_Payement: 0,
   number_ticket_Total: 0,
+  reclamation:""
   
 };
 

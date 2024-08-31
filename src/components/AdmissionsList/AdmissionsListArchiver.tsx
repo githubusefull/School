@@ -215,7 +215,7 @@ interface AffecationDataProps {
 
 
 
-const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete   }) => {
+const AdmissionsListArchiver: React.FC<AffecationDataProps> = ({ onDelete   }) => {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState<FormData | null>(null);
@@ -485,7 +485,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('/api/submitFormAffectation');
+        const response = await fetch('/api/submitFormArchiver');
         const data = await response.json();
         setAdmissions(data);
       } catch (error) {
@@ -666,7 +666,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
       <div className="">
         <div className="flex justify-between px-14">
 
-          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='ml-1'>Reglement</span></span>
+          <span className='mr-1 text-[18px] font-[700] mt-[5px]'><span className='ml-1'>Archiver</span></span>
 
 
 
@@ -806,10 +806,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
                   </th>
                
 
-                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
-                    
-                    Select
-                 </th>
+                
                 
                 </tr>
               </thead>
@@ -919,8 +916,7 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
                      */}
                     <td className="py-2 px-4 gap-[2px] text-center border-b border-gray-700 text-[12px]">
                       <p>
-                      <button onClick={() => handleButtonClick(form._id)}
-                            className='bg-cyan-400 hover:text-black ml-1 p-1 px-[10px] rounded-sm text-gray-900 font-[600]'>Select</button>
+                  
                         {/* formAffectation._id ? (
                         <button onClick={() => handleButtonClick(form._id)}
 
@@ -1464,4 +1460,4 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
   )
 }
 
-export default withAuth(AdmissionListProfAffectation);
+export default withAuth(AdmissionsListArchiver);

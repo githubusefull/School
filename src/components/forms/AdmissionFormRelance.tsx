@@ -174,7 +174,6 @@ const handleUpdateConfirmed = async (increment: number) => {
   
 
  
-console.log(form.name)
 
  
   return (

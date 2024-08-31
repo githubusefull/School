@@ -214,7 +214,7 @@ const Mynavbar = () => {
               onClick={toggleDropdownReglment}
               className="mt-1 font-[600]"
             >
-             Règlement
+             Reglement
 
             </button>
             {isDropdownOpenReglement && (
@@ -234,7 +234,11 @@ const Mynavbar = () => {
                   </p>
                 </Link>
              
-                
+                <Link href="/archiver">
+                  <p className="block  py-2   font-[500] mt-0 ">
+                    Archiver
+                  </p>
+                </Link>
               
               </div>
             )}
