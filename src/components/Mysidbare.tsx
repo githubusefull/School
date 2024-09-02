@@ -212,7 +212,8 @@ const handleLogout = () => {
                     className="w-full h-full rounded-full object-cover"
                   />
                   {formData.name ? 
-                  <span className="absolute bottom-0 right-2 w-3 h-3 bg-green-500 rounded-full"></span>
+                  
+                  <span className="absolute bottom-0 right-2 w-3 h-3 bg-green-500 rounded-full">ok</span>
 :
                   <span className="absolute bottom-0 right-2 w-3 h-3 bg-red-700 rounded-full"></span>
                   }
