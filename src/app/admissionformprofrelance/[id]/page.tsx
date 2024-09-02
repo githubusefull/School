@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 //import AdmissionFormDate from '@/components/forms/AdmissionFormDate';
 import AdmissionFormRelance from '@/components/forms/AdmissionFormRelance';
+import Image from 'next/image';
+import LogoSchool from '../../../components/logo.webp'
 
 // Define the FormData interface
 interface FormData {
@@ -151,15 +153,19 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
     }
   }, [id]);
 
-  console.log(form)
 
-  if (loading) {
-    return <p className='flex justify-center'>Loading...</p>;
-  }
+  
 
   if (error) {
     return <p>{error}</p>;
   }
+
+  if (loading) {
+    return <div className='flex justify-center mt-9'>
+    <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+  </div>;
+  }
+
 
   if (!form) {
     return <p>Failed to load form details for ID: {id}</p>;

@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import AdmissionFormDate from '@/components/forms/AdmissionFormDate';
+import LogoSchool from '../logo.webp'
+import Image from 'next/image';
 
 // Define the FormData interface
 interface FormData {
@@ -153,7 +155,9 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
   }, [id]);
 
   if (loading) {
-    return <p className='flex justify-center'>Loading...</p>;
+    return <div className='flex justify-center mt-9'>
+      <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+    </div>;
   }
 
   if (error) {

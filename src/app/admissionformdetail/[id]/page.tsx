@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react';
 //import { useRouter } from 'next/router';
 import AdmissionFormDetail from '@/components/forms/AdmissionFormDetail';
+import Image from 'next/image';
+import LogoSchool from '../logo.webp'
+
 //import './inputDate.css';
 
 // Define the FormData interface
@@ -147,7 +150,9 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
   }, [id]);
 
   if (loading) {
-    return <p className='flex justify-center'>Loading...</p>;
+    return <div className='flex justify-center mt-9'>
+      <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+    </div>;
   }
 
   if (error) {
