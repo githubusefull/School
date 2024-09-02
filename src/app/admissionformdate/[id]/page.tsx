@@ -155,7 +155,7 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
   }, [id]);
 
   if (loading) {
-    return <div className='flex justify-center mt-9'>
+    return<div className='flex justify-center mt-9'>
       <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
     </div>;
   }
