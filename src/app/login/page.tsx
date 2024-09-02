@@ -1,5 +1,12 @@
 import Formlogin from '@/components/forms/Formlogin';
 import React from 'react'
+import { Metadata } from 'next'
+
+
+
+export const metadata: Metadata = {
+    title:'Login',
+  }
 
 const page = () => {
     return (

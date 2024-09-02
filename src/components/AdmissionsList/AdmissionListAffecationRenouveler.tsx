@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { format } from 'date-fns';  // or import moment from 'moment';
 import toast from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+import LogoSchool from '../logo.webp'
+import Image from 'next/image';
 
 
 interface FormPropositionSelect {
@@ -650,7 +652,10 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
 
 
   if (loading) {
-    return <div className='flex justify-center'>Loading...</div>;
+    return <div className='flex justify-center mt-9'>
+      <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+    </div>;
+
   }
 
 
@@ -804,6 +809,57 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
                     La<span className='inline ml-1 mr-1'>Note</span>
                      Totale
                   </th>
+
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Price<span className='inline ml-1 mr-1'>Ticket</span>
+                     Default
+
+ 
+                  </th>
+
+                  
+                  <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Pocheet<span className='inline ml-1 mr-1'>Professeur</span>
+                     
+                     </th>
+
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Price<span className='inline ml-1 mr-1'>Ticket</span>
+                     
+                     </th>
+
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Price<span className='inline ml-1 mr-1'>Total</span>
+                     
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Price<span className='inline ml-1 mr-1'>Professeur</span>
+                     
+                     </th>
+
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Number<span className='inline ml-1 mr-1'>Ticket</span>Consummation
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Number<span className='inline ml-1 mr-1'>Ticket</span>Professeur
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    <span className='inline ml-1 mr-1'> Acceptation</span>Payement
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    <span className='inline ml-1 mr-1'>Number</span>Ticket<span className='ml-1'>Total</span>
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    Etat<span className='inline ml-1 mr-1'>Affectation</span>
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    <span className='inline ml-1 mr-1'>Reclamation</span>
+                     </th>
+                     <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
+                    <span className='inline ml-1 mr-1'>Renouvler</span>Counter
+                     </th>
+                
+                
                
 
                   <th className="py-2 px-4 border-b border-gray-700 font-semibold text-sm">
@@ -849,6 +905,25 @@ const AdmissionListProfAffectation: React.FC<AffecationDataProps> = ({ onDelete 
 
 
                     <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.finalTotal}</td>
+
+
+  
+  
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_ticket_default}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.pochette_prof}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_Ticket}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_Total}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.price_Prof}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.number_ticket_Comsum}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.number_ticket_Prof}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.acceptation_Payement}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.number_ticket_Total}</td>
+
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.etat_affectation}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.reclamation}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-[12px]">{form.counter}</td>
+
+
                   
 
 

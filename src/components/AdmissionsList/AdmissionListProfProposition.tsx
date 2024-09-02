@@ -9,6 +9,8 @@ import { format } from 'date-fns';  // or import moment from 'moment';
 import toast from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 import Link from 'next/link';
+import Image from 'next/image';
+import LogoSchool from '../logo.webp'
 
 
 interface FormPropositionSelect {
@@ -588,7 +590,9 @@ const AdmissionsListProfProposition: React.FC<PropositionDataProps> = ({ formPro
 
 
   if (loading) {
-    return <div className='flex justify-center'>Loading...</div>;
+    return <div className='flex justify-center mt-9'>
+    <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+  </div>;
   }
 
 

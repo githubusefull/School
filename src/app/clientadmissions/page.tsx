@@ -1,6 +1,12 @@
 import AdmissionsListClient from '@/components/AdmissionsList/AdmissionsListClient'
+import { Metadata } from 'next'
 import React from 'react'
 
+
+
+export const metadata: Metadata = {
+  title:'Admission Client List',
+}
 const page = () => {
   return (
     <div className="justify-center mt-4 w-[170vh]">

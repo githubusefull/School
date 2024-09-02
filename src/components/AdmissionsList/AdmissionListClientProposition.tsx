@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react'
 import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
 import { format } from 'date-fns';  // or import moment from 'moment';
+import Image from 'next/image';
+import LogoSchool from '../logo.webp'
 
 
 
@@ -86,7 +88,9 @@ const AdmissionsListClientProposition: React.FC = () => {
 
 
   if (loading) {
-    return <div className='flex justify-center'>Loading...</div>;
+    return <div className='flex justify-center mt-9'>
+    <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+  </div>;
   }
 
 

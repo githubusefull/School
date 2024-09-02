@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import withAuth from '@/hoc/withAuth';
 import Link from 'next/link';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
+import LogoSchool from '../logo.webp'
+import Image from 'next/image';
 
 //import { format } from 'date-fns';  // or import moment from 'moment';
 
@@ -164,9 +166,12 @@ const AdmissionsListUser: React.FC = () => {
 
 
 
-  if (loading) {
-    return <div className='flex justify-center'>Loading...</div>;
-  }
+
+ if (loading) {
+  return <div className='flex justify-center mt-9'>
+    <Image src={LogoSchool} alt="" className='rounded-[5px] animate-bounce ' />
+  </div>;
+}
 
 
   return (

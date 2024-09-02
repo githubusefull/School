@@ -1,6 +1,11 @@
 import AdmissionListUserOriginal from '@/components/AdmissionsList/AdmissionListUserOriginal'
+import { Metadata } from 'next'
 import React from 'react'
 
+
+export const metadata: Metadata = {
+  title:'Admission User List Original',
+}
 const page = () => {
   return (
     <div className="justify-center mt-4 w-[170vh]">

@@ -25,6 +25,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/login/page.jsx", "src/app/forms/[id].jsx", "src/app/admissionformnote/api/[id]/page.jsx", "src/components/navbar/Navbar.jsx", "src/components/Mynavbar.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/login/page.tsx", "src/app/forms/[id].jsx", "src/app/admissionformnote/api/[id]/page.jsx", "src/components/navbar/Navbar.jsx", "src/components/Mynavbar.jsx"],
   "exclude": ["node_modules"]
 }

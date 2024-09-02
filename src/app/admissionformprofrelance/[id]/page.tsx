@@ -103,9 +103,8 @@ const defaultFormData: FormData = {
 // Fetch form data by ID
 async function getFormById(id: string): Promise<FormData> {
   const timestamp = new Date().getTime(); // Add timestamp
-
   try {
-    const response = await fetch(`http://localhost:3000/api/admissionformprofrelance/${id}?t=${timestamp}`, { method: 'GET' });
+    const response = await fetch(`/api/admissionformprofrelance/${id}?t=${timestamp}`, { method: 'GET' });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -152,6 +151,8 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
     }
   }, [id]);
 
+  console.log(form)
+
   if (loading) {
     return <p className='flex justify-center'>Loading...</p>;
   }
@@ -164,7 +165,6 @@ const FormID: React.FC<FormIDProps> = ({ params }) => {
     return <p>Failed to load form details for ID: {id}</p>;
   }
 
-  console.log(form)
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">
       <div className="z-10 w-full max-w-2xl items-center justify-center text-[14px] lg:flex">

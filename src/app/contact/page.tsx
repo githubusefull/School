@@ -1,6 +1,12 @@
 import React from 'react'
 import Contact from '../../components/forms/Contact'
+import { Metadata } from 'next'
 
+
+
+export const metadata: Metadata = {
+  title:'Contact',
+}
 const page = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-10">

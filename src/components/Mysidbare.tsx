@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode'; // Ensure you import the correct jwt-decode module
 import { useRouter } from 'next/navigation'; // for Next.js 13 and later
 import Link from 'next/link';
-import ChekoutSteps from './ChekoutSteps';
+import Image from 'next/image';
+import image from '../components/user.png';
 
 
 interface IAdmissionFormProf {
@@ -203,11 +204,24 @@ const handleLogout = () => {
        
             <li className="mt-9 text-[12px]">
             <span className='text-white flex justify-center'>
-              here
+                <div className="relative w-16 h-16">
+                  <Image
+
+                    src={image}
+                    alt="User Avatar"
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                  {formData.name ? 
+                  <span className="absolute bottom-0 right-2 w-3 h-3 bg-green-500 rounded-full"></span>
+:
+                  <span className="absolute bottom-0 right-2 w-3 h-3 bg-red-700 rounded-full"></span>
+                  }
+                </div>
+
             </span>
 
 
-            <div className="text-white  flex justify-center">Profile</div>
+            <div className="text-white  flex justify-center"></div>
 
            
               <div className="text-white mt-4 mb-4">Name : <span>{formData.name ? formData.name : 'User name' }</span></div>

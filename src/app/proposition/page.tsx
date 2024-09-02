@@ -1,6 +1,10 @@
 import AdmissionListClientProposition from '@/components/AdmissionsList/AdmissionListClientProposition'
+import { Metadata } from 'next'
 import React from 'react'
 
+export const metadata: Metadata = {
+  title:'Proposition',
+}
 const page = () => {
   return (
     <div className="justify-center mt-4 w-[170vh]">
